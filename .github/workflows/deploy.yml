@@ -1,0 +1,45 @@
+name: deploy
+
+on:
+  # Trigger the workflow on push to main branch
+  push:
+    branches:
+      - main
+  pull_request:
+
+# This job installs dependencies, build the book, and pushes it to `gh-pages`
+jobs:
+  build-and-deploy-book:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        python-version: [3.12]
+    steps:
+    - uses: actions/checkout@v4
+    # Install CMU fonts for niceplots
+    - name: Install apt dependencies
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: fonts-cmu
+        version: 1.0
+    # Install dependencies
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip' # caching pip dependencies
+    - run: pip install -r requirements.txt
+
+    # Build the book
+    - name: Build the book
+      run: |
+        make
+
+    # Deploy the book's HTML to gh-pages branch
+    - name: GitHub Pages action
+      if: ${{ github.event_name == 'push' }}
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: _build/html
