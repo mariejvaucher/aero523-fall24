@@ -1,0 +1,923 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Getting Started with Python &#8212; AEROSP 523 Computational Fluid Dynamics: Code Examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Content/PythonSetup';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Week 1" href="../Examples/Week1/Week1.html" />
+    <link rel="prev" title="AEROSP 523 Computational Fluid Dynamics: Code Examples" href="../intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/scramjet.png" class="logo__image only-light" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
+    <script>document.write(`<img src="../_static/scramjet.png" class="logo__image only-dark" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    AEROSP 523 Computational Fluid Dynamics: Code Examples
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Getting Started with Python</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week1/RootFinding.html">Root finding methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week2/OfficeHours.html">Examples from office hours: Week 2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week3/FiniteDifferenceScheme.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week4/Week4.html">Week 4</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week4/IterativeSolvers.html">Iterative linear solvers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week5/Week5.html">Week 5</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week5/BasicMultigrid.html">Multigrid</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week6/InitialValueProblems.html">Initial Value Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week6/FasterPython.html">How to write fast (or slow) Python code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/Week7/Week7.html">Week 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Examples/Week8/Week8.html">Week 8</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week10/Week10.html">Week 10</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week10/Meshes.html">2D Finite Volume Meshes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week12/Week12.html">Week 12</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week12/SlopeLimiting.html">Slope Limiting</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/A-CGray/AE523-Fall23/main?urlpath=lab/tree/Content/PythonSetup.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23/issues/new?title=Issue%20on%20page%20%2FContent/PythonSetup.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Content/PythonSetup.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Getting Started with Python</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-python">Installing Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-an-ide">Installing an IDE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Resources</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-packages">Installing Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tl-dr">tl;dr</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">NumPy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jax">JAX</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scipy">SciPy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matplotlib">Matplotlib</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#niceplots">NicePlots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-python">Learning python</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="getting-started-with-python">
+<h1>Getting Started with Python<a class="headerlink" href="#getting-started-with-python" title="Link to this heading">#</a></h1>
+<section id="installing-python">
+<h2>Installing Python<a class="headerlink" href="#installing-python" title="Link to this heading">#</a></h2>
+<p>There are multiple ways to get a working python installation on your computer, depending on whether you’re using Windows, Mac, or Linux.</p>
+<p>The first option is to install standard python, which you can download <a class="reference external" href="https://www.python.org/downloads/">here</a>.</p>
+<p>The second option is to install <a class="reference external" href="https://docs.anaconda.com/free/anaconda/install/">Anaconda</a>, which comes with a bunch of extra packages and tools that can be useful for scientific computing.</p>
+<p>Personally, I don’t use Anaconda as I prefer to have more control over what I install, but both options are popular.</p>
+<section id="resources">
+<h3>Resources<a class="headerlink" href="#resources" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://learn.microsoft.com/en-us/windows/python/beginners#install-python">Installing python from the windows store</a></p></li>
+</ul>
+</section>
+</section>
+<section id="installing-an-ide">
+<h2>Installing an IDE<a class="headerlink" href="#installing-an-ide" title="Link to this heading">#</a></h2>
+<p>An IDE is basically a text editor combined with some additional tools that allow you to run and debug your code.
+My IDE of choice is <a class="reference external" href="https://code.visualstudio.com/">VSCode</a>.
+Two other popular IDEs are <a class="reference external" href="https://www.jetbrains.com/pycharm/">PyCharm</a> and <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>, both of these are more specifically designed for python programming.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Whatever IDE you choose, make sure you learn how to use it’s python debugger.
+A debugger will allow you to pause the program at a specific point and then step through the code line by line and inspect the values of variables.
+Debugging this way is much more efficient than using print statements.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You should also learn to use some of the keyboard shortcuts for your IDE.
+Different IDEs have different shortcuts that will make your editing experience easier by allowing you to quickly do things like rename a variable everywhere it appears in your code, comment and uncomment large blocks of code, and create multiple cursors to edit multiple lines at once.</p>
+<p>VSCode has some walkthroughs of these features that should show up the first time you open it.</p>
+</div>
+<section id="id1">
+<h3>Resources<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://code.visualstudio.com/docs/python/python-tutorial">Getting Started with Python in VS Code (text-based tutorial)</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=7FltByLPnrg">Setting up VSCode for Python Beginners (video tutorial)</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/watch?v=-nh9rCzPJ20">Very extensive (but a little old) video on using VSCode for python</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/playlist?list=PLPonohdiDqg9epClEcXoAPUiK0pN5eRoc">Spyder video tutorial series</a></p></li>
+<li><p><a class="reference external" href="https://www.youtube.com/playlist?list=PLCTHcU1KoD98IeuVcqJ2rt1FNytfR_C90">Getting started with PyCharm video series</a></p></li>
+</ul>
+</section>
+</section>
+<section id="installing-packages">
+<h2>Installing Packages<a class="headerlink" href="#installing-packages" title="Link to this heading">#</a></h2>
+<p>Most python packages are installed through <strong>pip</strong> the default python package manager.
+You can install packages by running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&lt;package</span> <span class="pre">name&gt;</span></code> in the terminal.
+If you installed python using anaconda/conda, you can also install packages using <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">&lt;package</span> <span class="pre">name&gt;</span></code>, but not everything you can install with pip is available through conda.
+You can also <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> things if you use conda, but make sure you have run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pip</span></code> in the relevant environment first.</p>
+<section id="tl-dr">
+<h3>tl;dr<a class="headerlink" href="#tl-dr" title="Link to this heading">#</a></h3>
+<p>To install the primary packages you’ll need for this course, run the following in the terminal:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> </span>scipy<span class="w"> </span>jaxlib<span class="w"> </span>jax<span class="o">[</span>cpu<span class="o">]</span><span class="w"> </span>matplotlib<span class="w"> </span>niceplots
+</pre></div>
+</div>
+</section>
+<section id="numpy">
+<h3><a class="reference external" href="https://numpy.org/doc/stable/">NumPy</a><a class="headerlink" href="#numpy" title="Link to this heading">#</a></h3>
+<p>NumPy is <strong>THE</strong>  standard package for doing math in python, especially things involving vectors, matrices, and multidimensional arrays.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Create a random linear system (Ax=b) and solve it</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">A</span><span class="si">=}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">b</span><span class="si">=}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">=}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check that the solution is correct</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">x</span> <span class="o">-</span> <span class="n">b</span>  <span class="c1"># @ is the matrix multiplication operator, A @ x is equivalent to np.dot(A, x)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Linear system solution error norm = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A=array([[0.86858635, 0.74066121, 0.66123628, 0.03022348, 0.16857677],
+       [0.39959937, 0.55792128, 0.43671635, 0.81076747, 0.66529518],
+       [0.75559117, 0.36330004, 0.15693726, 0.02799809, 0.12615568],
+       [0.19299267, 0.61861635, 0.01243264, 0.33026793, 0.42488848],
+       [0.40032441, 0.88875156, 0.89002703, 0.49794645, 0.17806671]])
+
+b=array([0.74798721, 0.83739479, 0.91763541, 0.28312493, 0.04368924])
+
+x=array([ 1.44051533, -0.67266486, -0.22495876,  0.2429764 ,  0.80912297])
+
+Linear system solution error norm = 1.2432050435751766e-16
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jax">
+<h3><a class="reference external" href="https://jax.readthedocs.io/en/latest/index.html">JAX</a><a class="headerlink" href="#jax" title="Link to this heading">#</a></h3>
+<p>JAX is a library that does many things useful for machine learning.
+Most importantly for this course, it has a module that allows you to compute derivatives through NumPy-like code.
+In theory, this means you can take code written using numpy, replace <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code> with <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">jax.numpy</span> <span class="pre">as</span> <span class="pre">np</span></code>, and then differentiate through the code using jax.grad.</p>
+<p>Support for JAX on windows is apparently “experimental”, but it should still be installable through pip, see the instructions <a class="reference external" href="https://github.com/google/jax#pip-installation-cpu">here</a>.
+If you run into problems, please let us know on Piazza.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span>
+
+
+<span class="c1"># Define a function that does some stuff with arrays</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="p">)))</span> <span class="o">/</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+<span class="c1"># Create another function that computes the gradient of the first function using JAX&#39;s AD</span>
+<span class="n">funcGradient</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+<span class="c1"># Evaluate the function and it&#39;s gradient</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">dydx</span> <span class="o">=</span> <span class="n">funcGradient</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">=}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">=}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dydx</span><span class="si">=}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=Array([0.        , 0.69813174, 1.3962635 , 2.0943952 , 2.792527  ,
+       3.4906588 , 4.1887903 , 4.8869224 , 5.585054  , 6.2831855 ],      dtype=float32)
+
+y=Array(0.742495, dtype=float32)
+
+dydx=Array([ 0.01439827, -0.01306541, -0.02845956,  0.07103436,  0.1409933 ,
+       -0.46274623, -1.7529042 , -1.070204  ,  4.2873783 ,  7.642982  ],      dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="scipy">
+<h3><a class="reference external" href="https://docs.scipy.org/doc/scipy/">SciPy</a><a class="headerlink" href="#scipy" title="Link to this heading">#</a></h3>
+<p>SciPy contains a bunch of more complex scientific computing algorithms for things like root finding, optimization, solving ODE’s, and sparse linear algebra.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">root_scalar</span>
+
+
+<span class="c1"># Use scipy to find the root of e^x - 1</span>
+<span class="k">def</span> <span class="nf">anotherFunc</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">=}</span><span class="s2">, f(x) = </span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="n">anotherFunc</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bisect&quot;</span><span class="p">,</span> <span class="n">bracket</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x=-2.0, f(x) = -0.8646647167633873
+x=4.0, f(x) = 53.598150033144236
+x=1.0, f(x) = 1.718281828459045
+x=-0.5, f(x) = -0.3934693402873666
+x=0.25, f(x) = 0.2840254166877414
+x=-0.125, f(x) = -0.11750309741540454
+x=0.0625, f(x) = 0.06449445891785932
+x=-0.03125, f(x) = -0.03076676552365587
+x=0.015625, f(x) = 0.015747708586685727
+x=-0.0078125, f(x) = -0.007782061739756485
+x=0.00390625, f(x) = 0.003913889338347465
+x=-0.001953125, f(x) = -0.0019512188925244756
+x=0.0009765625, f(x) = 0.0009770394924164538
+x=-0.00048828125, f(x) = -0.0004881620601105974
+x=0.000244140625, f(x) = 0.0002441704297477809
+x=-0.0001220703125, f(x) = -0.00012206286222260498
+x=6.103515625e-05, f(x) = 6.103701893311886e-05
+x=-3.0517578125e-05, f(x) = -3.051711246848665e-05
+x=1.52587890625e-05, f(x) = 1.525890547848796e-05
+x=-7.62939453125e-06, f(x) = -7.6293654275305656e-06
+x=3.814697265625e-06, f(x) = 3.814704541582614e-06
+x=-1.9073486328125e-06, f(x) = -1.9073468138230965e-06
+x=9.5367431640625e-07, f(x) = 9.536747711536009e-07
+x=-4.76837158203125e-07, f(x) = -4.768370445162873e-07
+x=2.384185791015625e-07, f(x) = 2.3841860752327193e-07
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="matplotlib">
+<h3><a class="reference external" href="https://matplotlib.org/">Matplotlib</a><a class="headerlink" href="#matplotlib" title="Link to this heading">#</a></h3>
+<p>The standard plotting library for python.
+It has a lot of functionality and excellent documentation.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you’re a Matlab user, you may be used to plotting simply by calling the <code class="docutils literal notranslate"><span class="pre">plot</span></code> function, and switching between different figures using the <code class="docutils literal notranslate"><span class="pre">figure</span></code> function.
+It is possible to use a similar approach in Matplotlib, but I’d recommend that you instead use the approach used in the <a class="reference external" href="https://matplotlib.org/stable/users/getting_started/">matplotlib examples</a> where you first create figure and axis objects and then call the plot methods of the axis.
+This makes it much clearer in your code which data is being plotted on which figure.</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Create a figure with two subplots on top of each other</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Set the axis labels and tick marks</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y_1$&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y_2$&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;t (s)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Experimental data&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create some data to plot</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">y1_experiment</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">y1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">y2_experiment</span> <span class="o">=</span> <span class="n">y2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">y2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Plot the smooth function as a line and the &quot;experimental data&quot; as points</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y1_experiment</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fit&quot;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2_experiment</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fit&quot;</span><span class="p">)</span>
+
+<span class="c1"># Loop through the subplots and add legends to each using the labels we set above</span>
+<span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">axis</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/c23bd11cf779642afbc855d4921e33829828ffb1627dc8e045b31a7a85031340.png" src="../_images/c23bd11cf779642afbc855d4921e33829828ffb1627dc8e045b31a7a85031340.png" />
+</div>
+</div>
+</section>
+<section id="niceplots">
+<h3>NicePlots<a class="headerlink" href="#niceplots" title="Link to this heading">#</a></h3>
+<p>NicePlots is a little package I helped write with my labmates that we use to make our Matplotlib plots look nicer.
+It is not at all necessary for the course, but if you do want to use it you can pip install it just like all the other packages mentioned already.
+You can also check out some example uses of it <a class="reference external" href="https://mdolab-niceplots.readthedocs-hosted.com/en/latest/auto_examples/index.html">here</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">niceplots</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">niceplots</span><span class="o">.</span><span class="n">get_style</span><span class="p">())</span>
+
+<span class="c1"># Repeat the same plot as above, but now with the niceplots style</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="c1"># Set the axis labels and tick marks</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y_1$&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$y_2$&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;t (s)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Experimental data&quot;</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y1_experiment</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fit&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2_experiment</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Data&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Fit&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">axis</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">)</span>
+    <span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/0173d3aecfa1651d90d6daebac637718827ec5b155553cb5e7ddfb6dc0a541f3.png" src="../_images/0173d3aecfa1651d90d6daebac637718827ec5b155553cb5e7ddfb6dc0a541f3.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="learning-python">
+<h2>Learning python<a class="headerlink" href="#learning-python" title="Link to this heading">#</a></h2>
+<p><a class="reference external" href="https://www.py4e.com/lessons">Python for everybody</a> is a very extensive and popular course for learning python for complete beginners, it was even developed by a professor at the University of Michigan.
+The most important basic concepts you’ll probably need for this course are covered in sections 3-11.</p>
+<p><a class="reference external" href="https://swcarpentry.github.io/python-novice-inflammation/">Software carpentry</a> also has a good introduction to python.</p>
+<p>Below are some more resources on learning to use NumPy, especially for people used to programming in Matlab:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/user/basics.html">NumPy fundamentals</a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/doc/stable/user/numpy-for-matlab-users.html">NumPy guide for Matlab users</a></p></li>
+<li><p><a class="reference external" href="https://numpy.org/numpy-tutorials/content/tutorial-static_equilibrium.html">Example code working with NumPy arrays</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "A-CGray/AE523-Fall23",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Content"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">AEROSP 523 Computational Fluid Dynamics: Code Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Examples/Week1/Week1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Week 1</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-python">Installing Python</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-an-ide">Installing an IDE</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Resources</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-packages">Installing Packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tl-dr">tl;dr</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy">NumPy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jax">JAX</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scipy">SciPy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matplotlib">Matplotlib</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#niceplots">NicePlots</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-python">Learning python</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alasdair Christison Gray
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

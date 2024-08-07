@@ -1,0 +1,1661 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>The Finite Difference Method: 1D steady state heat transfer &#8212; AEROSP 523 Computational Fluid Dynamics: Code Examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week3/FiniteDifferenceScheme';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Week 4" href="../Week4/Week4.html" />
+    <link rel="prev" title="Week 3" href="Week3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/scramjet.png" class="logo__image only-light" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
+    <script>document.write(`<img src="../../_static/scramjet.png" class="logo__image only-dark" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    AEROSP 523 Computational Fluid Dynamics: Code Examples
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Content/PythonSetup.html">Getting Started with Python</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week2/OfficeHours.html">Examples from office hours: Week 2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Week3.html">Week 3</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">The Finite Difference Method: 1D steady state heat transfer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week4/Week4.html">Week 4</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week4/IterativeSolvers.html">Iterative linear solvers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week5/Week5.html">Week 5</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week5/BasicMultigrid.html">Multigrid</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/FasterPython.html">How to write fast (or slow) Python code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week7/Week7.html">Week 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week8/Week8.html">Week 8</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week10/Week10.html">Week 10</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week10/Meshes.html">2D Finite Volume Meshes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week12/Week12.html">Week 12</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week12/SlopeLimiting.html">Slope Limiting</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/A-CGray/AE523-Fall23/main?urlpath=lab/tree/Examples/Week3/FiniteDifferenceScheme.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23/issues/new?title=Issue%20on%20page%20%2FExamples/Week3/FiniteDifferenceScheme.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Examples/Week3/FiniteDifferenceScheme.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Finite Difference Method: 1D steady state heat transfer</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-study">Convergence study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-thermal-conductivity-from-measurement-data">Learning thermal conductivity from measurement data</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="the-finite-difference-method-1d-steady-state-heat-transfer">
+<h1>The Finite Difference Method: 1D steady state heat transfer<a class="headerlink" href="#the-finite-difference-method-1d-steady-state-heat-transfer" title="Link to this heading">#</a></h1>
+<p>These examples are based on code originally written by Krzysztof Fidkowski and adapted by Venkat Viswanathan.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+<span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">jit</span>
+
+<span class="kn">from</span> <span class="nn">jax.scipy.linalg</span> <span class="kn">import</span> <span class="n">solve</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">minimize</span>
+
+<span class="n">jax</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>  <span class="c1"># Enable 64-bit precision for better numerical stability</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">niceplots</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">niceplots</span><span class="o">.</span><span class="n">get_style</span><span class="p">())</span>
+
+<span class="c1"># Force the jupyter notebook to use vector graphics</span>
+<span class="kn">import</span> <span class="nn">matplotlib_inline</span>
+
+<span class="n">matplotlib_inline</span><span class="o">.</span><span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This code implements the example case from section 3.1.1 of the course notes.</p>
+<p>We will solve the steady state heat transfer equation in 1D:</p>
+<div class="math notranslate nohighlight">
+\[ -\kappa\frac{d^2T}{dx^2} = q(x) \]</div>
+<p>where <span class="math notranslate nohighlight">\(\kappa\)</span> is the thermal conductivity, <span class="math notranslate nohighlight">\(T\)</span> is the temperature, <span class="math notranslate nohighlight">\(x\)</span> is the position, and <span class="math notranslate nohighlight">\(q(x)\)</span> is a heat source term, which in this case is <span class="math notranslate nohighlight">\(\sin\left(\pi x /L\right)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the symbolic function q(x)</span>
+<span class="k">def</span> <span class="nf">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The 1D domain spans <span class="math notranslate nohighlight">\(0 \le x \le L\)</span> and is split into <span class="math notranslate nohighlight">\(N\)</span> intervals of length <span class="math notranslate nohighlight">\(\Delta x = L/N\)</span>, this gives <span class="math notranslate nohighlight">\(N+1\)</span> nodes in the grid. The temperatures at the nodes are <span class="math notranslate nohighlight">\(T_0, T_1, \ldots, T_N\)</span>. Dirichlet boundary conditions are applied at <span class="math notranslate nohighlight">\(x=0\)</span> and <span class="math notranslate nohighlight">\(x=L\)</span>, such that <span class="math notranslate nohighlight">\(T_0 = 1\)</span> and <span class="math notranslate nohighlight">\(T_N=4\)</span>.</p>
+<p><img alt="The finite-difference grid" src="../../_images/FDDomain.svg" /></p>
+<p>Using the central difference approximation for the second derivative, we can write the equation at each node as:</p>
+<div class="math notranslate nohighlight">
+\[ -\kappa\frac{T_{i-1} - 2T_i + T_{i+1}}{\Delta x^2} = q(x_i) \Rightarrow -T_{i-1} + 2T_i - T_{i+1} = \frac{1}{\kappa} \Delta x^2 q(x_i)\]</div>
+<p>We will enforce this equation at all nodes except the boundary nodes, which have known temperatures. This gives <span class="math notranslate nohighlight">\(N-1\)</span> equations for the <span class="math notranslate nohighlight">\(N+1\)</span> unknown temperatures. At nodes <span class="math notranslate nohighlight">\(i=1\)</span> and <span class="math notranslate nohighlight">\(i=N-1\)</span>, we have to rearrange the equation to account for the known temperature values that appear in the finite difference stencil:</p>
+<div class="math notranslate nohighlight">
+\[\text{at } i=1, \quad 2T_1 - T_2 = \frac{1}{\kappa} \Delta x^2 q(x_i) + T_0\]</div>
+<div class="math notranslate nohighlight">
+\[\text{at } i=N-1, \quad -T_{N-2} + 2T_{N-1} = \frac{1}{\kappa} \Delta x^2 q(x_i) + T_N\]</div>
+<p>Writing this all up in matrix-form we get:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}
+2 &amp; -1 &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
+-1 &amp; 2 &amp; -1 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; -1 &amp; 2 &amp; -1 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+0 &amp; \cdots &amp; 0 &amp; -1 &amp; 2 &amp; -1 \\
+0 &amp; \cdots &amp; 0 &amp; 0 &amp; -1 &amp; 2
+\end{bmatrix}
+\begin{bmatrix}
+T_1 \\ T_2 \\ T_3 \\ \vdots \\ T_{N-1}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+q(x_1) \Delta x^2 / \kappa + T_0 \\ q(x_2) \Delta x^2 / \kappa \\ q(x_3) \Delta x^2 / \kappa \\ \vdots \\ q(x_{N-1}) \Delta x^2 / \kappa + T_N
+\end{bmatrix}
+\end{split}\]</div>
+<p>Alternatively, we can keep the boundary nodes in the matrix equation, and enforce the boundary conditions using the first and last rows of the matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; 0 \\
+-1 &amp; 2 &amp; -1 &amp; 0 &amp; \cdots &amp; 0 \\
+0 &amp; -1 &amp; 2 &amp; -1 &amp; \cdots &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+0 &amp; \cdots &amp; 0 &amp; -1 &amp; 2 &amp; -1 \\
+0 &amp; \cdots &amp; 0 &amp; 0 &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+T_0 \\ T_1 \\ T_2 \\ \vdots \\ T_{N-1} \\ T_{N}
+\end{bmatrix}
+= 
+\begin{bmatrix}
+T_0 \\ q(x_1)\Delta x^2 / \kappa \\ q(x_2)\Delta x^2 / \kappa \\ \vdots \\ q(x_{N-1})\Delta x^2 / \kappa \\ T_N)
+\end{bmatrix}
+\end{split}\]</div>
+<p>The code below implements the second approach, and solves the matrix equation using a direct sparse linear solver.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">heat_conduction</span><span class="p">(</span><span class="n">T_left</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">T_right</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">kappa</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">Nx</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Setup and solve the heat conduction problem using the finite difference method</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    T_left : float, optional</span>
+<span class="sd">        Left boundary temperature, by default 1.0</span>
+<span class="sd">    T_right : float, optional</span>
+<span class="sd">        Right boundary temperature, by default 4.0</span>
+<span class="sd">    L : float, optional</span>
+<span class="sd">        Length of domain, by default 2.0</span>
+<span class="sd">    kappa : float, optional</span>
+<span class="sd">        Thermal conductivity, by default 0.5</span>
+<span class="sd">    Nx : int, optional</span>
+<span class="sd">        Number of intervals, by default 10</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    array</span>
+<span class="sd">        Nodal temperature values</span>
+<span class="sd">    array</span>
+<span class="sd">        Nodal x coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Define the parameters</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span>  <span class="c1"># Grid spacing</span>
+
+    <span class="c1"># Create the matrix A (tridiagonal with 2 on the diagonal and -1 on the off-diagonals)</span>
+    <span class="n">diagonal</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">Nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">off_diagonal</span> <span class="o">=</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">Nx</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">diagonal</span><span class="p">)</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">off_diagonal</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">off_diagonal</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Add the Boundary conditions</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">A</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">A</span><span class="p">))</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">A</span><span class="p">])</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">at</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">at</span><span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># Set the bottom-right diagonal element to 1</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">at</span><span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">at</span><span class="p">[(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># Set the bottom-right diagonal element to 1</span>
+
+    <span class="c1"># Create the vector representing the heat source (modify q(x) as needed)</span>
+    <span class="n">x_values</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">Nx</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">q</span><span class="p">(</span><span class="n">x_values</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">Nx</span><span class="p">],</span> <span class="n">L</span><span class="p">)</span> <span class="o">/</span> <span class="n">kappa</span> <span class="o">*</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Define boundary conditions (e.g., fixed temperature at both ends)</span>
+    <span class="n">T_left</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">T_right</span> <span class="o">=</span> <span class="mf">4.0</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">T_left</span><span class="p">)</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">T_right</span><span class="p">)</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">T</span><span class="p">,</span> <span class="n">x_values</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s solve the system for <span class="math notranslate nohighlight">\(N=3\)</span> and plot the results compared to the analytical solution:</p>
+<div class="math notranslate nohighlight">
+\[T_\text{exact} (x) = \frac{L^2}{\kappa \pi^2}\sin\left(\frac{\pi x}{L}\right) + T_0 + \frac{x}{L}\left(T_N - T_0\right)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the true solution</span>
+<span class="k">def</span> <span class="nf">true_solution</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">T_left</span><span class="p">,</span> <span class="n">T_right</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">L</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">kappa</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="n">T_left</span> <span class="o">+</span> <span class="p">(</span><span class="n">T_right</span> <span class="o">-</span> <span class="n">T_left</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span>
+
+
+<span class="c1"># Define the parameters</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># Length of domain</span>
+<span class="n">kappa</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># Thermal conductivity</span>
+<span class="n">Nx</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># Number of intervals</span>
+<span class="n">T0</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Left boundary condition</span>
+<span class="n">TN</span> <span class="o">=</span> <span class="mf">4.0</span>  <span class="c1"># Right boundary condition</span>
+
+<span class="c1"># Solve the finite difference problem</span>
+<span class="n">T_soln</span><span class="p">,</span> <span class="n">x_vals</span> <span class="o">=</span> <span class="n">heat_conduction</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+
+<span class="c1"># Plot the results against the true solution</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">xTrue</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xTrue</span><span class="p">,</span> <span class="n">true_solution</span><span class="p">(</span><span class="n">xTrue</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">),</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;True solution&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">T_soln</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;FD solution&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$T$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">)</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/cf592fd6fb1d9f2f2cd5ef4b9709c6e708625db68637cfb71af2c5e73980fb3e.svg" src="../../_images/cf592fd6fb1d9f2f2cd5ef4b9709c6e708625db68637cfb71af2c5e73980fb3e.svg" />
+</div>
+</div>
+<p>Even with only 3 intervals, the solution is already quite close to the exact solution.</p>
+<section id="convergence-study">
+<h2>Convergence study<a class="headerlink" href="#convergence-study" title="Link to this heading">#</a></h2>
+<p>Since we are using a second-order accurate approximation of <span class="math notranslate nohighlight">\(\frac{d^2T}{dx^2}\)</span>, we expect the error to be proportional to <span class="math notranslate nohighlight">\(\Delta x^2\)</span>. Let’s verify this by solving the system for a range of values of <span class="math notranslate nohighlight">\(N\)</span> and plotting the error as a function of <span class="math notranslate nohighlight">\(\Delta x\)</span>.</p>
+<p>The error is computed using the <span class="math notranslate nohighlight">\(L_2\)</span> norm as given in chapter 1 of the course notes:</p>
+<div class="math notranslate nohighlight">
+\[\text{Error} = \sqrt{\frac{1}{N+1}\sum_0^{N}\left(T_i - T_\text{exact}(x_i)\right)^2}\]</div>
+<p>This is not equivalent to the typical <span class="math notranslate nohighlight">\(L_2\)</span> computed by numpy/JAX, which do not normalize by the number of elements, and would therefore give the wrong order of convergence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Nsweep</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">jnp</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">Nx</span> <span class="ow">in</span> <span class="n">Nsweep</span><span class="p">:</span>
+    <span class="n">T_soln</span><span class="p">,</span> <span class="n">x_vals</span> <span class="o">=</span> <span class="n">heat_conduction</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">T_soln</span> <span class="o">-</span> <span class="n">true_solution</span><span class="p">(</span><span class="n">x_vals</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$\Delta x$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$||T_</span><span class="si">{FD}</span><span class="s2"> - T_</span><span class="si">{true}</span><span class="s2">||_2$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">L</span> <span class="o">/</span> <span class="n">Nsweep</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Compute the convergence rate by fitting a line to the log-log plot</span>
+<span class="n">rate</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">L</span> <span class="o">/</span> <span class="n">Nsweep</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">errors</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Convergence rate: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">L</span> <span class="o">/</span> <span class="n">Nsweep</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">errors</span><span class="p">[</span><span class="mi">5</span><span class="p">]),</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">)</span>
+
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
+&lt;&gt;:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
+/tmp/ipykernel_2122/2780833931.py:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
+  ax.set_xlabel(&quot;$\Delta x$&quot;)
+</pre></div>
+</div>
+<img alt="../../_images/2ecab6a56fb3096dfc2d319f3f5aa1c8abbabe11fea2125f6fd5c4c79832e668.svg" src="../../_images/2ecab6a56fb3096dfc2d319f3f5aa1c8abbabe11fea2125f6fd5c4c79832e668.svg" />
+</div>
+</div>
+</section>
+<section id="learning-thermal-conductivity-from-measurement-data">
+<h2>Learning thermal conductivity from measurement data<a class="headerlink" href="#learning-thermal-conductivity-from-measurement-data" title="Link to this heading">#</a></h2>
+<p>Now we will leverage the power of JAX to solve an inverse problem: given some measured temperatures, we will try to find the value of the thermal conductivity that best matches the data.</p>
+<p>In this case, we will generate our “experimental data” by running the FD code with a given value of <span class="math notranslate nohighlight">\(\kappa\)</span>, this way we can tell if our learning process has been successful.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Nx</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">measured_temps</span><span class="p">,</span> <span class="n">measurement_locations</span> <span class="o">=</span> <span class="n">heat_conduction</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next we define our “loss” or “objective” function, this is the function that we will try to minimize. In this case, we will use the <span class="math notranslate nohighlight">\(L_2\)</span> norm of the difference between the measured temperatures and the temperatures computed by the FD code. We will also use JAX to create a function that computes <span class="math notranslate nohighlight">\(\frac{df}{d\kappa}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">obj_function</span><span class="p">(</span><span class="n">kappa</span><span class="p">):</span>
+    <span class="n">predicted_temps</span> <span class="o">=</span> <span class="n">heat_conduction</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">Nx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">predicted_temps</span> <span class="o">-</span> <span class="n">measured_temps</span><span class="p">)</span>
+    <span class="c1"># Print the current kappa and error, the try/except block is so that the printing is skipped when JAX AD&#39;s this function</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;kappa = </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">kappa</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">:</span><span class="s2"> .7e</span><span class="si">}</span><span class="s2">, error = </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="si">:</span><span class="s2"> .7e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">error</span>
+
+
+<span class="n">obj_grad</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">obj_function</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we will use an algorithm called an optimizer to find the value of <span class="math notranslate nohighlight">\(\kappa\)</span> that minimizes the objective function. For problems where we expect the objective function to be smooth, gradient-based optimizers are the most efficient methods. Here we use an optimizer provided by JAX which will use the gradient information computed by JAX’s AD to find the minimum.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="n">minimize</span><span class="p">(</span><span class="n">obj_function</span><span class="p">,</span> <span class="mf">2.349822365</span><span class="p">,</span> <span class="n">jac</span><span class="o">=</span><span class="n">obj_grad</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;SLSQP&quot;</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;disp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+
+<span class="k">if</span> <span class="n">sol</span><span class="o">.</span><span class="n">success</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">SUCCESS: My best guess at kappa is </span><span class="si">{</span><span class="n">sol</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.7e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">FAILURE: Optimization did not converge&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3498224e+00, error =  1.4386167e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1843406e+00, error =  1.4091580e+00
+kappa =  1.2268172e+00, error =  1.0826684e+00
+kappa = -1.3950688e+01, error =  1.8929669e+00
+kappa = -5.7485267e+00, error =  1.9864205e+00
+kappa = -1.6474461e+00, error =  2.3821065e+00
+kappa =  4.0309418e-01, error =  4.3933260e-01
+kappa =  1.1465550e+00, error =  1.0305301e+00
+kappa =  7.2877184e-01, error =  5.7366863e-01
+kappa =  5.5480509e-01, error =  1.8052217e-01
+kappa =  5.0238946e-01, error =  8.6917907e-03
+kappa =  1.8277191e-01, error =  3.1718475e+00
+kappa =  4.5958774e-01, error =  1.6069220e-01
+kappa =  4.9158610e-01, error =  3.1278644e-02
+kappa =  4.9896527e-01, error =  3.7897058e-03
+kappa =  5.0068908e-01, error =  2.5150622e-03
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  4.9983015e-01, error =  6.2101403e-04
+kappa =  5.0026035e-01, error =  9.5106246e-04
+kappa =  5.0000795e-01, error =  2.9059218e-05
+kappa =  4.9991908e-01, error =  2.9580400e-04
+kappa =  4.9998355e-01, error =  6.0116422e-05
+kappa =  4.9999890e-01, error =  4.0097427e-06
+kappa =  5.0000343e-01, error =  1.2525187e-05
+kappa =  5.0000040e-01, error =  1.4473893e-06
+kappa =  4.9999965e-01, error =  1.2811645e-06
+kappa =  5.0000000e-01, error =  5.3908343e-09
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: 5.390834251021253e-09
+            Iterations: 12
+            Function evaluations: 26
+            Gradient evaluations: 12
+
+SUCCESS: My best guess at kappa is 5.0000000e-01
+</pre></div>
+</div>
+</div>
+</div>
+<p>Another optimization algorithm we could use is gradient-descent. There are a few different versions of gradient descent, but here we will use the simplest one. At each iteration we compute the gradient of the objective function and then simply take a step in the downhill direction, scaled by a value <span class="math notranslate nohighlight">\(\lambda\)</span> which people in the machine learning community like to call the “learning rate”:</p>
+<div class="math notranslate nohighlight">
+\[x_{i+1} = x_i - \lambda \frac{df}{dx}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gradient_descent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">grad_f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">x0</span>
+    <span class="n">converged</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+        <span class="n">func_val</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">dfdx</span> <span class="o">=</span> <span class="n">grad_f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dfdx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+            <span class="n">converged</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">break</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">dfdx</span>
+    <span class="k">if</span> <span class="n">converged</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged after </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Did not converge after </span><span class="si">{</span><span class="n">max_iter</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">func_val</span>
+
+
+<span class="n">kappa_grad_descent</span><span class="p">,</span> <span class="n">error_grad_descent</span> <span class="o">=</span> <span class="n">gradient_descent</span><span class="p">(</span><span class="n">obj_function</span><span class="p">,</span> <span class="n">obj_grad</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.349822365</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3498224e+00, error =  1.4386167e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3481675e+00, error =  1.4383427e+00
+kappa =  2.3465104e+00, error =  1.4380679e+00
+kappa =  2.3448509e+00, error =  1.4377923e+00
+kappa =  2.3431891e+00, error =  1.4375159e+00
+kappa =  2.3415249e+00, error =  1.4372388e+00
+kappa =  2.3398583e+00, error =  1.4369608e+00
+kappa =  2.3381894e+00, error =  1.4366821e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3365180e+00, error =  1.4364026e+00
+kappa =  2.3348443e+00, error =  1.4361222e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3331682e+00, error =  1.4358411e+00
+kappa =  2.3314897e+00, error =  1.4355592e+00
+kappa =  2.3298087e+00, error =  1.4352764e+00
+kappa =  2.3281254e+00, error =  1.4349928e+00
+kappa =  2.3264396e+00, error =  1.4347084e+00
+kappa =  2.3247513e+00, error =  1.4344232e+00
+kappa =  2.3230606e+00, error =  1.4341371e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3213674e+00, error =  1.4338502e+00
+kappa =  2.3196718e+00, error =  1.4335625e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3179737e+00, error =  1.4332739e+00
+kappa =  2.3162731e+00, error =  1.4329845e+00
+kappa =  2.3145700e+00, error =  1.4326943e+00
+kappa =  2.3128644e+00, error =  1.4324031e+00
+kappa =  2.3111562e+00, error =  1.4321112e+00
+kappa =  2.3094456e+00, error =  1.4318183e+00
+kappa =  2.3077324e+00, error =  1.4315246e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3060167e+00, error =  1.4312300e+00
+kappa =  2.3042984e+00, error =  1.4309345e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.3025775e+00, error =  1.4306382e+00
+kappa =  2.3008541e+00, error =  1.4303409e+00
+kappa =  2.2991281e+00, error =  1.4300428e+00
+kappa =  2.2973995e+00, error =  1.4297438e+00
+kappa =  2.2956683e+00, error =  1.4294438e+00
+kappa =  2.2939345e+00, error =  1.4291430e+00
+kappa =  2.2921981e+00, error =  1.4288412e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2904590e+00, error =  1.4285386e+00
+kappa =  2.2887173e+00, error =  1.4282350e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2869729e+00, error =  1.4279305e+00
+kappa =  2.2852259e+00, error =  1.4276250e+00
+kappa =  2.2834762e+00, error =  1.4273187e+00
+kappa =  2.2817239e+00, error =  1.4270113e+00
+kappa =  2.2799688e+00, error =  1.4267031e+00
+kappa =  2.2782110e+00, error =  1.4263939e+00
+kappa =  2.2764505e+00, error =  1.4260837e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2746873e+00, error =  1.4257726e+00
+kappa =  2.2729214e+00, error =  1.4254605e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2711527e+00, error =  1.4251474e+00
+kappa =  2.2693813e+00, error =  1.4248334e+00
+kappa =  2.2676070e+00, error =  1.4245183e+00
+kappa =  2.2658301e+00, error =  1.4242023e+00
+kappa =  2.2640503e+00, error =  1.4238853e+00
+kappa =  2.2622677e+00, error =  1.4235673e+00
+kappa =  2.2604823e+00, error =  1.4232483e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2586941e+00, error =  1.4229283e+00
+kappa =  2.2569031e+00, error =  1.4226072e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2551092e+00, error =  1.4222852e+00
+kappa =  2.2533124e+00, error =  1.4219621e+00
+kappa =  2.2515128e+00, error =  1.4216380e+00
+kappa =  2.2497104e+00, error =  1.4213128e+00
+kappa =  2.2479050e+00, error =  1.4209866e+00
+kappa =  2.2460967e+00, error =  1.4206594e+00
+kappa =  2.2442855e+00, error =  1.4203311e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2424714e+00, error =  1.4200017e+00
+kappa =  2.2406544e+00, error =  1.4196713e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2388344e+00, error =  1.4193397e+00
+kappa =  2.2370114e+00, error =  1.4190072e+00
+kappa =  2.2351855e+00, error =  1.4186735e+00
+kappa =  2.2333566e+00, error =  1.4183387e+00
+kappa =  2.2315247e+00, error =  1.4180029e+00
+kappa =  2.2296897e+00, error =  1.4176659e+00
+kappa =  2.2278518e+00, error =  1.4173278e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2260108e+00, error =  1.4169886e+00
+kappa =  2.2241668e+00, error =  1.4166483e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2223197e+00, error =  1.4163068e+00
+kappa =  2.2204696e+00, error =  1.4159642e+00
+kappa =  2.2186163e+00, error =  1.4156205e+00
+kappa =  2.2167600e+00, error =  1.4152756e+00
+kappa =  2.2149006e+00, error =  1.4149296e+00
+kappa =  2.2130380e+00, error =  1.4145824e+00
+kappa =  2.2111723e+00, error =  1.4142340e+00
+kappa =  2.2093035e+00, error =  1.4138844e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2074314e+00, error =  1.4135337e+00
+kappa =  2.2055562e+00, error =  1.4131818e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2036779e+00, error =  1.4128286e+00
+kappa =  2.2017963e+00, error =  1.4124743e+00
+kappa =  2.1999115e+00, error =  1.4121187e+00
+kappa =  2.1980234e+00, error =  1.4117620e+00
+kappa =  2.1961322e+00, error =  1.4114040e+00
+kappa =  2.1942376e+00, error =  1.4110447e+00
+kappa =  2.1923398e+00, error =  1.4106842e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1904387e+00, error =  1.4103225e+00
+kappa =  2.1885343e+00, error =  1.4099595e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1866266e+00, error =  1.4095953e+00
+kappa =  2.1847156e+00, error =  1.4092297e+00
+kappa =  2.1828012e+00, error =  1.4088629e+00
+kappa =  2.1808834e+00, error =  1.4084948e+00
+kappa =  2.1789623e+00, error =  1.4081254e+00
+kappa =  2.1770378e+00, error =  1.4077547e+00
+kappa =  2.1751099e+00, error =  1.4073827e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1731785e+00, error =  1.4070094e+00
+kappa =  2.1712438e+00, error =  1.4066347e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1693055e+00, error =  1.4062587e+00
+kappa =  2.1673639e+00, error =  1.4058814e+00
+kappa =  2.1654187e+00, error =  1.4055026e+00
+kappa =  2.1634700e+00, error =  1.4051226e+00
+kappa =  2.1615179e+00, error =  1.4047411e+00
+kappa =  2.1595622e+00, error =  1.4043583e+00
+kappa =  2.1576029e+00, error =  1.4039741e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1556401e+00, error =  1.4035885e+00
+kappa =  2.1536737e+00, error =  1.4032015e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1517038e+00, error =  1.4028130e+00
+kappa =  2.1497302e+00, error =  1.4024232e+00
+kappa =  2.1477530e+00, error =  1.4020319e+00
+kappa =  2.1457721e+00, error =  1.4016391e+00
+kappa =  2.1437876e+00, error =  1.4012450e+00
+kappa =  2.1417994e+00, error =  1.4008493e+00
+kappa =  2.1398075e+00, error =  1.4004522e+00
+kappa =  2.1378120e+00, error =  1.4000536e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1358126e+00, error =  1.3996535e+00
+kappa =  2.1338096e+00, error =  1.3992519e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1318028e+00, error =  1.3988487e+00
+kappa =  2.1297922e+00, error =  1.3984441e+00
+kappa =  2.1277778e+00, error =  1.3980380e+00
+kappa =  2.1257595e+00, error =  1.3976302e+00
+kappa =  2.1237375e+00, error =  1.3972210e+00
+kappa =  2.1217116e+00, error =  1.3968102e+00
+kappa =  2.1196818e+00, error =  1.3963978e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1176482e+00, error =  1.3959838e+00
+kappa =  2.1156106e+00, error =  1.3955682e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1135691e+00, error =  1.3951511e+00
+kappa =  2.1115237e+00, error =  1.3947323e+00
+kappa =  2.1094742e+00, error =  1.3943119e+00
+kappa =  2.1074209e+00, error =  1.3938898e+00
+kappa =  2.1053635e+00, error =  1.3934661e+00
+kappa =  2.1033020e+00, error =  1.3930407e+00
+kappa =  2.1012366e+00, error =  1.3926137e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0991671e+00, error =  1.3921850e+00
+kappa =  2.0970935e+00, error =  1.3917546e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0950157e+00, error =  1.3913225e+00
+kappa =  2.0929339e+00, error =  1.3908886e+00
+kappa =  2.0908479e+00, error =  1.3904531e+00
+kappa =  2.0887578e+00, error =  1.3900158e+00
+kappa =  2.0866635e+00, error =  1.3895767e+00
+kappa =  2.0845649e+00, error =  1.3891359e+00
+kappa =  2.0824622e+00, error =  1.3886933e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0803552e+00, error =  1.3882489e+00
+kappa =  2.0782439e+00, error =  1.3878027e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0761283e+00, error =  1.3873547e+00
+kappa =  2.0740085e+00, error =  1.3869048e+00
+kappa =  2.0718842e+00, error =  1.3864531e+00
+kappa =  2.0697557e+00, error =  1.3859996e+00
+kappa =  2.0676227e+00, error =  1.3855441e+00
+kappa =  2.0654853e+00, error =  1.3850868e+00
+kappa =  2.0633436e+00, error =  1.3846276e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0611973e+00, error =  1.3841665e+00
+kappa =  2.0590466e+00, error =  1.3837035e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0568914e+00, error =  1.3832385e+00
+kappa =  2.0547317e+00, error =  1.3827716e+00
+kappa =  2.0525674e+00, error =  1.3823027e+00
+kappa =  2.0503986e+00, error =  1.3818318e+00
+kappa =  2.0482252e+00, error =  1.3813589e+00
+kappa =  2.0460472e+00, error =  1.3808840e+00
+kappa =  2.0438645e+00, error =  1.3804071e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0416771e+00, error =  1.3799282e+00
+kappa =  2.0394851e+00, error =  1.3794472e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0372884e+00, error =  1.3789641e+00
+kappa =  2.0350869e+00, error =  1.3784789e+00
+kappa =  2.0328806e+00, error =  1.3779916e+00
+kappa =  2.0306696e+00, error =  1.3775022e+00
+kappa =  2.0284537e+00, error =  1.3770107e+00
+kappa =  2.0262330e+00, error =  1.3765170e+00
+kappa =  2.0240075e+00, error =  1.3760211e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0217770e+00, error =  1.3755231e+00
+kappa =  2.0195416e+00, error =  1.3750228e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0173013e+00, error =  1.3745204e+00
+kappa =  2.0150560e+00, error =  1.3740156e+00
+kappa =  2.0128056e+00, error =  1.3735087e+00
+kappa =  2.0105503e+00, error =  1.3729994e+00
+kappa =  2.0082898e+00, error =  1.3724879e+00
+kappa =  2.0060243e+00, error =  1.3719741e+00
+kappa =  2.0037537e+00, error =  1.3714579e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0014779e+00, error =  1.3709394e+00
+kappa =  1.9991969e+00, error =  1.3704185e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9969108e+00, error =  1.3698953e+00
+kappa =  1.9946194e+00, error =  1.3693696e+00
+kappa =  1.9923227e+00, error =  1.3688415e+00
+kappa =  1.9900207e+00, error =  1.3683110e+00
+kappa =  1.9877134e+00, error =  1.3677780e+00
+kappa =  1.9854007e+00, error =  1.3672426e+00
+kappa =  1.9830827e+00, error =  1.3667046e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9807592e+00, error =  1.3661641e+00
+kappa =  1.9784303e+00, error =  1.3656211e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9760958e+00, error =  1.3650755e+00
+kappa =  1.9737559e+00, error =  1.3645273e+00
+kappa =  1.9714104e+00, error =  1.3639765e+00
+kappa =  1.9690593e+00, error =  1.3634231e+00
+kappa =  1.9667027e+00, error =  1.3628670e+00
+kappa =  1.9643403e+00, error =  1.3623083e+00
+kappa =  1.9619723e+00, error =  1.3617469e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9595985e+00, error =  1.3611827e+00
+kappa =  1.9572190e+00, error =  1.3606158e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9548338e+00, error =  1.3600462e+00
+kappa =  1.9524426e+00, error =  1.3594737e+00
+kappa =  1.9500457e+00, error =  1.3588985e+00
+kappa =  1.9476428e+00, error =  1.3583204e+00
+kappa =  1.9452340e+00, error =  1.3577394e+00
+kappa =  1.9428192e+00, error =  1.3571556e+00
+kappa =  1.9403984e+00, error =  1.3565688e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9379716e+00, error =  1.3559792e+00
+kappa =  1.9355387e+00, error =  1.3553865e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9330997e+00, error =  1.3547909e+00
+kappa =  1.9306545e+00, error =  1.3541922e+00
+kappa =  1.9282031e+00, error =  1.3535905e+00
+kappa =  1.9257455e+00, error =  1.3529858e+00
+kappa =  1.9232816e+00, error =  1.3523779e+00
+kappa =  1.9208114e+00, error =  1.3517669e+00
+kappa =  1.9183348e+00, error =  1.3511528e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9158518e+00, error =  1.3505355e+00
+kappa =  1.9133624e+00, error =  1.3499150e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9108665e+00, error =  1.3492912e+00
+kappa =  1.9083641e+00, error =  1.3486642e+00
+kappa =  1.9058551e+00, error =  1.3480339e+00
+kappa =  1.9033396e+00, error =  1.3474002e+00
+kappa =  1.9008173e+00, error =  1.3467632e+00
+kappa =  1.8982884e+00, error =  1.3461228e+00
+kappa =  1.8957527e+00, error =  1.3454789e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8932102e+00, error =  1.3448317e+00
+kappa =  1.8906609e+00, error =  1.3441809e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8881047e+00, error =  1.3435266e+00
+kappa =  1.8855416e+00, error =  1.3428687e+00
+kappa =  1.8829715e+00, error =  1.3422073e+00
+kappa =  1.8803944e+00, error =  1.3415422e+00
+kappa =  1.8778102e+00, error =  1.3408735e+00
+kappa =  1.8752189e+00, error =  1.3402011e+00
+kappa =  1.8726205e+00, error =  1.3395250e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8700148e+00, error =  1.3388451e+00
+kappa =  1.8674018e+00, error =  1.3381614e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8647816e+00, error =  1.3374738e+00
+kappa =  1.8621539e+00, error =  1.3367824e+00
+kappa =  1.8595189e+00, error =  1.3360871e+00
+kappa =  1.8568764e+00, error =  1.3353878e+00
+kappa =  1.8542263e+00, error =  1.3346845e+00
+kappa =  1.8515687e+00, error =  1.3339772e+00
+kappa =  1.8489034e+00, error =  1.3332658e+00
+kappa =  1.8462305e+00, error =  1.3325503e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8435498e+00, error =  1.3318307e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8408613e+00, error =  1.3311068e+00
+kappa =  1.8381649e+00, error =  1.3303787e+00
+kappa =  1.8354606e+00, error =  1.3296463e+00
+kappa =  1.8327484e+00, error =  1.3289096e+00
+kappa =  1.8300281e+00, error =  1.3281685e+00
+kappa =  1.8272997e+00, error =  1.3274230e+00
+kappa =  1.8245632e+00, error =  1.3266730e+00
+kappa =  1.8218184e+00, error =  1.3259185e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8190654e+00, error =  1.3251594e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8163040e+00, error =  1.3243958e+00
+kappa =  1.8135343e+00, error =  1.3236274e+00
+kappa =  1.8107561e+00, error =  1.3228544e+00
+kappa =  1.8079693e+00, error =  1.3220766e+00
+kappa =  1.8051739e+00, error =  1.3212940e+00
+kappa =  1.8023699e+00, error =  1.3205065e+00
+kappa =  1.7995571e+00, error =  1.3197141e+00
+kappa =  1.7967356e+00, error =  1.3189167e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7939052e+00, error =  1.3181143e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7910658e+00, error =  1.3173069e+00
+kappa =  1.7882174e+00, error =  1.3164942e+00
+kappa =  1.7853600e+00, error =  1.3156764e+00
+kappa =  1.7824934e+00, error =  1.3148534e+00
+kappa =  1.7796175e+00, error =  1.3140250e+00
+kappa =  1.7767324e+00, error =  1.3131912e+00
+kappa =  1.7738379e+00, error =  1.3123520e+00
+kappa =  1.7709339e+00, error =  1.3115073e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7680204e+00, error =  1.3106571e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7650973e+00, error =  1.3098012e+00
+kappa =  1.7621645e+00, error =  1.3089397e+00
+kappa =  1.7592219e+00, error =  1.3080723e+00
+kappa =  1.7562695e+00, error =  1.3071992e+00
+kappa =  1.7533071e+00, error =  1.3063201e+00
+kappa =  1.7503347e+00, error =  1.3054351e+00
+kappa =  1.7473523e+00, error =  1.3045441e+00
+kappa =  1.7443596e+00, error =  1.3036470e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7413566e+00, error =  1.3027436e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7383433e+00, error =  1.3018341e+00
+kappa =  1.7353195e+00, error =  1.3009181e+00
+kappa =  1.7322852e+00, error =  1.2999958e+00
+kappa =  1.7292403e+00, error =  1.2990670e+00
+kappa =  1.7261846e+00, error =  1.2981316e+00
+kappa =  1.7231181e+00, error =  1.2971896e+00
+kappa =  1.7200406e+00, error =  1.2962408e+00
+kappa =  1.7169521e+00, error =  1.2952853e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7138526e+00, error =  1.2943228e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7107418e+00, error =  1.2933533e+00
+kappa =  1.7076196e+00, error =  1.2923768e+00
+kappa =  1.7044861e+00, error =  1.2913930e+00
+kappa =  1.7013410e+00, error =  1.2904020e+00
+kappa =  1.6981842e+00, error =  1.2894037e+00
+kappa =  1.6950158e+00, error =  1.2883979e+00
+kappa =  1.6918354e+00, error =  1.2873845e+00
+kappa =  1.6886431e+00, error =  1.2863635e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6854387e+00, error =  1.2853348e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6822222e+00, error =  1.2842982e+00
+kappa =  1.6789933e+00, error =  1.2832536e+00
+kappa =  1.6757520e+00, error =  1.2822009e+00
+kappa =  1.6724981e+00, error =  1.2811401e+00
+kappa =  1.6692315e+00, error =  1.2800710e+00
+kappa =  1.6659522e+00, error =  1.2789935e+00
+kappa =  1.6626599e+00, error =  1.2779074e+00
+kappa =  1.6593546e+00, error =  1.2768127e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6560361e+00, error =  1.2757093e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6527043e+00, error =  1.2745969e+00
+kappa =  1.6493590e+00, error =  1.2734756e+00
+kappa =  1.6460002e+00, error =  1.2723451e+00
+kappa =  1.6426276e+00, error =  1.2712054e+00
+kappa =  1.6392412e+00, error =  1.2700562e+00
+kappa =  1.6358408e+00, error =  1.2688975e+00
+kappa =  1.6324262e+00, error =  1.2677291e+00
+kappa =  1.6289973e+00, error =  1.2665509e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6255540e+00, error =  1.2653627e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6220960e+00, error =  1.2641645e+00
+kappa =  1.6186233e+00, error =  1.2629559e+00
+kappa =  1.6151357e+00, error =  1.2617369e+00
+kappa =  1.6116330e+00, error =  1.2605074e+00
+kappa =  1.6081151e+00, error =  1.2592671e+00
+kappa =  1.6045817e+00, error =  1.2580159e+00
+kappa =  1.6010328e+00, error =  1.2567536e+00
+kappa =  1.5974681e+00, error =  1.2554801e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5938875e+00, error =  1.2541951e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5902908e+00, error =  1.2528986e+00
+kappa =  1.5866778e+00, error =  1.2515902e+00
+kappa =  1.5830484e+00, error =  1.2502699e+00
+kappa =  1.5794023e+00, error =  1.2489374e+00
+kappa =  1.5757393e+00, error =  1.2475926e+00
+kappa =  1.5720592e+00, error =  1.2462351e+00
+kappa =  1.5683620e+00, error =  1.2448649e+00
+kappa =  1.5646472e+00, error =  1.2434817e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5609148e+00, error =  1.2420853e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5571646e+00, error =  1.2406755e+00
+kappa =  1.5533962e+00, error =  1.2392520e+00
+kappa =  1.5496096e+00, error =  1.2378146e+00
+kappa =  1.5458044e+00, error =  1.2363631e+00
+kappa =  1.5419804e+00, error =  1.2348972e+00
+kappa =  1.5381375e+00, error =  1.2334167e+00
+kappa =  1.5342754e+00, error =  1.2319214e+00
+kappa =  1.5303937e+00, error =  1.2304108e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5264924e+00, error =  1.2288849e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5225711e+00, error =  1.2273433e+00
+kappa =  1.5186296e+00, error =  1.2257857e+00
+kappa =  1.5146675e+00, error =  1.2242118e+00
+kappa =  1.5106848e+00, error =  1.2226214e+00
+kappa =  1.5066810e+00, error =  1.2210141e+00
+kappa =  1.5026559e+00, error =  1.2193896e+00
+kappa =  1.4986092e+00, error =  1.2177476e+00
+kappa =  1.4945406e+00, error =  1.2160877e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4904498e+00, error =  1.2144097e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4863366e+00, error =  1.2127131e+00
+kappa =  1.4822005e+00, error =  1.2109977e+00
+kappa =  1.4780413e+00, error =  1.2092629e+00
+kappa =  1.4738587e+00, error =  1.2075086e+00
+kappa =  1.4696524e+00, error =  1.2057341e+00
+kappa =  1.4654219e+00, error =  1.2039393e+00
+kappa =  1.4611669e+00, error =  1.2021235e+00
+kappa =  1.4568871e+00, error =  1.2002865e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4525822e+00, error =  1.1984278e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4482517e+00, error =  1.1965468e+00
+kappa =  1.4438952e+00, error =  1.1946432e+00
+kappa =  1.4395125e+00, error =  1.1927165e+00
+kappa =  1.4351030e+00, error =  1.1907662e+00
+kappa =  1.4306663e+00, error =  1.1887917e+00
+kappa =  1.4262021e+00, error =  1.1867925e+00
+kappa =  1.4217099e+00, error =  1.1847682e+00
+kappa =  1.4171893e+00, error =  1.1827181e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4126398e+00, error =  1.1806416e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4080610e+00, error =  1.1785382e+00
+kappa =  1.4034523e+00, error =  1.1764072e+00
+kappa =  1.3988133e+00, error =  1.1742480e+00
+kappa =  1.3941434e+00, error =  1.1720600e+00
+kappa =  1.3894423e+00, error =  1.1698424e+00
+kappa =  1.3847093e+00, error =  1.1675946e+00
+kappa =  1.3799438e+00, error =  1.1653159e+00
+kappa =  1.3751454e+00, error =  1.1630053e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.3703135e+00, error =  1.1606623e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.3654474e+00, error =  1.1582860e+00
+kappa =  1.3605465e+00, error =  1.1558755e+00
+kappa =  1.3556103e+00, error =  1.1534301e+00
+kappa =  1.3506381e+00, error =  1.1509487e+00
+kappa =  1.3456292e+00, error =  1.1484304e+00
+kappa =  1.3405829e+00, error =  1.1458744e+00
+kappa =  1.3354986e+00, error =  1.1432795e+00
+kappa =  1.3303755e+00, error =  1.1406448e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.3252129e+00, error =  1.1379691e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.3200099e+00, error =  1.1352514e+00
+kappa =  1.3147659e+00, error =  1.1324904e+00
+kappa =  1.3094800e+00, error =  1.1296850e+00
+kappa =  1.3041512e+00, error =  1.1268339e+00
+kappa =  1.2987789e+00, error =  1.1239357e+00
+kappa =  1.2933620e+00, error =  1.1209892e+00
+kappa =  1.2878996e+00, error =  1.1179928e+00
+kappa =  1.2823909e+00, error =  1.1149451e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.2768346e+00, error =  1.1118445e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.2712300e+00, error =  1.1086894e+00
+kappa =  1.2655758e+00, error =  1.1054781e+00
+kappa =  1.2598709e+00, error =  1.1022088e+00
+kappa =  1.2541143e+00, error =  1.0988797e+00
+kappa =  1.2483047e+00, error =  1.0954889e+00
+kappa =  1.2424409e+00, error =  1.0920343e+00
+kappa =  1.2365216e+00, error =  1.0885137e+00
+kappa =  1.2305455e+00, error =  1.0849250e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.2245113e+00, error =  1.0812658e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.2184174e+00, error =  1.0775337e+00
+kappa =  1.2122624e+00, error =  1.0737261e+00
+kappa =  1.2060447e+00, error =  1.0698402e+00
+kappa =  1.1997628e+00, error =  1.0658733e+00
+kappa =  1.1934149e+00, error =  1.0618223e+00
+kappa =  1.1869993e+00, error =  1.0576840e+00
+kappa =  1.1805142e+00, error =  1.0534552e+00
+kappa =  1.1739576e+00, error =  1.0491323e+00
+kappa =  1.1673275e+00, error =  1.0447116e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.1606220e+00, error =  1.0401892e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.1538387e+00, error =  1.0355609e+00
+kappa =  1.1469755e+00, error =  1.0308223e+00
+kappa =  1.1400298e+00, error =  1.0259687e+00
+kappa =  1.1329993e+00, error =  1.0209952e+00
+kappa =  1.1258813e+00, error =  1.0158965e+00
+kappa =  1.1186729e+00, error =  1.0106670e+00
+kappa =  1.1113714e+00, error =  1.0053008e+00
+kappa =  1.1039736e+00, error =  9.9979139e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.0964764e+00, error =  9.9413206e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.0888762e+00, error =  9.8831553e-01
+kappa =  1.0811696e+00, error =  9.8233402e-01
+kappa =  1.0733528e+00, error =  9.7617919e-01
+kappa =  1.0654216e+00, error =  9.6984207e-01
+kappa =  1.0573720e+00, error =  9.6331306e-01
+kappa =  1.0491993e+00, error =  9.5658176e-01
+kappa =  1.0408988e+00, error =  9.4963699e-01
+kappa =  1.0324654e+00, error =  9.4246666e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.0238936e+00, error =  9.3505767e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.0151778e+00, error =  9.2739582e-01
+kappa =  1.0063116e+00, error =  9.1946567e-01
+kappa =  9.9728852e-01, error =  9.1125040e-01
+kappa =  9.8810142e-01, error =  9.0273164e-01
+kappa =  9.7874269e-01, error =  8.9388930e-01
+kappa =  9.6920412e-01, error =  8.8470133e-01
+kappa =  9.5947688e-01, error =  8.7514349e-01
+kappa =  9.4955141e-01, error =  8.6518902e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  9.3941736e-01, error =  8.5480833e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  9.2906349e-01, error =  8.4396858e-01
+kappa =  9.1847755e-01, error =  8.3263322e-01
+kappa =  9.0764619e-01, error =  8.2076138e-01
+kappa =  8.9655477e-01, error =  8.0830724e-01
+kappa =  8.8518723e-01, error =  7.9521920e-01
+kappa =  8.7352586e-01, error =  7.8143889e-01
+kappa =  8.6155105e-01, error =  7.6689998e-01
+kappa =  8.4924105e-01, error =  7.5152671e-01
+kappa =  8.3657158e-01, error =  7.3523209e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  8.2351547e-01, error =  7.1791563e-01
+kappa =  8.1004209e-01, error =  6.9946049e-01
+kappa =  7.9611678e-01, error =  6.7972987e-01
+kappa =  7.8170005e-01, error =  6.5856236e-01
+kappa =  7.6674666e-01, error =  6.3576587e-01
+kappa =  7.5120432e-01, error =  6.1110965e-01
+kappa =  7.3501219e-01, error =  5.8431356e-01
+kappa =  7.1809879e-01, error =  5.5503347e-01
+kappa =  7.0037928e-01, error =  5.2284099e-01
+kappa =  6.8175182e-01, error =  4.8719473e-01
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  6.6209254e-01, error =  4.4739843e-01
+kappa =  6.4124847e-01, error =  4.0253858e-01
+kappa =  6.1902727e-01, error =  3.5138790e-01
+kappa =  5.9518209e-01, error =  2.9225066e-01
+kappa =  5.6938799e-01, error =  2.2270303e-01
+kappa =  5.4120393e-01, error =  1.3913226e-01
+kappa =  5.1000798e-01, error =  3.5860769e-02
+kappa =  4.7487895e-01, error =  9.6672956e-02
+kappa =  5.1539754e-01, error =  5.4595769e-02
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  4.8099936e-01, error =  7.2189481e-02
+kappa =  5.2049336e-01, error =  7.1952856e-02
+kappa =  4.8676542e-01, error =  4.9686732e-02
+kappa =  5.2532930e-01, error =  8.8113342e-02
+kappa =  4.9221948e-01, error =  2.8886850e-02
+kappa =  5.2993347e-01, error =  1.0322522e-01
+kappa =  4.9739648e-01, error =  9.5655268e-03
+kappa =  5.3432949e-01, error =  1.1741087e-01
+kappa =  5.0232567e-01, error =  8.4608126e-03
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  4.6611393e-01, error =  1.3285542e-01
+kappa =  5.0817070e-01, error =  2.9383250e-02
+kappa =  4.7278719e-01, error =  1.0518595e-01
+kappa =  5.1366511e-01, error =  4.8616432e-02
+kappa =  4.7903451e-01, error =  7.9981281e-02
+kappa =  5.1885316e-01, error =  6.6403314e-02
+kappa =  4.8491165e-01, error =  5.6862950e-02
+kappa =  5.2377094e-01, error =  8.2938282e-02
+kappa =  4.9046380e-01, error =  3.5531909e-02
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  5.2844828e-01, error =  9.8379283e-02
+kappa =  4.9572814e-01, error =  1.5747926e-02
+kappa =  5.3291016e-01, error =  1.1285638e-01
+kappa =  5.0073564e-01, error =  2.6847622e-03
+kappa =  4.6429356e-01, error =  1.4054131e-01
+kappa =  5.0668077e-01, error =  2.4095842e-02
+kappa =  4.7108886e-01, error =  1.1215342e-01
+kappa =  5.1226204e-01, error =  4.3744231e-02
+kappa =  4.7744148e-01, error =  8.6345662e-02
+Did not converge after 500 iterations
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, gradient descent is not a very good algorithm, even with 500 function evaluations, it fails to get as close to the true answer as SLSQP did in only 26 evaluations. This performance can be improved by tuning the learning rate, but this process is very tedious and requires a lot of trial and error.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "A-CGray/AE523-Fall23",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Examples/Week3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Week3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Week 3</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Week4/Week4.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Week 4</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-study">Convergence study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-thermal-conductivity-from-measurement-data">Learning thermal conductivity from measurement data</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alasdair Christison Gray
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1054 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Iterative linear solvers &#8212; AEROSP 523 Computational Fluid Dynamics: Code Examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week4/IterativeSolvers';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Week 5" href="../Week5/Week5.html" />
+    <link rel="prev" title="Week 4" href="Week4.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/scramjet.png" class="logo__image only-light" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
+    <script>document.write(`<img src="../../_static/scramjet.png" class="logo__image only-dark" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    AEROSP 523 Computational Fluid Dynamics: Code Examples
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Content/PythonSetup.html">Getting Started with Python</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week2/OfficeHours.html">Examples from office hours: Week 2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week3/FiniteDifferenceScheme.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Week4.html">Week 4</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Iterative linear solvers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week5/Week5.html">Week 5</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week5/BasicMultigrid.html">Multigrid</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/FasterPython.html">How to write fast (or slow) Python code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week7/Week7.html">Week 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week8/Week8.html">Week 8</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week10/Week10.html">Week 10</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week10/Meshes.html">2D Finite Volume Meshes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week12/Week12.html">Week 12</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week12/SlopeLimiting.html">Slope Limiting</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/A-CGray/AE523-Fall23/main?urlpath=lab/tree/Examples/Week4/IterativeSolvers.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23/issues/new?title=Issue%20on%20page%20%2FExamples/Week4/IterativeSolvers.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Examples/Week4/IterativeSolvers.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Iterative linear solvers</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-definition">Problem definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-residual">The residual</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="iterative-linear-solvers">
+<h1>Iterative linear solvers<a class="headerlink" href="#iterative-linear-solvers" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">niceplots</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">niceplots</span><span class="o">.</span><span class="n">get_style</span><span class="p">())</span>
+<span class="n">niceColors</span> <span class="o">=</span> <span class="n">niceplots</span><span class="o">.</span><span class="n">get_colors_list</span><span class="p">()</span>
+
+<span class="c1"># Force the jupyter notebook to use vector graphics</span>
+<span class="kn">import</span> <span class="nn">matplotlib_inline</span>
+
+<span class="n">matplotlib_inline</span><span class="o">.</span><span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="problem-definition">
+<h2>Problem definition<a class="headerlink" href="#problem-definition" title="Link to this heading">#</a></h2>
+<p>In this example we’ll be solving the same 1D heat transfer equation as <a class="reference internal" href="../Week3/FiniteDifferenceScheme.html"><span class="std std-doc">last week’s example</span></a></p>
+<p>The 1D domain spans <span class="math notranslate nohighlight">\(0 \le x \le L\)</span> and is split into <span class="math notranslate nohighlight">\(N\)</span> intervals of length <span class="math notranslate nohighlight">\(\Delta x = L/N\)</span>, this gives <span class="math notranslate nohighlight">\(N+1\)</span> nodes in the grid. The temperatures at the nodes are <span class="math notranslate nohighlight">\(T_0, T_1, \ldots, T_N\)</span>. Dirichlet boundary conditions are applied at <span class="math notranslate nohighlight">\(x=0\)</span> and <span class="math notranslate nohighlight">\(x=L\)</span>, such that <span class="math notranslate nohighlight">\(T_0 = 1\)</span> and <span class="math notranslate nohighlight">\(T_N=4\)</span>.</p>
+<p><img alt="The finite-difference grid" src="../../_images/FDDomain.svg" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the parameters</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># Length of domain</span>
+<span class="n">kappa</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># Thermal conductivity</span>
+<span class="n">Nx</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Number of intervals</span>
+<span class="n">T0</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Left boundary condition</span>
+<span class="n">TN</span> <span class="o">=</span> <span class="mf">4.0</span>  <span class="c1"># Right boundary condition</span>
+
+
+<span class="c1"># Define the symbolic function q(x)</span>
+<span class="k">def</span> <span class="nf">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using the central difference approximation for the second derivative, we wrote the finite difference equation at each node as:</p>
+<div class="math notranslate nohighlight">
+\[ -\kappa\frac{T_{i-1} - 2T_i + T_{i+1}}{\Delta x^2} = q(x_i)\]</div>
+</section>
+<section id="the-residual">
+<h2>The residual<a class="headerlink" href="#the-residual" title="Link to this heading">#</a></h2>
+<p>The residual is the quantity that must be zero at the solution, so we can use it as a measure of the error in our solution.
+Note that this is a different kind of error than we have discussed previously, it is not the error relative to the true solution of the PDE, but the error relative to the solution of the discretized system of equations we have created with our finite difference approximation.</p>
+<p>From the above finite difference equation we can derive the residual at each node as:</p>
+<div class="math notranslate nohighlight">
+\[ r_i = \frac{\kappa\left(T_{i-1} - 2T_i + T_{i+1}\right)}{\Delta x^2} + q(x_i)\]</div>
+<p>And the residual norm, that we will use to measure the error in our solution, is:</p>
+<div class="math notranslate nohighlight">
+\[ ||r||_2 = \sqrt{\sum_{i=1}^{N-1} \frac{1}{N+1}r_i^2} \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">computeResidual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the residual of the 1D heat equation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Current state vector</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Residual vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx2</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span> <span class="o">/</span> <span class="n">dx2</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">r</span>
+
+
+<span class="k">def</span> <span class="nf">computeNorm</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the &quot;normalized&quot; norm of a vector</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : numpy.ndarray</span>
+<span class="sd">        Vector to compute the norm of</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s compute the residual for an initial guess at the solution, we’ll generate a really bad initial guess by just setting all the non-boundary nodes’ temperatures to zero:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Initial guess</span>
+<span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">T0</span>  <span class="c1"># Left boundary condition</span>
+<span class="n">u</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">TN</span>  <span class="c1"># Right boundary condition</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Grid points</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Grid spacing</span>
+<span class="n">qVec</span> <span class="o">=</span> <span class="n">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>  <span class="c1"># Source term</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">computeResidual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>  <span class="c1"># Compute the residual</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Residual norm: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Residual norm: 5.15e+03
+</pre></div>
+</div>
+</div>
+</div>
+<p>Surprisingly enough, it’s not zero, so we need to solve the equations.
+In this example we’re going to to that with an iterative smoother.
+Below is a general algorithm for solving a system of equation with an iterative smoother.
+In each iteration we check the residual norm at the current state, if it is too high we apply one iteration of a smoother and repeat.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterativeSolve</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">smootherFunc</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Iteratively solve the 1D heat equation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Initial guess</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+<span class="sd">    tol : float, optional</span>
+<span class="sd">        Tolerance for the residual, by default 1e-10</span>
+<span class="sd">    maxIter : int, optional</span>
+<span class="sd">        Maximum number of iterations, by default 400</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Solution vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">resNormHistory</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">iterationTimes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">printFrequency</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxIter</span> <span class="o">//</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxIter</span><span class="p">):</span>
+        <span class="c1"># Compute the residual and it&#39;s norm at the current state</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">computeResidual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+        <span class="n">resNorm</span> <span class="o">=</span> <span class="n">computeNorm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+        <span class="c1"># Print some information and save the residual norm and the current time</span>
+        <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resNormHistory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resNorm</span><span class="p">)</span>
+        <span class="n">iterationTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
+
+        <span class="c1"># Check for convergence or divergence</span>
+        <span class="k">if</span> <span class="n">resNorm</span> <span class="o">&lt;</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">resNorm</span> <span class="o">&gt;</span> <span class="mf">1e10</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resNorm</span><span class="p">):</span>
+            <span class="k">break</span>
+
+        <span class="c1"># If we haven&#39;t converged, apply the smoother</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">smootherFunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="n">resNormHistory</span><span class="p">,</span> <span class="n">iterationTimes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The first method we will use is the Jacobi iteration. In a Jacobi iteration, we update each node in the grid by rearranging the finite difference equation to solve for <span class="math notranslate nohighlight">\(T_i\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[T_{i,new} = \frac{1}{2}\left(T_{i-1} + T_{i+1} + q(x_i) \frac{dx^2}{\kappa}\right)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">jacobiIteration</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform one Jacobi step</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Current state vector</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Updated state vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx2k</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">kappa</span>
+    <span class="n">uNew</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">uNew</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dx2k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">uNew</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>An alternative smoothing method is the Gauss-Seidel iteration, it looks almost identical to the Jacobi iteration, except that we always use the most up to date state value at each node:</p>
+<div class="math notranslate nohighlight">
+\[T_{i} = \frac{1}{2}\left(T_{i-1} + T_{i+1} + q(x_i) \frac{dx^2}{\kappa}\right)\]</div>
+<p>Note how we no longer need to keep track of the old state values, we can just overwrite them with the new values as we go along.
+Depending on the order that we iterate through the nodes, we can get different convergence properties because different states in the update equation will have been updated, this is called the <em>ordering</em> of the Gauss-Seidel iteration.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gaussSeidelIteration</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform one Gauss-Seidel smoothing step</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Current state vector</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Updated state vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx2k</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">kappa</span>
+    <span class="n">uNew</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">uNew</span><span class="p">[</span><span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">*</span> <span class="n">dx2k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">uNew</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solve the system using Jacobi</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">5e-1</span>
+<span class="n">uJacobi</span><span class="p">,</span> <span class="n">resNormHistoryJacobi</span><span class="p">,</span> <span class="n">iterationTimesJacobi</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">jacobiIteration</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
+
+<span class="c1"># Solve the system using Gauss-Seidel</span>
+<span class="n">uJacobi</span><span class="p">,</span> <span class="n">resNormHistoryGS</span><span class="p">,</span> <span class="n">iterationTimesGS</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 4.08e+00
+Iteration 1000: Res norm = 2.79e+00
+Iteration 1500: Res norm = 2.13e+00
+Iteration 2000: Res norm = 1.65e+00
+Iteration 2500: Res norm = 1.29e+00
+Iteration 3000: Res norm = 1.01e+00
+Iteration 3500: Res norm = 7.88e-01
+Iteration 4000: Res norm = 6.16e-01
+Iteration 4422: Res norm = 5.00e-01
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 2.19e+00
+Iteration 1000: Res norm = 1.31e+00
+Iteration 1500: Res norm = 7.98e-01
+Iteration 1975: Res norm = 5.00e-01
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Residual norm&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">resNormHistoryJacobi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Jacobi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">resNormHistoryGS</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gauss-Seidel&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">)</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c826023b74ab6685d035754c5844a19f934d6cb941f455acac059310fbc5a49d.svg" src="../../_images/c826023b74ab6685d035754c5844a19f934d6cb941f455acac059310fbc5a49d.svg" />
+</div>
+</div>
+<p>Jacobi may take iterations, but updates for all nodes can be computed simultaneously, so each iteration is much faster than a Gauss-Seidel iteration.
+In this case, the Jacobi solver actually takes less time to solve the system than Gauss-Seidel, despite taking more than twice as many iterations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Residual norm&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iterationTimesJacobi</span><span class="p">,</span> <span class="n">resNormHistoryJacobi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Jacobi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iterationTimesGS</span><span class="p">,</span> <span class="n">resNormHistoryGS</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gauss-Seidel&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">)</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c6054ca1cff21cb6d73029a71ef34df2e5df9c1e7cf01b5eb41ad18e6aca1d69.svg" src="../../_images/c6054ca1cff21cb6d73029a71ef34df2e5df9c1e7cf01b5eb41ad18e6aca1d69.svg" />
+</div>
+</div>
+<p>We can improve performance with under or over relaxation, where we update the nodes with a weighted average of the old and new values:</p>
+<div class="math notranslate nohighlight">
+\[T_{i,new} = (1-\omega)T_{i,old} + \omega T_{i,new}\]</div>
+<p>With Jacobi’s method, we often use under-relaxation, where <span class="math notranslate nohighlight">\(\omega &lt; 1\)</span>, to stabilize the iterative method as for some problems and initial conditions it has a tendency to diverge.
+With Gauss-Seidel, we can use over-relaxation, where <span class="math notranslate nohighlight">\(\omega &gt; 1\)</span>, to accelerate convergence.</p>
+<p>Below is a new version of the iterative solver that allows us to specify the relaxation factor <span class="math notranslate nohighlight">\(\omega\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">iterativeSolve</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">smootherFunc</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Iteratively solve the 1D heat equation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Initial guess</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+<span class="sd">    tol : float, optional</span>
+<span class="sd">        Tolerance for the residual, by default 1e-10</span>
+<span class="sd">    maxIter : int, optional</span>
+<span class="sd">        Maximum number of iterations, by default 400</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Solution vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">resNormHistory</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">iterationTimes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">printFrequency</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxIter</span> <span class="o">//</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxIter</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">computeResidual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+        <span class="n">resNorm</span> <span class="o">=</span> <span class="n">computeNorm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resNormHistory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resNorm</span><span class="p">)</span>
+        <span class="n">iterationTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resNorm</span> <span class="o">&lt;</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">resNorm</span> <span class="o">&gt;</span> <span class="mf">1e14</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resNorm</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">*</span> <span class="n">smootherFunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">omega</span><span class="p">)</span> <span class="o">*</span> <span class="n">u</span>
+
+    <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="n">resNormHistory</span><span class="p">,</span> <span class="n">iterationTimes</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let’s compare the number of iterations and time required to solve the problem with Jacobi and Gauss-Seidel, where Gauss-Seidel uses over-relaxation with <span class="math notranslate nohighlight">\(\omega=1.5\)</span>.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">uJacobi</span><span class="p">,</span> <span class="n">resNormHistoryJacobi</span><span class="p">,</span> <span class="n">iterationTimesJacobi</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">jacobiIteration</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="p">)</span>
+
+<span class="n">resNormHistories</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">iterationTimes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">omegas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">omega</span> <span class="ow">in</span> <span class="n">omegas</span><span class="p">:</span>
+    <span class="n">uGS</span><span class="p">,</span> <span class="n">resNormHistoryGS</span><span class="p">,</span> <span class="n">iterationTimesGS</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span>
+    <span class="p">)</span>
+    <span class="n">resNormHistories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resNormHistoryGS</span><span class="p">)</span>
+    <span class="n">iterationTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iterationTimesGS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 4.08e+00
+Iteration 1000: Res norm = 2.79e+00
+Iteration 1500: Res norm = 2.13e+00
+Iteration 2000: Res norm = 1.65e+00
+Iteration 2500: Res norm = 1.29e+00
+Iteration 3000: Res norm = 1.01e+00
+Iteration 3500: Res norm = 7.88e-01
+Iteration 4000: Res norm = 6.16e-01
+Iteration 4422: Res norm = 5.00e-01
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 2.19e+00
+Iteration 1000: Res norm = 1.31e+00
+Iteration 1500: Res norm = 7.98e-01
+Iteration 1975: Res norm = 5.00e-01
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 1.77e+00
+Iteration 1000: Res norm = 8.81e-01
+Iteration 1410: Res norm = 5.00e-01
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 1.59e+00
+Iteration 1000: Res norm = 7.23e-01
+Iteration 1234: Res norm = 5.00e-01
+Iteration 0: Res norm = 5.13e+02
+Iteration 81: Res norm = 1.05e+14
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Residual norm&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">resNormHistoryJacobi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Jacobi&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iterationTimesJacobi</span><span class="p">,</span> <span class="n">resNormHistoryJacobi</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Jacobi&quot;</span><span class="p">)</span>
+
+<span class="n">omegaColours</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;viridis&quot;</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">omegas</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">omegas</span><span class="p">)):</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">resNormHistories</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">omegaColours</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;GS, $</span><span class="se">\\</span><span class="s2">omega$ = </span><span class="si">{</span><span class="n">omegas</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">iterationTimes</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
+        <span class="n">resNormHistories</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">omegaColours</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
+        <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;GS, $</span><span class="se">\\</span><span class="s2">omega$ = </span><span class="si">{</span><span class="n">omegas</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">1e12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e00844450011512d239374ce54e5349e4a2328b92e3ed9ed03408b441749dae8.svg" src="../../_images/e00844450011512d239374ce54e5349e4a2328b92e3ed9ed03408b441749dae8.svg" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "A-CGray/AE523-Fall23",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Examples/Week4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Week4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Week 4</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Week5/Week5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Week 5</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-definition">Problem definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-residual">The residual</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alasdair Christison Gray
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

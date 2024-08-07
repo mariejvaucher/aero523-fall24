@@ -1,0 +1,1052 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Multigrid &#8212; AEROSP 523 Computational Fluid Dynamics: Code Examples</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week5/BasicMultigrid';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Week 6" href="../Week6/Week6.html" />
+    <link rel="prev" title="Week 5" href="Week5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/scramjet.png" class="logo__image only-light" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
+    <script>document.write(`<img src="../../_static/scramjet.png" class="logo__image only-dark" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    AEROSP 523 Computational Fluid Dynamics: Code Examples
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Content/PythonSetup.html">Getting Started with Python</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week2/OfficeHours.html">Examples from office hours: Week 2</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week3/FiniteDifferenceScheme.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week4/Week4.html">Week 4</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week4/IterativeSolvers.html">Iterative linear solvers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Week5.html">Week 5</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Multigrid</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/FasterPython.html">How to write fast (or slow) Python code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week7/Week7.html">Week 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week8/Week8.html">Week 8</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week10/Week10.html">Week 10</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week10/Meshes.html">2D Finite Volume Meshes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week12/Week12.html">Week 12</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week12/SlopeLimiting.html">Slope Limiting</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/A-CGray/AE523-Fall23/main?urlpath=lab/tree/Examples/Week5/BasicMultigrid.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/A-CGray/AE523-Fall23/issues/new?title=Issue%20on%20page%20%2FExamples/Week5/BasicMultigrid.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Examples/Week5/BasicMultigrid.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Multigrid</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-2-level-multigrid-solver">Implementing a basic 2-level multigrid solver</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multigrid">
+<h1>Multigrid<a class="headerlink" href="#multigrid" title="Link to this heading">#</a></h1>
+<p>These examples are based on code originally written by Krzysztof Fidkowski and adapted by Venkat Viswanathan.
+This page also contains figures from Krzysztof Fidkowski’s CFD course notes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">niceplots</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">niceplots</span><span class="o">.</span><span class="n">get_style</span><span class="p">())</span>
+<span class="n">niceColors</span> <span class="o">=</span> <span class="n">niceplots</span><span class="o">.</span><span class="n">get_colors_list</span><span class="p">()</span>
+
+<span class="c1"># Force the jupyter notebook to use vector graphics</span>
+<span class="kn">import</span> <span class="nn">matplotlib_inline</span>
+
+<span class="n">matplotlib_inline</span><span class="o">.</span><span class="n">backend_inline</span><span class="o">.</span><span class="n">set_matplotlib_formats</span><span class="p">(</span><span class="s2">&quot;pdf&quot;</span><span class="p">,</span> <span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this problem we’re going to solve the same 1D heat transfer problem as the past 2 weeks’ example, this time using multigrid.</p>
+<p>First let’s redefine the problem and some of the functions we used to iteratively solve it</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the parameters</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># Length of domain</span>
+<span class="n">kappa</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># Thermal conductivity</span>
+<span class="n">Nx</span> <span class="o">=</span> <span class="mi">64</span>  <span class="c1"># Number of intervals</span>
+<span class="n">T0</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Left boundary condition</span>
+<span class="n">TN</span> <span class="o">=</span> <span class="mf">4.0</span>  <span class="c1"># Right boundary condition</span>
+<span class="n">tol</span> <span class="o">=</span> <span class="mf">1e-6</span>  <span class="c1"># Tolerance for iterative solver</span>
+
+
+<span class="c1"># Define the symbolic function q(x)</span>
+<span class="k">def</span> <span class="nf">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">computeResidual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the residual of the 1D heat equation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Current state vector</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Residual vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx2</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">kappa</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span> <span class="o">/</span> <span class="n">dx2</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">r</span>
+
+
+<span class="k">def</span> <span class="nf">computeNorm</span><span class="p">(</span><span class="n">r</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the &quot;normalized&quot; norm of a vector</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    r : numpy.ndarray</span>
+<span class="sd">        Vector to compute the norm of</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">iterativeSolve</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">smootherFunc</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Iteratively solve the steady-state 1D heat equation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy ndarray</span>
+<span class="sd">        Initial state</span>
+<span class="sd">    q : numpy ndarray</span>
+<span class="sd">        Right-hand side</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+<span class="sd">    smootherFunc : function with signature f(u, q, kappa, dx, omega=1.0))</span>
+<span class="sd">        Function that performs a single smoothing iteration</span>
+<span class="sd">    omega : float, optional</span>
+<span class="sd">        Relaxation factor, by default 1.0</span>
+<span class="sd">    tol : float, optional</span>
+<span class="sd">        Residual norm to stop at, by default 1e-4</span>
+<span class="sd">    maxIter : int, optional</span>
+<span class="sd">        Maximum number of iterations, by default 5000</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy ndarray</span>
+<span class="sd">        New state</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">resNormHistory</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">iterationTimes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">printFrequency</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maxIter</span> <span class="o">//</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">startTime</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">maxIter</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">computeResidual</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+        <span class="n">resNorm</span> <span class="o">=</span> <span class="n">computeNorm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">resNormHistory</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resNorm</span><span class="p">)</span>
+        <span class="n">iterationTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">startTime</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resNorm</span> <span class="o">&lt;</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">resNorm</span> <span class="o">&gt;</span> <span class="mf">1e10</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resNorm</span><span class="p">):</span>
+            <span class="k">break</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">smootherFunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">,</span> <span class="n">resNormHistory</span><span class="p">,</span> <span class="n">iterationTimes</span>
+
+
+<span class="k">def</span> <span class="nf">gaussSeidelIteration</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform one Gauss-Seidel smoothing step</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        Current state vector</span>
+<span class="sd">    q : numpy.ndarray</span>
+<span class="sd">        Source term vector</span>
+<span class="sd">    kappa : float</span>
+<span class="sd">        Thermal conductivity</span>
+<span class="sd">    dx : float</span>
+<span class="sd">        Grid spacing</span>
+<span class="sd">    omega : float, optional</span>
+<span class="sd">        Relaxation factor, by default 1.0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        Updated state vector</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx2k</span> <span class="o">=</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">kappa</span>
+    <span class="n">uNew</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">uNew</span><span class="p">[</span><span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">*</span> <span class="n">dx2k</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">omega</span><span class="p">)</span> <span class="o">*</span> <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">uNew</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The effectiveness of multigrid depends on two things:</p>
+<ul class="simple">
+<li><p>Iterative smoothers require fewer iterations when started from a good initial guess</p></li>
+<li><p>Iterative smoothers reduce high frequency errors faster than low frequency errors</p></li>
+</ul>
+<p>Let’s demonstrate these 2 points, first by solving the problem starting from a bad initial guess (<span class="math notranslate nohighlight">\(T=0\)</span> everywhere) and then by solving the problem starting from a good initial guess (<span class="math notranslate nohighlight">\(T\)</span> varying linearly between the boundaries).</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_init_good</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">T0</span><span class="p">,</span> <span class="n">TN</span><span class="p">,</span> <span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">T_init_bad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">T_init_good</span><span class="p">)</span>
+<span class="n">T_init_bad</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">Nx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">q_array</span> <span class="o">=</span> <span class="n">q</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span>
+
+<span class="n">T_sol_bad</span><span class="p">,</span> <span class="n">res_history_bad</span><span class="p">,</span> <span class="n">iter_times_bad</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_bad</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span>
+<span class="p">)</span>
+<span class="n">T_sol_good</span><span class="p">,</span> <span class="n">res_history_good</span><span class="p">,</span> <span class="n">iter_times_good</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_good</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 2.62e+02
+Iteration 500: Res norm = 2.18e-01
+Iteration 1000: Res norm = 1.30e-02
+Iteration 1500: Res norm = 7.76e-04
+Iteration 2000: Res norm = 4.63e-05
+Iteration 2500: Res norm = 2.76e-06
+Iteration 2680: Res norm = 9.99e-07
+Iteration 0: Res norm = 7.02e-01
+Iteration 500: Res norm = 4.24e-02
+Iteration 1000: Res norm = 2.53e-03
+Iteration 1500: Res norm = 1.51e-04
+Iteration 2000: Res norm = 8.99e-06
+Iteration 2390: Res norm = 9.97e-07
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$||r||_2$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res_history_bad</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Bad initial guess&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res_history_good</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Good initial guess&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Tolerance&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">)</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/cc9095a44a0f9eb8cd27751c53edeeefd3244a29c2c197ee2b39ec46adc1239d.svg" src="../../_images/cc9095a44a0f9eb8cd27751c53edeeefd3244a29c2c197ee2b39ec46adc1239d.svg" />
+</div>
+</div>
+<p>To demonstrate how different frequencies of error are reduced at different rates, we’ll run 10 iterations starting from the true solution plus a high frequency error and then starting from the true solution plus a low frequency error.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_init_highfreq</span> <span class="o">=</span> <span class="n">T_sol_good</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
+<span class="n">T_init_lowfreq</span> <span class="o">=</span> <span class="n">T_sol_good</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
+
+<span class="n">T_sol_lowfreq</span><span class="p">,</span> <span class="n">res_history_lowfreq</span><span class="p">,</span> <span class="n">iter_times_lowfreq</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_lowfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+<span class="n">T_sol_highfreq</span><span class="p">,</span> <span class="n">res_history_highfreq</span><span class="p">,</span> <span class="n">iter_times_highfreq</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_highfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T - T_</span><span class="si">{sol}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_init_highfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Initial guess&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_init_lowfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_sol_highfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;After 10 iterations&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_sol_lowfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 8.65e-03
+Iteration 1: Res norm = 8.62e-03
+Iteration 2: Res norm = 8.59e-03
+Iteration 3: Res norm = 8.56e-03
+Iteration 4: Res norm = 8.53e-03
+Iteration 5: Res norm = 8.50e-03
+Iteration 6: Res norm = 8.47e-03
+Iteration 7: Res norm = 8.44e-03
+Iteration 8: Res norm = 8.41e-03
+Iteration 9: Res norm = 8.38e-03
+Iteration 0: Res norm = 5.47e-01
+Iteration 1: Res norm = 4.63e-01
+Iteration 2: Res norm = 3.90e-01
+Iteration 3: Res norm = 3.27e-01
+Iteration 4: Res norm = 2.75e-01
+Iteration 5: Res norm = 2.30e-01
+Iteration 6: Res norm = 1.93e-01
+Iteration 7: Res norm = 1.61e-01
+Iteration 8: Res norm = 1.34e-01
+Iteration 9: Res norm = 1.12e-01
+</pre></div>
+</div>
+<img alt="../../_images/77a8d5ae7f48192ecebf9f482c18994e58aae7990beef21865abd36e32d7c595.svg" src="../../_images/77a8d5ae7f48192ecebf9f482c18994e58aae7990beef21865abd36e32d7c595.svg" />
+</div>
+</div>
+<section id="implementing-a-basic-2-level-multigrid-solver">
+<h2>Implementing a basic 2-level multigrid solver<a class="headerlink" href="#implementing-a-basic-2-level-multigrid-solver" title="Link to this heading">#</a></h2>
+<p>In this example we are going to implement a very simple 2-level multigrid smoother to use in out iterative solver algorithm.  Note that this is not a great implementation, it is hardcoded to use only 2 levels. In your next homework you will be given the task of implementing a more general multigrid solver that can use any number of levels.</p>
+<p>A 2-level multigrid iteration consists of the following steps:</p>
+<ul class="simple">
+<li><p>Running <span class="math notranslate nohighlight">\(n_\text{pre}\)</span> iterations of a smoother on the fine grid</p></li>
+<li><p>Restricting/averaging the residual to the coarse grid</p></li>
+<li><p>Running <span class="math notranslate nohighlight">\(n_\text{coarse}\)</span> iterations of a smoother on the coarse grid</p></li>
+<li><p>Prolonging/interpolating the coarse grid correction to the fine grid</p></li>
+<li><p>Adding the fine grid correction to the solution</p></li>
+<li><p>Running <span class="math notranslate nohighlight">\(n_\text{post}\)</span> iterations of a smoother on the fine grid</p></li>
+</ul>
+<p><img alt="Full weighting restriction" src="../../_images/MultigridCycle.png" /></p>
+<p>It’s important to recognise that the system of equations we are solving on the coarse grid is slightly different from the system we are solving on the fine grid. On the fine grid we are solving:</p>
+<div class="math notranslate nohighlight">
+\[A_h T = q\]</div>
+<p>Once we solve the system on the coarse grid, one thing we could do is just to interpolate the coarse grid solution back to the fine grid, overwriting whatever we had on the fine grid. However, this would not be a good idea as we would be throwing away information we had on the fine grid. Instead, we want to use the coarse grid to compute a <strong>correction</strong> to our fine grid solution.</p>
+<p>To help think about how to compute this correction, let’s define the solution error:</p>
+<div class="math notranslate nohighlight">
+\[e = T^* - T\]</div>
+<p>where <span class="math notranslate nohighlight">\(T^*\)</span> is the true solution and <span class="math notranslate nohighlight">\(T\)</span> is our current approximation to the solution. Notice that if we knew what <span class="math notranslate nohighlight">\(e\)</span> was, we could just add it to <span class="math notranslate nohighlight">\(T\)</span> to get the true solution.</p>
+<div class="math notranslate nohighlight">
+\[T + e = T + (T^* - T) = T^*\]</div>
+<p>If we multiply the error by our finite difference matrix <span class="math notranslate nohighlight">\(A\)</span>, we get:</p>
+<div class="math notranslate nohighlight">
+\[Ae = A(T^* - T) = AT^* - AT = q - AT = r\]</div>
+<p>So on the coarse grid, we solve <span class="math notranslate nohighlight">\(Ae = r\)</span> approximately. to find a correction <span class="math notranslate nohighlight">\(e\)</span> that should take us closer to the true solution, <span class="math notranslate nohighlight">\(T^*\)</span> on the coarse grid. Once we have this correction, we can interpolate it back to the fine grid and add it to our current approximation to the solution there.</p>
+<p>In this implementation, our coarse grid is exactly a factor of 2 coarser that the fine grid, the stencils for the restriction and prolongation operators are therefore pretty simple, as shown below.
+In more complex codes, it may not be possible generate such an ideal coarse grid and the restriction and prolongation may be more complex averaging/interpolation operations.</p>
+<p><img alt="Full weighting restriction" src="../../_images/MultigridRestriction.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define residual restriction operator from fine grid to coarse grid using full-weighting</span>
+<span class="k">def</span> <span class="nf">restrict_to_coarse</span><span class="p">(</span><span class="n">r_fine</span><span class="p">):</span>
+    <span class="n">r_coarse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">r_fine</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Create an empty coarse grid</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">r_coarse</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">r_coarse</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">r_fine</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">r_fine</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">r_fine</span><span class="p">[</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">r_coarse</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><img alt="Prolongation" src="../../_images/MultigridProlongation.png" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define prolongation operator from coarse grid to fine grid</span>
+<span class="k">def</span> <span class="nf">prolongate_to_fine</span><span class="p">(</span><span class="n">u_coarse</span><span class="p">):</span>
+    <span class="n">u_fine</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">u_coarse</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Create an empty fine grid</span>
+    <span class="c1"># Assign values from coarse grid directly for even elements</span>
+    <span class="n">u_fine</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">u_coarse</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Use weights 1/2 and 1/2 for odd elements</span>
+    <span class="n">u_fine</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">u_coarse</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">u_coarse</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">u_fine</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multigridIteration</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">num_pre</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_post</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_coarse</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">u_new</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># Pre-smoothing iterations</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_pre</span><span class="p">):</span>
+        <span class="n">u_new</span> <span class="o">=</span> <span class="n">gaussSeidelIteration</span><span class="p">(</span><span class="n">u_new</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
+
+    <span class="c1"># Compute the residual</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">computeResidual</span><span class="p">(</span><span class="n">u_new</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">)</span>
+
+    <span class="c1"># Restrict the residual to the coarse grid</span>
+    <span class="n">r_coarse</span> <span class="o">=</span> <span class="n">restrict_to_coarse</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+
+    <span class="c1"># Smooth the error on the coarse grid</span>
+    <span class="n">du_coarse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">r_coarse</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_coarse</span><span class="p">):</span>
+        <span class="n">du_coarse</span> <span class="o">=</span> <span class="n">gaussSeidelIteration</span><span class="p">(</span><span class="n">du_coarse</span><span class="p">,</span> <span class="n">r_coarse</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
+
+    <span class="c1"># Prolongate the state update to the fine grid and add to the current solution</span>
+    <span class="n">du_fine</span> <span class="o">=</span> <span class="n">prolongate_to_fine</span><span class="p">(</span><span class="n">du_coarse</span><span class="p">)</span>
+    <span class="n">u_new</span> <span class="o">+=</span> <span class="n">du_fine</span>
+
+    <span class="c1"># Post-smoothing iterations</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_post</span><span class="p">):</span>
+        <span class="n">u_new</span> <span class="o">=</span> <span class="n">gaussSeidelIteration</span><span class="p">(</span><span class="n">u_new</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">u_new</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_pre</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_post</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">num_coarse</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Compute how much work each multigrid iteration takes compared to a single GS iteration on the fine grid</span>
+<span class="n">multigrid_work</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">num_coarse</span> <span class="o">+</span> <span class="n">num_pre</span> <span class="o">+</span> <span class="n">num_post</span>
+
+<span class="n">num_iters</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span> <span class="o">/</span> <span class="n">multigrid_work</span><span class="p">)</span>
+
+<span class="n">T_sol_lowfreq</span><span class="p">,</span> <span class="n">res_history_lowfreq</span><span class="p">,</span> <span class="n">iter_times_lowfreq</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_lowfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">multigridIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="n">num_iters</span>
+<span class="p">)</span>
+<span class="n">T_sol_highfreq</span><span class="p">,</span> <span class="n">res_history_highfreq</span><span class="p">,</span> <span class="n">iter_times_highfreq</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_highfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">multigridIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="n">num_iters</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 8.65e-03
+Iteration 1: Res norm = 8.37e-03
+Iteration 2: Res norm = 8.08e-03
+Iteration 0: Res norm = 5.47e-01
+Iteration 1: Res norm = 2.47e-01
+Iteration 2: Res norm = 1.10e-01
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T - T_</span><span class="si">{sol}</span><span class="s2">$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_init_highfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Initial guess&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_init_lowfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_sol_highfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;After </span><span class="si">{</span><span class="n">num_iters</span><span class="si">}</span><span class="s2"> iterations&quot;</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">T_sol_lowfreq</span> <span class="o">-</span> <span class="n">T_sol_good</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">niceColors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;lower right&quot;</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/7cc4c0875c0a300efe12db3b707a80f862e7df9b0fe1587178ffbf7f3ffa9aef.svg" src="../../_images/7cc4c0875c0a300efe12db3b707a80f862e7df9b0fe1587178ffbf7f3ffa9aef.svg" />
+</div>
+</div>
+<p>Now let’s see how fast multigrid converges from the bad initial guess compared to plain Gauss-Seidel.</p>
+<p>When comparing the number of iterations required for convergence, we need to account for the fact that each multigrid iteration is more expensive than a Gauss-Seidel iteration.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_sol_bad_gs</span><span class="p">,</span> <span class="n">res_history_bad_gs</span><span class="p">,</span> <span class="n">iter_times_bad_gs</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_bad</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span>
+<span class="p">)</span>
+<span class="n">T_sol_bad_mg</span><span class="p">,</span> <span class="n">res_history_bad_mg</span><span class="p">,</span> <span class="n">iter_times_bad_mg</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
+    <span class="n">T_init_bad</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">multigridIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 2.62e+02
+Iteration 500: Res norm = 2.18e-01
+Iteration 1000: Res norm = 1.30e-02
+Iteration 1500: Res norm = 7.76e-04
+Iteration 2000: Res norm = 4.63e-05
+Iteration 2500: Res norm = 2.76e-06
+Iteration 2680: Res norm = 9.99e-07
+Iteration 0: Res norm = 2.62e+02
+Iteration 269: Res norm = 9.45e-07
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale the multigrid iteration count by the amount of work each iteration takes</span>
+<span class="n">mg_iterations</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">res_history_bad_mg</span><span class="p">))</span> <span class="o">*</span> <span class="n">multigrid_work</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Equivalent fine-grid iterations&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;$||r||_2$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">res_history_bad_gs</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Gauss-Seidel&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mg_iterations</span><span class="p">,</span> <span class="n">res_history_bad_mg</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Multigrid&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">tol</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;Gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Tolerance&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">labelcolor</span><span class="o">=</span><span class="s2">&quot;linecolor&quot;</span><span class="p">)</span>
+<span class="n">niceplots</span><span class="o">.</span><span class="n">adjust_spines</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c69eb9e0adfaad07ca2f0b1890fbad12c759907258483864d990e7bcac3218b7.svg" src="../../_images/c69eb9e0adfaad07ca2f0b1890fbad12c759907258483864d990e7bcac3218b7.svg" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "A-CGray/AE523-Fall23",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Examples/Week5"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Week5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Week 5</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Week6/Week6.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Week 6</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-a-basic-2-level-multigrid-solver">Implementing a basic 2-level multigrid solver</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Alasdair Christison Gray
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
