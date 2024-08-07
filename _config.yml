@@ -48,7 +48,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/A-CGray/AE523-Fall23  # Online location of your book
+  url: https://github.com/mariejvaucher/aero523-fall24  # Online location of your book
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
