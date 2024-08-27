@@ -62,7 +62,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week12/SlopeLimiting';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Week 12" href="Week12.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -125,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,42 +181,10 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Content/PythonSetup.html">Getting Started with Python</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Week2/OfficeHours.html">Examples from office hours: Week 2</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Week3/FiniteDifferenceScheme.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Week4/Week4.html">Week 4</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Week4/IterativeSolvers.html">Iterative linear solvers</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Week5/Week5.html">Week 5</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Week5/BasicMultigrid.html">Multigrid</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Week6/FasterPython.html">How to write fast (or slow) Python code</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1"><a class="reference internal" href="../Week7/Week7.html">Week 7</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Week8/Week8.html">Week 8</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Week10/Week10.html">Week 10</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Week10/Meshes.html">2D Finite Volume Meshes</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="Week12.html">Week 12</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Slope Limiting</a></li>
 </ul>
 </details></li>
 </ul>
@@ -547,7 +516,7 @@ Using von-Neumann stability analysis it can be shown that this scheme is only st
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/29666ee89454c4c811dbd6b4436509a71b35f7d1476387e45b256d98e6e071b8.svg" src="../../_images/29666ee89454c4c811dbd6b4436509a71b35f7d1476387e45b256d98e6e071b8.svg" />
+<img alt="../../_images/272850d8a5450a1edc1d3fa4986bf25bb2fff6627803f8a503d2239fa7506573.svg" src="../../_images/272850d8a5450a1edc1d3fa4986bf25bb2fff6627803f8a503d2239fa7506573.svg" />
 </div>
 </div>
 <p>As you can see, none of these schemes are stable, high-order accurate, and monotonicity preserving.
@@ -606,7 +575,7 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/e395627179e6b832d88e898949f586384057517cc40af310ae0e97b9dd1cc3b5.svg" src="../../_images/e395627179e6b832d88e898949f586384057517cc40af310ae0e97b9dd1cc3b5.svg" />
+<img alt="../../_images/eab9de9be46a7bcb1ad61733a37ba85fd846e5ae2e8055b9107bc76db58ce7b9.svg" src="../../_images/eab9de9be46a7bcb1ad61733a37ba85fd846e5ae2e8055b9107bc76db58ce7b9.svg" />
 </div>
 </div>
 <p>Now we plot three of the most common limiter curves on this plot, the equations for these limiters are given in the course notes:</p>
@@ -647,7 +616,7 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/957992df55479104ed9ccc72da6f6dafb052014ea54a9735a1df23f83bbf0ca5.svg" src="../../_images/957992df55479104ed9ccc72da6f6dafb052014ea54a9735a1df23f83bbf0ca5.svg" />
+<img alt="../../_images/91affbe6888fc2e9e7c9c42a9307f3f79dd907b5a60841af639d238f21cd85a4.svg" src="../../_images/91affbe6888fc2e9e7c9c42a9307f3f79dd907b5a60841af639d238f21cd85a4.svg" />
 </div>
 </div>
 <section id="slope-limiting-demo">
@@ -700,14 +669,14 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2025/4273324961.py:30: RuntimeWarning: invalid value encountered in sqrt
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2899/4273324961.py:30: RuntimeWarning: invalid value encountered in sqrt
   uHemi = np.sqrt(1 - (2 * (x - xMid) / L) ** 2)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Initial condition&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/9c28c53e48a64e2fc9323d52836a9f779beaa876f7665da833bd784b827b79cd.svg" src="../../_images/9c28c53e48a64e2fc9323d52836a9f779beaa876f7665da833bd784b827b79cd.svg" />
+<img alt="../../_images/8b9f4fa5d316aac5c80b59bcaf5222ab36bb786178915b23827e0b7f6a883e06.svg" src="../../_images/8b9f4fa5d316aac5c80b59bcaf5222ab36bb786178915b23827e0b7f6a883e06.svg" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -764,13 +733,13 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2025/3229122800.py:2: RuntimeWarning: divide by zero encountered in divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2899/3229122800.py:2: RuntimeWarning: divide by zero encountered in divide
   r = (u - uLeft) / (uRight - u)
-/tmp/ipykernel_2025/3229122800.py:2: RuntimeWarning: invalid value encountered in divide
+/tmp/ipykernel_2899/3229122800.py:2: RuntimeWarning: invalid value encountered in divide
   r = (u - uLeft) / (uRight - u)
 </pre></div>
 </div>
-<img alt="../../_images/bde784974d64afbeddc29afa229f78077f2f05a06291201e7674c77344592687.svg" src="../../_images/bde784974d64afbeddc29afa229f78077f2f05a06291201e7674c77344592687.svg" />
+<img alt="../../_images/65637bb8829a292b584ef31d5726f8e59fc69c9084072c87cb42762de2f37d70.svg" src="../../_images/65637bb8829a292b584ef31d5726f8e59fc69c9084072c87cb42762de2f37d70.svg" />
 </div>
 </div>
 <p>Some observations from these results:</p>
@@ -814,15 +783,6 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="Week12.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Week 12</p>
-      </div>
-    </a>
 </div>
                 </footer>
               

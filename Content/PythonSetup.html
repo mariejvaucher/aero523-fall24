@@ -185,38 +185,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../Examples/Week1/RootFinding.html">Root finding methods</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week2/OfficeHours.html">Examples from office hours: Week 2</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week3/FiniteDifferenceScheme.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week4/Week4.html">Week 4</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week4/IterativeSolvers.html">Iterative linear solvers</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week5/Week5.html">Week 5</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week5/BasicMultigrid.html">Multigrid</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week6/InitialValueProblems.html">Initial Value Problems</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week6/FasterPython.html">How to write fast (or slow) Python code</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/Week7/Week7.html">Week 7</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Examples/Week8/Week8.html">Week 8</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week10/Week10.html">Week 10</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week10/Meshes.html">2D Finite Volume Meshes</a></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week12/Week12.html">Week 12</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../Examples/Week12/SlopeLimiting.html">Slope Limiting</a></li>
-</ul>
-</details></li>
 </ul>
 
     </div>
@@ -571,17 +539,17 @@ pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A=array([[0.4343665 , 0.51580296, 0.63144915, 0.58571208, 0.52333238],
-       [0.54993974, 0.22762871, 0.96207051, 0.75266858, 0.18015556],
-       [0.67822874, 0.93906352, 0.3759607 , 0.67202428, 0.36707362],
-       [0.99934769, 0.53520639, 0.45196044, 0.46018761, 0.37160183],
-       [0.20722563, 0.26231405, 0.11877355, 0.35439056, 0.63557924]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A=array([[0.93652399, 0.13310721, 0.39745188, 0.30769723, 0.44270589],
+       [0.12890153, 0.90827769, 0.00425156, 0.44603388, 0.98478454],
+       [0.03087058, 0.19834246, 0.11770584, 0.95453216, 0.05200678],
+       [0.85997813, 0.59908714, 0.03029323, 0.64673109, 0.6927414 ],
+       [0.99507001, 0.09450911, 0.10784031, 0.16010116, 0.85098542]])
 
-b=array([0.85737684, 0.81032232, 0.22708357, 0.76757605, 0.51824349])
+b=array([0.63647636, 0.10842096, 0.06195814, 0.71165314, 0.78693379])
 
-x=array([ 0.34190509, -0.18247437,  1.38189403, -1.16449986,  1.17029136])
+x=array([ 0.79290352, -0.07393357, -0.35285237,  0.09637613,  0.03237241])
 
-Linear system solution error norm = 1.3877787807814457e-16
+Linear system solution error norm = 2.7309638792264485e-16
 </pre></div>
 </div>
 </div>
@@ -728,7 +696,7 @@ This makes it much clearer in your code which data is being plotted on which fig
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/a3432f3694227088e1b89f6adc855f787609f663ac83ac0565e0fce073e15c3e.png" src="../_images/a3432f3694227088e1b89f6adc855f787609f663ac83ac0565e0fce073e15c3e.png" />
+<img alt="../_images/c8f99b8ef1341f3678c6cc0b3e231bb142d58d0cd3b2fc0914d56915ece838f5.png" src="../_images/c8f99b8ef1341f3678c6cc0b3e231bb142d58d0cd3b2fc0914d56915ece838f5.png" />
 </div>
 </div>
 </section>
@@ -765,7 +733,7 @@ You can also check out some example uses of it <a class="reference external" hre
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/587bb58e1472724e90fec8ffa5deb8e329faf6b68f5cca125fa06a981cc4d535.png" src="../_images/587bb58e1472724e90fec8ffa5deb8e329faf6b68f5cca125fa06a981cc4d535.png" />
+<img alt="../_images/751725835f248270c572ed6d127e99a6bedb5c9f9fe8d930eb68dfa8a6f708ef.png" src="../_images/751725835f248270c572ed6d127e99a6bedb5c9f9fe8d930eb68dfa8a6f708ef.png" />
 </div>
 </div>
 </section>
