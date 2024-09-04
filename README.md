@@ -5,7 +5,7 @@
 
 Code examples for the Fall 2023 term of the University of Michigan's AEROSP 523 CFD course
 
-Find the rendered site [here](https://a-cgray.github.io/AE523-Fall23)
+Find the rendered site [here](https://mariejvaucher.github.io/aero523-fall24/Content/PythonSetup.html)
 
 ## How to edit to the site
 
