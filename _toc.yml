@@ -7,8 +7,9 @@ chapters:
 - file: Content/PythonSetup.ipynb
 - file: Examples/Week1/Week1
   sections:
-  - file: Examples/Week1/RootFinding.ipynb
   - file: Examples/Week1/intro_jax.ipynb
+  - file: Examples/Week1/RootFinding.ipynb
+
 # - file: Examples/Week2/Week2
 #   sections:
 #   - file: Examples/Week2/FiniteDifferences.ipynb
