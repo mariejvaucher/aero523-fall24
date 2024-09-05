@@ -183,6 +183,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../../Content/PythonSetup.html">Getting Started with Python</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week1/intro_jax.html">Introduction to JAX</a></li>
+
 </ul>
 </details></li>
 </ul>
@@ -505,7 +507,7 @@ Just be sure to turn off the line connecting the points.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/958f615d9e5c9ef1184f5f2ffb9f2ec2f23fb50756f0684fab1ca36ddab5b5bc.svg" src="../../_images/958f615d9e5c9ef1184f5f2ffb9f2ec2f23fb50756f0684fab1ca36ddab5b5bc.svg" />
+<img alt="../../_images/0e2a0d56ec4283802d52fedfde5d917a75b1e169dcc4a2c6909c067eae2a3444.svg" src="../../_images/0e2a0d56ec4283802d52fedfde5d917a75b1e169dcc4a2c6909c067eae2a3444.svg" />
 </div>
 </div>
 </section>
@@ -558,7 +560,7 @@ Each row in the file contains the indices of the three nodes that form a triangl
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/de42dc347fb7fcc99d0640a84bb3b512974f4fa9b202b686e73fb6c653b80ba4.svg" src="../../_images/de42dc347fb7fcc99d0640a84bb3b512974f4fa9b202b686e73fb6c653b80ba4.svg" />
+<img alt="../../_images/060671139ec69e5b70a13bbf3cdb9a4531c99251225aac34267b540d7eb462df.svg" src="../../_images/060671139ec69e5b70a13bbf3cdb9a4531c99251225aac34267b540d7eb462df.svg" />
 </div>
 </div>
 <p>Fortunately, matplotlib has a function that automates this process: <code class="docutils literal notranslate"><span class="pre">triplot</span></code>.</p>
@@ -573,7 +575,7 @@ Each row in the file contains the indices of the three nodes that form a triangl
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/dc19bccb5eec6e70f021f05973539fac62cab693cc56fe5049d2256071acf406.svg" src="../../_images/dc19bccb5eec6e70f021f05973539fac62cab693cc56fe5049d2256071acf406.svg" />
+<img alt="../../_images/ef8c10889e30976f781d94a17416b60ec344ce3da34b013d39c12ec65f475fe9.svg" src="../../_images/ef8c10889e30976f781d94a17416b60ec344ce3da34b013d39c12ec65f475fe9.svg" />
 </div>
 </div>
 <section id="computing-cell-quantities">
@@ -616,7 +618,7 @@ Matplotlib has another function called <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c116e4659563317513df94a8acef4c763cc9d55bc4f073256a1333a75ce3214f.svg" src="../../_images/c116e4659563317513df94a8acef4c763cc9d55bc4f073256a1333a75ce3214f.svg" />
+<img alt="../../_images/3ed018dcd81422d4fd22d2790895802d8896452221b1c0fb63b4ac3da19b28ed.svg" src="../../_images/3ed018dcd81422d4fd22d2790895802d8896452221b1c0fb63b4ac3da19b28ed.svg" />
 </div>
 </div>
 <p>We can then call other plotting methods to plot other things on top of the mesh, such as the cell edges.</p>
@@ -628,7 +630,7 @@ Matplotlib has another function called <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/79fd62780ee79726e417eb6dbda48242b97df93942f9ab31b499a94bbd7fa01d.svg" src="../../_images/79fd62780ee79726e417eb6dbda48242b97df93942f9ab31b499a94bbd7fa01d.svg" />
+<img alt="../../_images/2c1909d232b0739d329423451dbf0fa5522a387142773b0022f89ad5cba2e603.svg" src="../../_images/2c1909d232b0739d329423451dbf0fa5522a387142773b0022f89ad5cba2e603.svg" />
 </div>
 </div>
 </section>
@@ -694,7 +696,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/dce6c459fd53dd14fcd12fbf5ab6a50e2698fd71ba5677610f4fa4ea9b2c8e96.svg" src="../../_images/dce6c459fd53dd14fcd12fbf5ab6a50e2698fd71ba5677610f4fa4ea9b2c8e96.svg" />
+<img alt="../../_images/93ea38854266993cd1ab166aec104ad365a415a852245818b28f502768798ffa.svg" src="../../_images/93ea38854266993cd1ab166aec104ad365a415a852245818b28f502768798ffa.svg" />
 </div>
 </div>
 </section>
@@ -728,7 +730,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6744ba8796d6c35c0a6a1e07a06ee74952fcc06c965abfd6e86f5ff4b002b1d2.svg" src="../../_images/6744ba8796d6c35c0a6a1e07a06ee74952fcc06c965abfd6e86f5ff4b002b1d2.svg" />
+<img alt="../../_images/8b803e621748caf66ecf22ec60a4c8b216359a2220658a8af5ac301cf508dc4d.svg" src="../../_images/8b803e621748caf66ecf22ec60a4c8b216359a2220658a8af5ac301cf508dc4d.svg" />
 </div>
 </div>
 <p>To compute fluxes, we need data about the edges in the mesh.</p>
@@ -792,7 +794,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3c4dbb68fe900229159e436db35278413b0653efd445bd5435a8448283915032.svg" src="../../_images/3c4dbb68fe900229159e436db35278413b0653efd445bd5435a8448283915032.svg" />
+<img alt="../../_images/225a4494f6d35cd0840aebc9e208e1b9c542d47260610a1a7df2dd61d984bbc8.svg" src="../../_images/225a4494f6d35cd0840aebc9e208e1b9c542d47260610a1a7df2dd61d984bbc8.svg" />
 </div>
 </div>
 <section id="freestream-preservation-test">

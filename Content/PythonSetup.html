@@ -183,6 +183,8 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Getting Started with Python</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Examples/Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Examples/Week1/RootFinding.html">Root finding methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Examples/Week1/intro_jax.html">Introduction to JAX</a></li>
+
 </ul>
 </details></li>
 </ul>
@@ -539,17 +541,22 @@ pip<span class="w"> </span>install<span class="w"> </span>numpy<span class="w"> 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A=array([[0.02237515, 0.11169947, 0.59368196, 0.69974432, 0.42535116],
-       [0.44171389, 0.85973827, 0.68455194, 0.03043627, 0.6486175 ],
-       [0.31205316, 0.68280859, 0.64720923, 0.90363099, 0.43623967],
-       [0.09489757, 0.25847449, 0.41837278, 0.95365224, 0.22196676],
-       [0.81269576, 0.85755027, 0.79467699, 0.52950902, 0.66194315]])
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>A=array([[8.70503171e-01, 4.09589172e-01, 3.94591860e-02, 6.22259626e-01,
+        6.56277169e-01],
+       [3.71425688e-02, 6.52440942e-01, 7.03070153e-02, 4.71775671e-01,
+        8.92365426e-01],
+       [8.43109078e-01, 6.11989308e-01, 3.65736303e-01, 1.95181101e-01,
+        4.48499524e-01],
+       [3.26800962e-01, 4.36455150e-02, 2.23707798e-01, 7.96634094e-01,
+        7.98817504e-01],
+       [1.55586541e-04, 4.41866769e-01, 1.29713354e-01, 6.98556690e-01,
+        8.00868013e-01]])
 
-b=array([0.82622125, 0.3161453 , 0.35006965, 0.37062071, 0.22415536])
+b=array([0.05915333, 0.93643745, 0.83720922, 0.84707226, 0.4015516 ])
 
-x=array([-0.6024639 , -0.6452667 ,  1.49485201, -0.0739407 ,  0.17879425])
+x=array([ 0.05527544, -1.3403083 ,  1.77884166, -2.71886071,  3.32429248])
 
-Linear system solution error norm = 2.7755575615628914e-16
+Linear system solution error norm = 7.264660714793997e-16
 </pre></div>
 </div>
 </div>
@@ -696,7 +703,7 @@ This makes it much clearer in your code which data is being plotted on which fig
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9b89388a270d37dddaf295d993125e0db5d928b214ac5bd49edaed149046eba9.png" src="../_images/9b89388a270d37dddaf295d993125e0db5d928b214ac5bd49edaed149046eba9.png" />
+<img alt="../_images/6a76dde2774d5be3d5b69984042bf6bc9800e2faf1acfd51421bfc248a302b96.png" src="../_images/6a76dde2774d5be3d5b69984042bf6bc9800e2faf1acfd51421bfc248a302b96.png" />
 </div>
 </div>
 </section>
@@ -733,7 +740,7 @@ You can also check out some example uses of it <a class="reference external" hre
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/34c6add5a61c7e11bc87bf653975f046d59ca6e5ac9c404f9ab4563bf497aa5d.png" src="../_images/34c6add5a61c7e11bc87bf653975f046d59ca6e5ac9c404f9ab4563bf497aa5d.png" />
+<img alt="../_images/38d5e971bb19d7523078574d32b5bc0a2b6bda3632177c4db1bbaeab1eef6c5b.png" src="../_images/38d5e971bb19d7523078574d32b5bc0a2b6bda3632177c4db1bbaeab1eef6c5b.png" />
 </div>
 </div>
 </section>
