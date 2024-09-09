@@ -435,6 +435,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bisection">#1 Bisection</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-newton-raphson">#2 Projection Newton-Raphson</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-raphson-with-jax">#3 Newton-Raphson with JAX</a></li>
 </ul>
             </nav>
         </div>
@@ -586,12 +587,13 @@ Root found: 1.5458335876464844
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fccd7f29970&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f57d81cc380&gt;]
 </pre></div>
 </div>
 <img alt="../../_images/9c9370fee2986930d9215a8cc111dbee0715454e64fe8a30a4417d8682a243c0.png" src="../../_images/9c9370fee2986930d9215a8cc111dbee0715454e64fe8a30a4417d8682a243c0.png" />
 </div>
 </div>
+<p>The residuals converge to zero. The convergence is not regular due to the bisection method: one iteration can be closer to the root that the next one. However it is globally converging by a factor of 3 on average.</p>
 </section>
 <section id="projection-newton-raphson">
 <h2>#2 Projection Newton-Raphson<a class="headerlink" href="#projection-newton-raphson" title="Link to this heading">#</a></h2>
@@ -739,13 +741,16 @@ Root found: 0.4852645107602951
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7fccd7b73080&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f57cbac56a0&gt;]
 </pre></div>
 </div>
 <img alt="../../_images/815e2f2c54246d3fbc9f78c1745c4ea95b54c8049e2028f2ff174f9be298568b.png" src="../../_images/815e2f2c54246d3fbc9f78c1745c4ea95b54c8049e2028f2ff174f9be298568b.png" />
 </div>
 </div>
-<p>As expected the convergence is quicker for this method than for the bisection.</p>
+<p>The residuals converge to zero and the tolerance is reached within 2 iterations. As expected the rate of convergence is higher for Newton-Raphson method than for the bisection method. The rate of convergence is not regular through the process, it increases as we get closer to the solution.</p>
+</section>
+<section id="newton-raphson-with-jax">
+<h2>#3 Newton-Raphson with JAX<a class="headerlink" href="#newton-raphson-with-jax" title="Link to this heading">#</a></h2>
 <p>For the JAX version of the problem we do not compute the function symbolically anymore. We also replace all the numpy instances by JAX numpy. We then need to import the library and ass the following new header.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -773,7 +778,7 @@ Root found: 0.4852645107602951
 </div>
 </div>
 </div>
-<p>Only one change needs to be done in the Newton function : the condition where the function value is within the tolerance must use jnp.</p>
+<p>Only one change is needed in the Newton function : the condition where the function value is within the tolerance must use jnp.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">newton_raphson</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">xinit</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
@@ -881,6 +886,7 @@ Root found: 0.3651168
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bisection">#1 Bisection</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-newton-raphson">#2 Projection Newton-Raphson</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#newton-raphson-with-jax">#3 Newton-Raphson with JAX</a></li>
 </ul>
   </nav></div>
 
