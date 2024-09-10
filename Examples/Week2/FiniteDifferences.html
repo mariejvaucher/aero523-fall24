@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week2/FiniteDifferences';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Week 2" href="Week2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,12 +180,16 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../Content/PythonSetup.html">Getting Started with Python</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Week1/Week1.html">Week 1</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Week1/intro_jax.html">Introduction to JAX</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="Week2.html">Week 2</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Finite Difference Approximations</a></li>
 </ul>
 </details></li>
 </ul>
@@ -567,11 +570,11 @@ document.write(`
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:44: SyntaxWarning: invalid escape sequence &#39;\D&#39;
 &lt;&gt;:44: SyntaxWarning: invalid escape sequence &#39;\D&#39;
-/tmp/ipykernel_2154/2366954330.py:44: SyntaxWarning: invalid escape sequence &#39;\D&#39;
+/tmp/ipykernel_2123/2366954330.py:44: SyntaxWarning: invalid escape sequence &#39;\D&#39;
   ax.set_xlabel(&quot;$\Delta x$&quot;)
 </pre></div>
 </div>
-<img alt="../../_images/db364d3c18864deb2432ee0c1f27e677faf8a2498b47694eb3f211ff76d1beb8.svg" src="../../_images/db364d3c18864deb2432ee0c1f27e677faf8a2498b47694eb3f211ff76d1beb8.svg" />
+<img alt="../../_images/77e77c060e5238c834c1d1e9dc413d12a2694f49390d529b20345efc8c5b6cfd.svg" src="../../_images/77e77c060e5238c834c1d1e9dc413d12a2694f49390d529b20345efc8c5b6cfd.svg" />
 </div>
 </div>
 <p>From this plot we can draw a few observations:</p>
@@ -653,7 +656,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ef846bbc9788ff7c82ff744ad725b2b2d18d5e47bb62f42e5ddd6603638b0c55.svg" src="../../_images/ef846bbc9788ff7c82ff744ad725b2b2d18d5e47bb62f42e5ddd6603638b0c55.svg" />
+<img alt="../../_images/3eb6534cfede90bc36d2ce3ed2f9225397865fbb55e65657e82a6503f632b62b.svg" src="../../_images/3eb6534cfede90bc36d2ce3ed2f9225397865fbb55e65657e82a6503f632b62b.svg" />
 </div>
 </div>
 <p>We can take advantage of this special property to construct a polynomial function that passes through a set of points.
@@ -735,7 +738,7 @@ Given our set of points <span class="math notranslate nohighlight">\(\mathbf{x} 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f923ba2202a7f23eb6d67f08bed223175ab19a50651b99d1296498e84b8a6957.svg" src="../../_images/f923ba2202a7f23eb6d67f08bed223175ab19a50651b99d1296498e84b8a6957.svg" />
+<img alt="../../_images/39c2fe2ca55f0b485148b43814af9543f3638d809847f014423965ea750ba818.svg" src="../../_images/39c2fe2ca55f0b485148b43814af9543f3638d809847f014423965ea750ba818.svg" />
 </div>
 </div>
 <p>Try playing around with the number of datapoints (<code class="docutils literal notranslate"><span class="pre">numDataPoints</span></code>) and the random seed to see in which scenarios the interpolation works well and in which it doesn’t.</p>
@@ -778,6 +781,15 @@ Given our set of points <span class="math notranslate nohighlight">\(\mathbf{x} 
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="Week2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Week 2</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
