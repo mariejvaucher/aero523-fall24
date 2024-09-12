@@ -558,28 +558,20 @@ document.write(`
 </div>
 </div>
 </div>
-<p>In the first question you should have find the following coefficients: $<span class="math notranslate nohighlight">\(a_0=-\frac{11}{6h}, a_1=\frac{3}{h}, a_2=-\frac{3}{2h}, a_3=\frac{1}{3h}\)</span><span class="math notranslate nohighlight">\(
+<p>In the first problem you should have find the following coefficients: $<span class="math notranslate nohighlight">\(a_0=-\frac{11}{6h}, a_1=\frac{3}{h}, a_2=-\frac{3}{2h}, a_3=\frac{1}{3h}\)</span><span class="math notranslate nohighlight">\(
 If we take \)</span>h=1$ we obtain the values above.</p>
 <p>Now in the second question you are asked to do the same for the second derivative. The process is exactly the same except that now we take the second derivative for each Lagrange polynomial.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">xPoints</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">h</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">double_coef_0</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_0</span><span class="p">))</span>
+<span class="n">double_coef_1</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_1</span><span class="p">))</span>
+<span class="n">double_coef_2</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_2</span><span class="p">))</span>
+<span class="n">double_coef_3</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_3</span><span class="p">))</span>
 
-<span class="n">pol_0</span><span class="o">=</span><span class="n">get_lagrange_func</span><span class="p">(</span><span class="n">xPoints</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">pol_1</span><span class="o">=</span><span class="n">get_lagrange_func</span><span class="p">(</span><span class="n">xPoints</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">pol_2</span><span class="o">=</span><span class="n">get_lagrange_func</span><span class="p">(</span><span class="n">xPoints</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">pol_3</span><span class="o">=</span><span class="n">get_lagrange_func</span><span class="p">(</span><span class="n">xPoints</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-
-<span class="n">coef_0</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_0</span><span class="p">))</span>
-<span class="n">coef_1</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_1</span><span class="p">))</span>
-<span class="n">coef_2</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_2</span><span class="p">))</span>
-<span class="n">coef_3</span><span class="o">=</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">pol_3</span><span class="p">))</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">coef_0</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">coef_1</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">coef_2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">coef_3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">double_coef_0</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">double_coef_1</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">double_coef_2</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">double_coef_3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
