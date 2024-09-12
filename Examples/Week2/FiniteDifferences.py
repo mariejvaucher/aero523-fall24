@@ -5,7 +5,7 @@
 #
 # These examples are based on code originally written by Krzysztof Fidkowski and adapted by Venkat Viswanathan.
 
-# In[16]:
+# In[1]:
 
 
 import numpy as np
@@ -40,7 +40,7 @@ colors = niceplots.get_colors_list()
 #
 # In the code below we experimentally validate the order of accuracy of the forward, backward, and central-difference approximations of the first derivative.
 
-# In[17]:
+# In[2]:
 
 
 # Define the analytic function (e.g., sin(x))
@@ -63,7 +63,7 @@ def central_difference(f, x, h):
     return (f(x + h) - f(x - h)) / (2 * h)
 
 
-# Define a range of step sizes from 10^-1 to 10^-4
+# Define a range of step sizes from 10^-1 to 10^-5
 step_sizes = [10 ** (-n) for n in jnp.linspace(1, 4, 5)]
 
 # Define the point at which to evaluate the derivative (e.g., 0.5)
@@ -145,7 +145,7 @@ plt.show()
 # $$L_1(x) = \frac{x - x_0}{x_1 - x_0} \frac{x - x_2}{x_1 - x_2}$$
 # $$L_2(x) = \frac{x - x_0}{x_2 - x_0} \frac{x - x_1}{x_2 - x_1}$$
 
-# In[18]:
+# In[3]:
 
 
 def get_lagrange_func(xPoints, i):
@@ -177,7 +177,7 @@ def get_lagrange_func(xPoints, i):
 
 # The special property of the Lagrange polynomials is that $L_i$ is equal to 1 at $x_i$ and 0 at all other points. As you can see in the plot below:
 
-# In[19]:
+# In[4]:
 
 
 # Plot the Lagrange polynomials for a set of un evenly spaced points
@@ -208,7 +208,7 @@ plt.show()
 # $$p(x) = \sum_{i=0}^{N-1} f_i L_i(x)$$
 #
 
-# In[20]:
+# In[5]:
 
 
 def get_interpolating_func(x, y):
@@ -217,7 +217,7 @@ def get_interpolating_func(x, y):
     Parameters
     ----------
     x : list/array of floats
-        point x coordinates
+        point x coordinatesc
     y : list/array of floats
         point y values
 
@@ -248,13 +248,13 @@ def get_interpolating_func(x, y):
 #
 # The code below demonstrates this by fitting a polynomial to a random set of points before plotting both the polynomial and the points:
 
-# In[21]:
+# In[6]:
 
 
 # Seed the random number generator for consistency
 np.random.seed(1)
 
-numDataPoints = 5
+numDataPoints = 6
 numPlotPoints = 1000
 
 # Create a set of randomly spaced points between 0 and 1
