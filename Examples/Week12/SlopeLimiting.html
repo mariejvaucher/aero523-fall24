@@ -187,10 +187,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week1/intro_jax.html">Introduction to JAX</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week1/homework_1_0.html">Homework 1 - Solution</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week3/FiniteDifferenceScheme_bis.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
 </ul>
 </details></li>
 </ul>
@@ -522,7 +527,7 @@ Using von-Neumann stability analysis it can be shown that this scheme is only st
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/648e2e94ad37cadbccf2f5e61e952bc65561a95c7d431ce360682d70fb24ea44.svg" src="../../_images/648e2e94ad37cadbccf2f5e61e952bc65561a95c7d431ce360682d70fb24ea44.svg" />
+<img alt="../../_images/d27efd65c8d272f86d52c9d8bcd4333e8d50f4faf365c202c2d2d7e6a8d7e485.svg" src="../../_images/d27efd65c8d272f86d52c9d8bcd4333e8d50f4faf365c202c2d2d7e6a8d7e485.svg" />
 </div>
 </div>
 <p>As you can see, none of these schemes are stable, high-order accurate, and monotonicity preserving.
@@ -581,7 +586,7 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f4e85c372371cf24812098734e86cdbaaa2ec46b078d21b6b78da768e93284f8.svg" src="../../_images/f4e85c372371cf24812098734e86cdbaaa2ec46b078d21b6b78da768e93284f8.svg" />
+<img alt="../../_images/2f9a9c170dcf6e9c686aa80c96a984693a148381792f793692677f8e68c2a168.svg" src="../../_images/2f9a9c170dcf6e9c686aa80c96a984693a148381792f793692677f8e68c2a168.svg" />
 </div>
 </div>
 <p>Now we plot three of the most common limiter curves on this plot, the equations for these limiters are given in the course notes:</p>
@@ -622,7 +627,7 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/000bc57182d30d79ae4cba802a0f670ab87a16ea36e6723dbb938c4dfcfca486.svg" src="../../_images/000bc57182d30d79ae4cba802a0f670ab87a16ea36e6723dbb938c4dfcfca486.svg" />
+<img alt="../../_images/e1eebe47c71dae8d40dae611fa7835858569d111dc827efc579bcea5c9a501ec.svg" src="../../_images/e1eebe47c71dae8d40dae611fa7835858569d111dc827efc579bcea5c9a501ec.svg" />
 </div>
 </div>
 <section id="slope-limiting-demo">
@@ -675,14 +680,14 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2065/4273324961.py:30: RuntimeWarning: invalid value encountered in sqrt
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2054/4273324961.py:30: RuntimeWarning: invalid value encountered in sqrt
   uHemi = np.sqrt(1 - (2 * (x - xMid) / L) ** 2)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Initial condition&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/2fe47b20cf20824a88ee6fe539ffaf787739e65571d3d95acabca03ebab3a5b4.svg" src="../../_images/2fe47b20cf20824a88ee6fe539ffaf787739e65571d3d95acabca03ebab3a5b4.svg" />
+<img alt="../../_images/83a5f791bfff2d197e28dbfd39e72a5486f7fa617e98cb9f7631bf5295dd4287.svg" src="../../_images/83a5f791bfff2d197e28dbfd39e72a5486f7fa617e98cb9f7631bf5295dd4287.svg" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -739,13 +744,13 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2065/3229122800.py:2: RuntimeWarning: divide by zero encountered in divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2054/3229122800.py:2: RuntimeWarning: divide by zero encountered in divide
   r = (u - uLeft) / (uRight - u)
-/tmp/ipykernel_2065/3229122800.py:2: RuntimeWarning: invalid value encountered in divide
+/tmp/ipykernel_2054/3229122800.py:2: RuntimeWarning: invalid value encountered in divide
   r = (u - uLeft) / (uRight - u)
 </pre></div>
 </div>
-<img alt="../../_images/499805b5a66ab369f065807628396c256c09291fcd164a64d3ba2bf7b35ef703.svg" src="../../_images/499805b5a66ab369f065807628396c256c09291fcd164a64d3ba2bf7b35ef703.svg" />
+<img alt="../../_images/6e02b7312f3ccece93cea9b06b170d79d3b05e924bc4017afd1e76b074bbfd26.svg" src="../../_images/6e02b7312f3ccece93cea9b06b170d79d3b05e924bc4017afd1e76b074bbfd26.svg" />
 </div>
 </div>
 <p>Some observations from these results:</p>

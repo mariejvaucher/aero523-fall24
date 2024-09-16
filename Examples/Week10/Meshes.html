@@ -185,10 +185,15 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week1/intro_jax.html">Introduction to JAX</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../Week1/RootFinding.html">Root finding methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Week1/homework_1_0.html">Homework 1 - Solution</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../Week2/Week2.html">Week 2</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Week2/FiniteDifferences.html">Finite Difference Approximations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week3/Week3.html">Week 3</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week3/FiniteDifferenceScheme_bis.html">The Finite Difference Method: 1D steady state heat transfer</a></li>
 </ul>
 </details></li>
 </ul>
@@ -511,7 +516,7 @@ Just be sure to turn off the line connecting the points.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/aa310305ea3cea3d3e29ec70e367059ccd3206271d2aff1273118216c2f8bcf8.svg" src="../../_images/aa310305ea3cea3d3e29ec70e367059ccd3206271d2aff1273118216c2f8bcf8.svg" />
+<img alt="../../_images/efd0545e2dcda9dcd0e1a1c90bcedf89770fad0bc53712daa7a89f15379451d5.svg" src="../../_images/efd0545e2dcda9dcd0e1a1c90bcedf89770fad0bc53712daa7a89f15379451d5.svg" />
 </div>
 </div>
 </section>
@@ -564,7 +569,7 @@ Each row in the file contains the indices of the three nodes that form a triangl
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/796d93e9b8f6010aadb988fc989e7e125c10d4a473847e59dbf6d3c780df03a1.svg" src="../../_images/796d93e9b8f6010aadb988fc989e7e125c10d4a473847e59dbf6d3c780df03a1.svg" />
+<img alt="../../_images/43e552dd6953571283b4e341295520120be6f27b0cdd1861b8112428e60420b2.svg" src="../../_images/43e552dd6953571283b4e341295520120be6f27b0cdd1861b8112428e60420b2.svg" />
 </div>
 </div>
 <p>Fortunately, matplotlib has a function that automates this process: <code class="docutils literal notranslate"><span class="pre">triplot</span></code>.</p>
@@ -579,7 +584,7 @@ Each row in the file contains the indices of the three nodes that form a triangl
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3d7246171078c287f3648cdc5de513ab1d3c0b78e71feafcab3bf72119c94be6.svg" src="../../_images/3d7246171078c287f3648cdc5de513ab1d3c0b78e71feafcab3bf72119c94be6.svg" />
+<img alt="../../_images/e55060d07ee0ca0650664cc32ffb06799bdc6dfcb9ef1c83b3c77952234bd91d.svg" src="../../_images/e55060d07ee0ca0650664cc32ffb06799bdc6dfcb9ef1c83b3c77952234bd91d.svg" />
 </div>
 </div>
 <section id="computing-cell-quantities">
@@ -622,7 +627,7 @@ Matplotlib has another function called <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/11a95564b5b51ffd48fdeb8c37b50832346453248b142ec4fc7de53e6cbf9663.svg" src="../../_images/11a95564b5b51ffd48fdeb8c37b50832346453248b142ec4fc7de53e6cbf9663.svg" />
+<img alt="../../_images/e02109e3058a2d855ccbb26cca536f4493c313843128131b28e844eb9bbfe3dd.svg" src="../../_images/e02109e3058a2d855ccbb26cca536f4493c313843128131b28e844eb9bbfe3dd.svg" />
 </div>
 </div>
 <p>We can then call other plotting methods to plot other things on top of the mesh, such as the cell edges.</p>
@@ -634,7 +639,7 @@ Matplotlib has another function called <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/425a93001d78a308695d236d47d61da27a4920e3f558cf8e0541a9cf7022ed7c.svg" src="../../_images/425a93001d78a308695d236d47d61da27a4920e3f558cf8e0541a9cf7022ed7c.svg" />
+<img alt="../../_images/e0951beff5b5011127dc1c222660f35ef8a646b34ab9ac6f261079bc15712809.svg" src="../../_images/e0951beff5b5011127dc1c222660f35ef8a646b34ab9ac6f261079bc15712809.svg" />
 </div>
 </div>
 </section>
@@ -700,7 +705,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/22c889855395d95ab90ef9461f2de4026059fab60ac2e927b115ecfa8d1cdb27.svg" src="../../_images/22c889855395d95ab90ef9461f2de4026059fab60ac2e927b115ecfa8d1cdb27.svg" />
+<img alt="../../_images/3843d8b97309a61d1996dadf865b163fed6c8e5f7de05892988856b9c5560cef.svg" src="../../_images/3843d8b97309a61d1996dadf865b163fed6c8e5f7de05892988856b9c5560cef.svg" />
 </div>
 </div>
 </section>
@@ -734,7 +739,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/392bc700d9f87c4c843d2063e483bcf03a8e2f15c0aff43ccffaf2dea9250018.svg" src="../../_images/392bc700d9f87c4c843d2063e483bcf03a8e2f15c0aff43ccffaf2dea9250018.svg" />
+<img alt="../../_images/a78ad4f850777b27467bc5753f12047b0112918f8b3c576c674b7bfc3624e124.svg" src="../../_images/a78ad4f850777b27467bc5753f12047b0112918f8b3c576c674b7bfc3624e124.svg" />
 </div>
 </div>
 <p>To compute fluxes, we need data about the edges in the mesh.</p>
@@ -798,7 +803,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a303ccc3936622fe9e198d3d830ddb81170f0bb0c498eb431e008cee0d688bfa.svg" src="../../_images/a303ccc3936622fe9e198d3d830ddb81170f0bb0c498eb431e008cee0d688bfa.svg" />
+<img alt="../../_images/729ee3b7eaf1d546ff09f46857235e9f85056f480979f507e862095d305cde43.svg" src="../../_images/729ee3b7eaf1d546ff09f46857235e9f85056f480979f507e862095d305cde43.svg" />
 </div>
 </div>
 <section id="freestream-preservation-test">
