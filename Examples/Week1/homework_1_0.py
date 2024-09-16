@@ -153,7 +153,7 @@ plt.xlim(x.min(), x.max())
 plt.ylim(0, 3)
 
 
-# In order to obtain the projection we define the distance between a point located on the curve of wich coordinates are $(x,f(x))$ and point $(x_0,y_0)$ : $$l^{2}(x)=(x-x_0)^{2}+(f(x)-y_0)^{2}$$
+# In order to obtain the projection we define the distance between a point located on the curve of wich coordinates are $(x,f(x))$ and point $(x_0,y_0)$ : $l^{2}(x)=(x-x_0)^{2}+(f(x)-y_0)^{2}$
 #
 
 # The idea is to find  a value $x_{min}$ that minimizes the distance (i.e. the value of $l^{2}$) to point $(x_0,y_0)$. Therefore $x_{min}$ is the solution to the following equation : $$\frac{\partial l^{2}}{\partial x}=0$$
