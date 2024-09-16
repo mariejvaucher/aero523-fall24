@@ -3,7 +3,7 @@
 
 # In this question you are asked to evaluate the coefficients for the first derivative $\frac{\partial u}{\partial x}$ using the Lagrange interpolating polynomials. For this purpose we use the code provided in Week $2$.
 
-# In[2]:
+# In[1]:
 
 
 import numpy as np
@@ -24,7 +24,7 @@ plt.style.use(niceplots.get_style())
 colors = niceplots.get_colors_list()
 
 
-# In[3]:
+# In[2]:
 
 
 def get_lagrange_func(xPoints, i):
@@ -54,70 +54,69 @@ def get_lagrange_func(xPoints, i):
     return lagrange_poly
 
 
+# To obtain a finite difference scheme from the interpolating polynomial, we can simply take the derivative of the polynomial and evaluate it at the point of interest. e.g. for the first derivative:
+#
+# $$\frac{dp}{dx} = \sum_{i=0}^{N-1} f_i \frac{dL_i}{dx}$$
+#
+# $$\left.\frac{df}{dx}\right|_{x^*} \approx \left.\frac{dp}{dx}\right|_{x^*} = \left.\frac{dL_0}{dx}\right|_{x^*} f_0 + \left.\frac{dL_1}{dx}\right|_{x^*} f_1 +...$$
+#
+
+# First we define the position of the points for which we want to define the Lagrange polynomials.
+
+# In[3]:
+
+
+h = 1
+xPoints = [0, h, 2 * h, 3 * h]
+
+
+# Then we compute the Lagrange polynomial at each point. Note that we do not need to know $f_0$,$f_1$, etc.
+
 # In[4]:
 
 
-def get_interpolating_func(x, y):
-    """Create a function that computes the Lagrange interpolating polynomial for a given set of points.
-
-    Parameters
-    ----------
-    x : list/array of floats
-        point x coordinatesc
-    y : list/array of floats
-        point y values
-
-    Returns
-    -------
-    callable
-        Function that computes the Lagrange interpolating polynomial for a given x value, e.g. P(x)
-    """
-    # Define the Lagrange basis polynomials
-    L = []
-    for i in range(len(x)):
-        L.append(get_lagrange_func(x, i))
-
-    def interpolating_func(xx):
-        """Lagrange interpolating polynomial P(x)."""
-        result = 0.0
-        for k in range(len(x)):
-            result += y[k] * L[k](xx)
-        return result
-
-    return interpolating_func
+pol_0 = get_lagrange_func(xPoints, 0)
+pol_1 = get_lagrange_func(xPoints, 1)
+pol_2 = get_lagrange_func(xPoints, 2)
+pol_3 = get_lagrange_func(xPoints, 3)
 
 
-# In[ ]:
+# Now we want to compute the coefficients for the first derivative so we simply derive each polynomial with JAX.
+
+# In[5]:
 
 
-# Seed the random number generator for consistency
-np.random.seed(1)
+coef_0 = jax.grad(pol_0)
+coef_1 = jax.grad(pol_1)
+coef_2 = jax.grad(pol_2)
+coef_3 = jax.grad(pol_3)
 
-numDataPoints = 6
-numPlotPoints = 1000
 
-# Create a set of randomly spaced points between 0 and 1
-xData = np.random.rand(numDataPoints)
-xData.sort()
-xData = (xData - xData[0]) / (xData[-1] - xData[0])
+# Now we evaluate these coefficient at the point of interest. In our case we want the derivative at $x=0$.
 
-# Assign random y values between 0 and 1
-yData = np.random.rand(numDataPoints)
+# In[6]:
 
-# Create the interpolating polynomial
-P = get_interpolating_func(xData, yData)
 
-# Plot the interpolating polynomial and the data points
-fig, ax = plt.subplots()
-ax.set_xlabel("$x$")
-ax.set_ylabel("$y$")
+print(coef_0(0.0))
+print(coef_1(0.0))
+print(coef_2(0.0))
+print(coef_3(0.0))
 
-xPlot = np.linspace(0, 1, numPlotPoints)
-yPlot = P(xPlot)
 
-ax.plot(xPlot, yPlot, label="P(x)", clip_on=False)
-ax.plot(xData, yData, "o", label="Datapoints", clip_on=False)
+# In the first problem you should have find the following coefficients: $$a_0=-\frac{11}{6h}, a_1=\frac{3}{h}, a_2=-\frac{3}{2h}, a_3=\frac{1}{3h}$$
+# If we take $h=1$ we obtain the values above.
 
-niceplots.adjust_spines(ax)
-ax.legend(labelcolor="linecolor")
-plt.show()
+# Now in the second question you are asked to do the same for the second derivative. The process is exactly the same except that now we take the second derivative for each Lagrange polynomial.
+
+# In[7]:
+
+
+double_coef_0 = jax.grad(jax.grad(pol_0))
+double_coef_1 = jax.grad(jax.grad(pol_1))
+double_coef_2 = jax.grad(jax.grad(pol_2))
+double_coef_3 = jax.grad(jax.grad(pol_3))
+
+print(double_coef_0(0.0))
+print(double_coef_1(0.0))
+print(double_coef_2(0.0))
+print(double_coef_3(0.0))

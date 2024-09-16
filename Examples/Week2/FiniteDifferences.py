@@ -5,7 +5,7 @@
 #
 # These examples are based on code originally written by Krzysztof Fidkowski and adapted by Venkat Viswanathan.
 
-# In[1]:
+# In[7]:
 
 
 import numpy as np
@@ -40,7 +40,7 @@ colors = niceplots.get_colors_list()
 #
 # In the code below we experimentally validate the order of accuracy of the forward, backward, and central-difference approximations of the first derivative.
 
-# In[2]:
+# In[8]:
 
 
 # Define the analytic function (e.g., sin(x))
@@ -145,7 +145,7 @@ plt.show()
 # $$L_1(x) = \frac{x - x_0}{x_1 - x_0} \frac{x - x_2}{x_1 - x_2}$$
 # $$L_2(x) = \frac{x - x_0}{x_2 - x_0} \frac{x - x_1}{x_2 - x_1}$$
 
-# In[3]:
+# In[9]:
 
 
 def get_lagrange_func(xPoints, i):
@@ -177,7 +177,7 @@ def get_lagrange_func(xPoints, i):
 
 # The special property of the Lagrange polynomials is that $L_i$ is equal to 1 at $x_i$ and 0 at all other points. As you can see in the plot below:
 
-# In[4]:
+# In[10]:
 
 
 # Plot the Lagrange polynomials for a set of un evenly spaced points
@@ -208,7 +208,7 @@ plt.show()
 # $$p(x) = \sum_{i=0}^{N-1} f_i L_i(x)$$
 #
 
-# In[5]:
+# In[11]:
 
 
 def get_interpolating_func(x, y):
@@ -248,7 +248,7 @@ def get_interpolating_func(x, y):
 #
 # The code below demonstrates this by fitting a polynomial to a random set of points before plotting both the polynomial and the points:
 
-# In[6]:
+# In[12]:
 
 
 # Seed the random number generator for consistency
