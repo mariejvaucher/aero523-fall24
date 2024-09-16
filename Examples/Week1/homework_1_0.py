@@ -10,7 +10,7 @@
 #
 # In this question you were asked to plot the function $f(x) = exp(-x^{2})-2x+3$ and then determine the input required for the bisection method. Remember that the goal of the bisection method is to find the root of the function. Therefore you need to have a previous guess for the two inputs $a$ and $b$ that bracket root $x_0$.
 
-# In[92]:
+# In[1]:
 
 
 import numpy as np
@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 
 # Let's first define the function $f$.
 
-# In[93]:
+# In[2]:
 
 
 def func(x):
@@ -30,7 +30,7 @@ def func(x):
 
 # Then in order to have a good guess for $a$ and $b$ we plot $f$.
 
-# In[94]:
+# In[3]:
 
 
 x = np.linspace(0.5, 2.5, 100)
@@ -45,7 +45,7 @@ plt.xlim(x.min(), x.max())
 
 # Apparently $[1,2]$ could be a good initial guess.
 
-# In[95]:
+# In[4]:
 
 
 a = 1
@@ -54,7 +54,7 @@ b = 2
 
 # Now we define the bisection method as given in the Week $1$.
 
-# In[96]:
+# In[5]:
 
 
 def bisection(f, a, b, tol=1e-6, max_iterations=100):
@@ -91,7 +91,7 @@ def bisection(f, a, b, tol=1e-6, max_iterations=100):
 
 # And then we run the method for the function we have defined and the initial guess for the bracket. We print the value of $x$ and the residuals $f(x)$ for each iteration.
 
-# In[97]:
+# In[6]:
 
 
 root, bisect_history = bisection(func, a, b)
@@ -103,7 +103,7 @@ else:
 
 # Let's plot the convergence history.
 
-# In[98]:
+# In[7]:
 
 
 fig, ax = plt.subplots()
@@ -115,13 +115,15 @@ ax.set_yscale("log")
 ax.plot(bisect_history)
 
 
+# The residuals converge to zero. The convergence is not regular due to the bisection method: one iteration can be closer to the root that the next one. However it is globally converging by a factor of 3 on average.
+
 # #### #2 Projection Newton-Raphson
 
 # In this problem your are asked to project a point $(x_0,y_0)$ to the curve of the $exp$ function.
 
 # We first define the function.
 
-# In[99]:
+# In[8]:
 
 
 def func(x):
@@ -130,7 +132,7 @@ def func(x):
 
 # Then we define coordinated of the point to be projected.
 
-# In[100]:
+# In[9]:
 
 
 x0 = 1.5
@@ -139,7 +141,7 @@ y0 = 1
 
 # We plot the function and the point.
 
-# In[101]:
+# In[10]:
 
 
 x = np.linspace(-1, 2, 100)
@@ -152,13 +154,15 @@ plt.ylim(0, 3)
 
 
 # In order to obtain the projection we define the distance between a point located on the curve of wich coordinates are $(x,f(x))$ and point $(x_0,y_0)$ : $$l^{2}(x)=(x-x_0)^{2}+(f(x)-y_0)^{2}$$
+#
+
 # The idea is to find  a value $x_{min}$ that minimizes the distance (i.e. the value of $l^{2}$) to point $(x_0,y_0)$. Therefore $x_{min}$ is the solution to the following equation : $$\frac{\partial l^{2}}{\partial x}=0$$
 # $$2(x-x_0)+2f^{'}(x)(f(x)-y_0)=0$$
 # $$2(x-x_0)+2e^{x}(e^{x}-y_0)=0$$
 # To solve this equation, we use Newton Raphson method. The method requires an initial guess as an input that should not be too far away from the root. According to the above plot $x_{init}=1.0$ seems to be a good guess. The method also needs the function from which we search the root and its derivatives that we provide in the code below.
 #
 
-# In[102]:
+# In[11]:
 
 
 def norm(x, x0, y0):
@@ -175,7 +179,7 @@ def norme_double_prime(x, x0, y0):
 
 # We define the Newton-Raphson method exactly as it was done in the code provided in Week $1$ except that we add the parameters $x_0$ and $y_0$ to the function inside the code.
 
-# In[103]:
+# In[12]:
 
 
 def newton_raphson(f, xinit, tol=1e-6, max_iterations=100):
@@ -202,7 +206,7 @@ def newton_raphson(f, xinit, tol=1e-6, max_iterations=100):
     )  # Return None if the root was not found within max_iterations
 
 
-# In[112]:
+# In[13]:
 
 
 # Initial guess
@@ -217,7 +221,7 @@ else:
 
 # In order to check that the root find makes sense, we plot $(x_0,y_0)$ and the root found.
 
-# In[113]:
+# In[14]:
 
 
 x = np.linspace(-1, 2, 100)
@@ -232,7 +236,7 @@ plt.ylim(0, 3)
 
 # We plot the convergence history as we did for the bisection method.
 
-# In[119]:
+# In[15]:
 
 
 fig, ax = plt.subplots()
@@ -244,11 +248,13 @@ ax.set_yscale("log")
 ax.plot(newton_history)
 
 
-# As expected the convergence is quicker for this method than for the bisection.
+# The residuals converge to zero and the tolerance is reached within 2 iterations. As expected the rate of convergence is higher for Newton-Raphson method than for the bisection method. The rate of convergence is not regular through the process, it increases as we get closer to the solution. Newton methods as a quadratic rate of convergence.
+
+# #### #3 Newton-Raphson with JAX
 
 # For the JAX version of the problem we do not compute the function symbolically anymore. We also replace all the numpy instances by JAX numpy. We then need to import the library and ass the following new header.
 
-# In[106]:
+# In[16]:
 
 
 import jax.numpy as jnp
@@ -257,7 +263,7 @@ import jax
 
 # The norm is defined with JAX numpy.
 
-# In[107]:
+# In[17]:
 
 
 def norm(x, x0, y0):
@@ -266,16 +272,16 @@ def norm(x, x0, y0):
 
 # We derive the norm with the jax.grad function.
 
-# In[108]:
+# In[18]:
 
 
 norm_prime = jax.grad(norm)
 norme_double_prime = jax.grad(norm_prime)
 
 
-# Only one change needs to be done in the Newton function : the condition where the function value is within the tolerance must use jnp.
+# Only one change is needed in the Newton function : the condition where the function value is within the tolerance must use jnp.
 
-# In[109]:
+# In[19]:
 
 
 def newton_raphson(f, xinit, tol=1e-6, max_iterations=100):
@@ -302,7 +308,7 @@ def newton_raphson(f, xinit, tol=1e-6, max_iterations=100):
     )  # Return None if the root was not found within max_iterations
 
 
-# In[110]:
+# In[20]:
 
 
 # Initial guess
