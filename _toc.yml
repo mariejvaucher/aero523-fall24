@@ -14,6 +14,7 @@ chapters:
 - file: Examples/Week2/Week2
   sections:
   - file: Examples/Week2/FiniteDifferences.ipynb
+  - file: Examples/Week2/homework_2_0.ipynb
 #   - file: Examples/Week2/OfficeHours.ipynb
 - file: Examples/Week3/Week3
   sections:

@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# # Homework 2 code solution
+
+# ### Finite-difference formulas with JAX
+
 # In this question you are asked to evaluate the coefficients for the first derivative $\frac{\partial u}{\partial x}$ using the Lagrange interpolating polynomials. For this purpose we use the code provided in Week $2$.
 
 # In[1]:
