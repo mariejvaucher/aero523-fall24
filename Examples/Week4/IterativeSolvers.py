@@ -3,11 +3,12 @@
 
 # # Iterative linear solvers
 
-# In[1]:
+# In[10]:
 
 
 import time
 import numpy as np
+import jax.numpy as jnp
 
 import matplotlib.pyplot as plt
 import niceplots
@@ -29,7 +30,7 @@ matplotlib_inline.backend_inline.set_matplotlib_formats("pdf", "svg")
 #
 # ![The finite-difference grid](../../images/FDDomain.svg)
 
-# In[2]:
+# In[11]:
 
 
 # Define the parameters
@@ -62,7 +63,7 @@ def q(x, L):
 #
 # $$ ||r||_2 = \sqrt{\sum_{i=1}^{N-1} \frac{1}{N+1}r_i^2} $$
 
-# In[3]:
+# In[12]:
 
 
 def computeResidual(u, q, kappa, dx):
@@ -104,7 +105,7 @@ def computeNorm(r):
 
 # Let's compute the residual for an initial guess at the solution, we'll generate a really bad initial guess by just setting all the non-boundary nodes' temperatures to zero:
 
-# In[4]:
+# In[13]:
 
 
 u = np.zeros(Nx + 1)  # Initial guess
@@ -124,7 +125,7 @@ print(f"Residual norm: {np.linalg.norm(r):.2e}")
 # Below is a general algorithm for solving a system of equation with an iterative smoother.
 # In each iteration we check the residual norm at the current state, if it is too high we apply one iteration of a smoother and repeat.
 
-# In[5]:
+# In[14]:
 
 
 def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, maxIter=5000):
@@ -182,7 +183,7 @@ def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, maxIter=5000):
 #
 # $$T_{i,new} = \frac{1}{2}\left(T_{i-1} + T_{i+1} + q(x_i) \frac{dx^2}{\kappa}\right)$$
 
-# In[6]:
+# In[15]:
 
 
 def jacobiIteration(u, q, kappa, dx):
@@ -217,7 +218,7 @@ def jacobiIteration(u, q, kappa, dx):
 # Note how we no longer need to keep track of the old state values, we can just overwrite them with the new values as we go along.
 # Depending on the order that we iterate through the nodes, we can get different convergence properties because different states in the update equation will have been updated, this is called the *ordering* of the Gauss-Seidel iteration.
 
-# In[7]:
+# In[16]:
 
 
 def gaussSeidelIteration(u, q, kappa, dx):
@@ -246,7 +247,7 @@ def gaussSeidelIteration(u, q, kappa, dx):
     return uNew
 
 
-# In[8]:
+# In[17]:
 
 
 # Solve the system using Jacobi
@@ -257,7 +258,7 @@ uJacobi, resNormHistoryJacobi, iterationTimesJacobi = iterativeSolve(u, qVec, ka
 uJacobi, resNormHistoryGS, iterationTimesGS = iterativeSolve(u, qVec, kappa, dx, gaussSeidelIteration, tol=tol)
 
 
-# In[9]:
+# In[18]:
 
 
 fig, ax = plt.subplots()
@@ -274,7 +275,7 @@ niceplots.adjust_spines(ax)
 # Jacobi may take iterations, but updates for all nodes can be computed simultaneously, so each iteration is much faster than a Gauss-Seidel iteration.
 # In this case, the Jacobi solver actually takes less time to solve the system than Gauss-Seidel, despite taking more than twice as many iterations.
 
-# In[10]:
+# In[19]:
 
 
 fig, ax = plt.subplots()
@@ -297,31 +298,35 @@ niceplots.adjust_spines(ax)
 #
 # Below is a new version of the iterative solver that allows us to specify the relaxation factor $\omega$.
 
-# In[11]:
+# In[20]:
 
 
-def iterativeSolve(u, q, kappa, dx, smootherFunc, omega=1.0, tol=1e-4, maxIter=5000):
-    """Iteratively solve the 1D heat equation
+def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, omega=1.0, maxIter=5000):
+    """Iteratively solve the steady-state 1D heat equation
 
     Parameters
     ----------
-    u : numpy.ndarray
-        Initial guess
-    q : numpy.ndarray
-        Source term vector
+    u : numpy ndarray
+        Initial state
+    q : numpy ndarray
+        Right-hand side
     kappa : float
         Thermal conductivity
     dx : float
         Grid spacing
+    smootherFunc : function with signature f(u, q, kappa, dx, omega=1.0))
+        Function that performs a single smoothing iteration
+    omega : float, optional
+        Relaxation factor, by default 1.0
     tol : float, optional
-        Tolerance for the residual, by default 1e-10
+        Residual norm to stop at, by default 1e-4
     maxIter : int, optional
-        Maximum number of iterations, by default 400
+        Maximum number of iterations, by default 5000
 
     Returns
     -------
-    numpy.ndarray
-        Solution vector
+    numpy ndarray
+        New state
     """
     resNormHistory = []
     iterationTimes = []
@@ -334,37 +339,82 @@ def iterativeSolve(u, q, kappa, dx, smootherFunc, omega=1.0, tol=1e-4, maxIter=5
             print(f"Iteration {ii}: Res norm = {resNorm:.2e}")
         resNormHistory.append(resNorm)
         iterationTimes.append(time.time() - startTime)
-        if resNorm < tol or resNorm > 1e14 or np.isnan(resNorm):
+        if resNorm < tol or resNorm > 1e10 or np.isnan(resNorm):
             break
-        u = omega * smootherFunc(u, q, kappa, dx) + (1 - omega) * u
+        u = smootherFunc(u, q, kappa, dx, omega=omega)
 
     if ii % printFrequency != 0:
         print(f"Iteration {ii}: Res norm = {resNorm:.2e}")
-
     return u, resNormHistory, iterationTimes
+
+
+# In[21]:
+
+
+def gaussSeidelIteration_relaxed(u, q, kappa, dx, omega=1.0):
+    """Perform one Gauss-Seidel smoothing step
+
+    Parameters
+    ----------
+    u : numpy.ndarray
+        Current state vector
+    q : numpy.ndarray
+        Source term vector
+    kappa : float
+        Thermal conductivity
+    dx : float
+        Grid spacing
+    omega : float, optional
+        Relaxation factor, by default 1.0
+
+    Returns
+    -------
+    numpy.ndarray
+        Updated state vector
+    """
+    dx2k = dx**2 / kappa
+    uNew = u.copy()
+    for ii in range(1, len(u) - 1):
+        uNew[ii] = omega * (0.5 * (uNew[ii - 1] + uNew[ii + 1] + q[ii] * dx2k)) + (1.0 - omega) * uNew[ii]
+    return uNew
+
+
+# In[47]:
+
+
+# Define the Jacobi iteration step
+def jacobi_iteration_with_relax(u, q, kappa, dx, omega=2.0 / 3):
+    for _ in range(1):
+        uNew = u.copy()
+        uNew = jnp.array(uNew)
+        uNew = uNew.at[1 : u.shape[0] - 1].set(jnp.array(0.5 * (u[:-2] + u[2:] + dx**2 * q[1:-1])))
+        u = omega * uNew + (1 - omega) * u
+    return u
 
 
 # Now let's compare the number of iterations and time required to solve the problem with Jacobi and Gauss-Seidel, where Gauss-Seidel uses over-relaxation with $\omega=1.5$.
 
-# In[12]:
+# In[48]:
 
 
 uJacobi, resNormHistoryJacobi, iterationTimesJacobi = iterativeSolve(
-    u, qVec, kappa, dx, jacobiIteration, tol=tol, omega=1.0
+    u, qVec, kappa, dx, jacobi_iteration_with_relax, tol=tol, omega=1.0
 )
 
 resNormHistories = []
 iterationTimes = []
-omegas = [1.0, 1.4, 1.6, 1.8]
+omegas = [1.0, 1.4, 1.6, 1.8, 1.85, 2]
 for omega in omegas:
-    uGS, resNormHistoryGS, iterationTimesGS = iterativeSolve(
-        u, qVec, kappa, dx, gaussSeidelIteration, tol=tol, omega=omega
+    print(omega)
+    uGS, res_history_GS, iterationTimesGS = iterativeSolve(
+        u, qVec, kappa, L / Nx, gaussSeidelIteration, tol=tol, omega=omega
     )
-    resNormHistories.append(resNormHistoryGS)
+
+    resNormHistories.append(res_history_GS)
     iterationTimes.append(iterationTimesGS)
 
 
-# In[13]:
+# In[49]:
 
 
 fig, axes = plt.subplots(nrows=1, ncols=2, sharey=True, figsize=(12, 6))
@@ -391,5 +441,6 @@ for ii in range(len(omegas)):
     )
 
 axes[0].legend(labelcolor="linecolor")
-axes[0].set_ylim(top=1e12)
+axes[0].set_ylim(top=1e3)
+
 plt.show()
