@@ -6,18 +6,21 @@
 # These examples are based on code originally written by Krzysztof Fidkowski and adapted by Venkat Viswanathan.
 # This page also contains figures from Krzysztof Fidkowski's CFD course notes.
 
-# In[26]:
+# In[6]:
 
 
 import time
+import jax
 import numpy as np
+import jax.numpy as jnp
+from jax.scipy.linalg import solve
 
 import matplotlib.pyplot as plt
-import niceplots
-import jax.numpy as jnp
 
-plt.style.use(niceplots.get_style())
-niceColors = niceplots.get_colors_list()
+# import niceplots
+
+# plt.style.use(niceplots.get_style())
+# niceColors = niceplots.get_colors_list()
 
 # Force the jupyter notebook to use vector graphics
 import matplotlib_inline
@@ -29,7 +32,7 @@ matplotlib_inline.backend_inline.set_matplotlib_formats("pdf", "svg")
 #
 # First let's redefine the problem and some of the functions we used to iteratively solve it
 
-# In[23]:
+# In[7]:
 
 
 # Define the parameters
@@ -174,7 +177,7 @@ def jacobi_iteration_with_relax(u, q, kappa, dx, omega=2.0 / 3):
 #
 # Let's demonstrate these 2 points, first by solving the problem starting from a bad initial guess ($T=0$ everywhere) and then by solving the problem starting from a good initial guess ($T$ varying linearly between the boundaries).
 
-# In[4]:
+# In[8]:
 
 
 T_init_good = np.linspace(T0, TN, Nx + 1)
@@ -192,7 +195,7 @@ T_sol_good, res_history_good, iter_times_good = iterativeSolve(
 )
 
 
-# In[5]:
+# In[9]:
 
 
 fig, ax = plt.subplots()
@@ -203,12 +206,12 @@ ax.plot(res_history_bad, clip_on=False, label="Bad initial guess")
 ax.plot(res_history_good, clip_on=False, label="Good initial guess")
 ax.axhline(tol, color="Gray", linestyle="--", label="Tolerance")
 ax.legend(labelcolor="linecolor")
-niceplots.adjust_spines(ax)
+# niceplots.adjust_spines(ax)
 
 
 # To demonstrate how different frequencies of error are reduced at different rates, we'll run 10 iterations starting from the true solution plus a high frequency error and then starting from the true solution plus a low frequency error.
 
-# In[30]:
+# In[14]:
 
 
 T_init_highfreq = T_sol_good + 0.01 * np.sin(15 * np.pi * x / L)
@@ -224,12 +227,12 @@ T_sol_highfreq, res_history_highfreq, iter_times_highfreq = iterativeSolve(
 fig, ax = plt.subplots()
 ax.set_xlabel("x")
 ax.set_ylabel(r"$T - T_{sol}$")
-ax.plot(x, T_init_highfreq - T_sol_good, "--", c=niceColors[0], label="Initial guess", clip_on=False)
-ax.plot(x, T_init_lowfreq - T_sol_good, "--", c=niceColors[1], clip_on=False)
-ax.plot(x, T_sol_highfreq - T_sol_good, c=niceColors[0], label="After 10 iterations", clip_on=False)
-ax.plot(x, T_sol_lowfreq - T_sol_good, c=niceColors[1], clip_on=False)
+ax.plot(x, T_init_highfreq - T_sol_good, "--", color="blue", label="Initial guess", clip_on=False)
+ax.plot(x, T_init_lowfreq - T_sol_good, "--", color="red", clip_on=False)
+ax.plot(x, T_sol_highfreq - T_sol_good, color="blue", label="After 10 iterations", clip_on=False)
+ax.plot(x, T_sol_lowfreq - T_sol_good, color="red", clip_on=False)
 ax.legend(ncol=2, loc="lower right", bbox_to_anchor=(1.0, 1.0))
-niceplots.adjust_spines(ax)
+# niceplots.adjust_spines(ax)
 
 
 # ## Implementing a basic 2-level multigrid solver
@@ -271,124 +274,145 @@ niceplots.adjust_spines(ax)
 
 # ![Full weighting restriction](../../images/MultigridRestriction.png)
 
-# In[7]:
+# In[15]:
 
 
 # Define residual restriction operator from fine grid to coarse grid using full-weighting
-def restrict_to_coarse(r_fine):
-    r_coarse = np.zeros((len(r_fine) - 1) // 2 + 1)  # Create an empty coarse grid
-    for ii in range(1, len(r_coarse) - 1):
-        r_coarse[ii] = 0.25 * r_fine[2 * ii - 1] + 0.5 * r_fine[2 * ii] + 0.25 * r_fine[2 * ii + 1]
-    return r_coarse
+def restrict_to_coarse(u_fine):
+    return 0.25 * u_fine[0:-2:2] + 0.5 * u_fine[1:-1:2] + 0.25 * u_fine[2::2]
 
 
 # ![Prolongation](../../images/MultigridProlongation.png)
 
-# In[8]:
+# In[16]:
 
 
 # Define prolongation operator from coarse grid to fine grid
 def prolongate_to_fine(u_coarse):
-    u_fine = np.zeros(2 * (len(u_coarse) - 1) + 1)  # Create an empty fine grid
+    u_fine = jnp.zeros(2 * (len(u_coarse) - 1) + 1)  # Create an empty fine grid
     # Assign values from coarse grid directly for even elements
-    u_fine[2:-2:2] = u_coarse[1:-1]
-    # Use weights 1/2 and 1/2 for odd elements
-    u_fine[1:-1:2] = 0.5 * (u_coarse[:-1] + u_coarse[1:])
+    u_fine = u_fine.at[2:-2:2].set(u_coarse[1:-1])
+    # Use weights 1/2 and 1/2 for odd elemenx ts
+    u_fine = u_fine.at[1:-1:2].set(0.5 * (u_coarse[:-1] + u_coarse[1:]))
+
     return u_fine
 
 
-# In[9]:
+# We define the relaxed jacobi iteration wich will be used for pre-smoothing and post-smoothing.
+
+# In[17]:
 
 
-def multigridIteration(u, q, kappa, dx, omega=1.0, num_pre=1, num_post=1, num_coarse=2):
-    u_new = u.copy()
-    # Pre-smoothing iterations
-    for _ in range(num_pre):
-        u_new = gaussSeidelIteration(u_new, q, kappa, dx, omega=omega)
+def jacobi_iteration_with_relax(u, f, h, num_iterations, w=2.0 / 3):
+    for _ in range(num_iterations):
+        uNew = u.copy()
+        uNew = uNew.at[1 : u.shape[0] - 1].set(jnp.array(0.5 * (u[:-2] + u[2:] + h**2 * f[1:-1])))
+        u = w * uNew + (1 - w) * u
+    return u
 
-    # Compute the residual
-    r = computeResidual(u_new, q, kappa, dx)
+
+# Now we define the two grid V-cycle.
+
+# In[18]:
+
+
+def two_grid_cycle(u, f, h, v1, v2):
+
+    # Pre-smoothing
+    u = jacobi_iteration_with_relax(u, f, h, v1)
+
+    # Compute the residual on the fine grid
+    residual = jnp.zeros_like(u)
+    residual = residual.at[1 : residual.shape[0] - 1].set(f[1:-1] - -(u[0:-2] - 2 * u[1:-1] + u[2:]) / h**2)
 
     # Restrict the residual to the coarse grid
-    r_coarse = restrict_to_coarse(r)
+    coarse_residual = jnp.zeros(jnp.floor_divide(u.shape[0] - 1, 2) + 1)
+    coarse_residual = coarse_residual.at[1 : coarse_residual.shape[0] - 1].set(restrict_to_coarse(residual[1:-1]))
 
-    # Smooth the error on the coarse grid
-    du_coarse = np.zeros_like(r_coarse)
-    for _ in range(num_coarse):
-        du_coarse = gaussSeidelIteration(du_coarse, r_coarse, kappa, 2 * dx, omega=omega)
+    # Solve the coarse grid problem recursively
+    # Create the matrix A (tridiagonal with 2 on the diagonal and -1 on the off-diagonals)
+    Nx = coarse_residual.shape[0] - 1
+    diagonal = 2.0 * jnp.ones(Nx - 1)
+    off_diagonal = -jnp.ones(Nx - 2)
+    A = jnp.diag(diagonal) + jnp.diag(off_diagonal, k=1) + jnp.diag(off_diagonal, k=-1)
+    # Add the Boundary conditions
+    A = jnp.vstack((A, jnp.zeros(Nx - 1)))
+    A = jnp.vstack((jnp.zeros(Nx - 1), A))
+    A = jnp.column_stack([jnp.zeros(A.shape[0]), A])
+    A = jnp.column_stack([A, jnp.zeros(A.shape[0])])
+    A = A.at[(0, 0)].set(1.0)
+    A = A.at[(-1, -1)].set(1.0)  # Set the bottom-right diagonal element to 1
+    A = A.at[(1, 0)].set(-1.0)
+    A = A.at[(-2, -1)].set(-1.0)  # Set the bottom-right diagonal element to 1
 
-    # Prolongate the state update to the fine grid and add to the current solution
-    du_fine = prolongate_to_fine(du_coarse)
-    u_new += du_fine
+    e_coarse = solve(A, (4 * h**2) * coarse_residual)
 
-    # Post-smoothing iterations
-    for _ in range(num_post):
-        u_new = gaussSeidelIteration(u_new, q, kappa, dx, omega=omega)
+    # Prolongate the error back to the fine grid
+    e_fine = prolongate_to_fine(e_coarse)
 
-    return u_new
+    # Correct the fine grid solution
+    u = u + e_fine
 
-
-# In[10]:
-
-
-num_pre = 1
-num_post = 1
-num_coarse = 2
-
-# Compute how much work each multigrid iteration takes compared to a single GS iteration on the fine grid
-multigrid_work = 0.5 * num_coarse + num_pre + num_post
-
-num_iters = int(10 / multigrid_work)
-
-T_sol_lowfreq, res_history_lowfreq, iter_times_lowfreq = iterativeSolve(
-    T_init_lowfreq, q_array, kappa, L / Nx, multigridIteration, omega=1.2, tol=1e-14, maxIter=num_iters
-)
-T_sol_highfreq, res_history_highfreq, iter_times_highfreq = iterativeSolve(
-    T_init_highfreq, q_array, kappa, L / Nx, multigridIteration, omega=1.2, tol=1e-14, maxIter=num_iters
-)
+    # Post-smoothing
+    u = jacobi_iteration_with_relax(u, f, h, v2)
+    return u
 
 
-# In[11]:
+# In[19]:
 
 
-fig, ax = plt.subplots()
-ax.set_xlabel("x")
-ax.set_ylabel(r"$T - T_{sol}$")
-ax.plot(x, T_init_highfreq - T_sol_good, "--", c=niceColors[0], label="Initial guess", clip_on=False)
-ax.plot(x, T_init_lowfreq - T_sol_good, "--", c=niceColors[1], clip_on=False)
-ax.plot(x, T_sol_highfreq - T_sol_good, c=niceColors[0], label=f"After {num_iters} iterations", clip_on=False)
-ax.plot(x, T_sol_lowfreq - T_sol_good, c=niceColors[1], clip_on=False)
-ax.legend(ncol=2, loc="lower right", bbox_to_anchor=(1.0, 1.0))
-niceplots.adjust_spines(ax)
+# Define a simple Poisson problem (-u_xx = f) on the interval [0, 1]
+def poisson_problem(N):
+    h = 1.0 / (N)
+    x = jnp.linspace(0, 1, N + 1)
+    f = jnp.zeros(N + 1)  # Example right-hand side (modify as needed)
+    u = jnp.sin(5 * jnp.pi * x) + jnp.sin(15 * jnp.pi * x)  # Initial guess
+    plt.figure()
+    plt.plot(u)
+    return u, f, h
 
 
-# Now let's see how fast multigrid converges from the bad initial guess compared to plain Gauss-Seidel.
-#
-# When comparing the number of iterations required for convergence, we need to account for the fact that each multigrid iteration is more expensive than a Gauss-Seidel iteration.
-
-# In[12]:
-
-
-T_sol_bad_gs, res_history_bad_gs, iter_times_bad_gs = iterativeSolve(
-    T_init_bad, q_array, kappa, L / Nx, gaussSeidelIteration, omega=1.4, tol=tol
-)
-T_sol_bad_mg, res_history_bad_mg, iter_times_bad_mg = iterativeSolve(
-    T_init_bad, q_array, kappa, L / Nx, multigridIteration, omega=1.4, tol=tol
-)
+# Main function to solve the problem using two-grid cycle
+def solve_poisson_multigrid(N, v1, v2, iterations):
+    u, f, h = poisson_problem(N)
+    error = jnp.zeros(iterations)
+    for i in range(iterations):
+        u = two_grid_cycle(u, f, h, v1, v2)
+        error = error.at[i].set(jnp.linalg.norm(u))
+        plt.plot(u, label="Iteration " + str(i + 1))
+    return u, error
 
 
-# In[13]:
+# In[31]:
 
 
-# Scale the multigrid iteration count by the amount of work each iteration takes
-mg_iterations = np.arange(len(res_history_bad_mg)) * multigrid_work
+# Example usage:
+N = 32  # Number of grid points
+v1 = 2  # Pre-smoothing iterations
+v2 = 1  # Post-smoothing iterations
+N_iter = 15  # Number of grid-cycles
+solution, error = solve_poisson_multigrid(N, v1, v2, N_iter)
+# plt.legend(loc='right',bbox_to_anchor=(0,0))
+plt.tight_layout()
+plt.show()
 
-fig, ax = plt.subplots()
-ax.set_yscale("log")
-ax.set_xlabel("Equivalent fine-grid iterations")
-ax.set_ylabel("$||r||_2$")
-ax.plot(res_history_bad_gs, clip_on=False, label="Gauss-Seidel")
-ax.plot(mg_iterations, res_history_bad_mg, clip_on=False, label="Multigrid")
-ax.axhline(tol, color="Gray", linestyle="--", label="Tolerance")
-ax.legend(labelcolor="linecolor")
-niceplots.adjust_spines(ax)
+
+# This plot represents the solution for successive iterations : initial guess is in blue, first iteration is orange, etc. It happens that after few iterations the solution has converged to zero and iterations are overlayed.
+
+# In[33]:
+
+
+# Plot the error and convergence rate
+plt.figure(figsize=(5, 5))
+plt.plot(jnp.arange(1, N_iter + 1), error, marker="o", label="Error")
+plt.xlabel("Iteration")
+plt.ylabel("Error")
+plt.yscale("log")
+plt.title("Error Norm")
+
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# We can notice that the convergence rate is high : error is roughly divided by 10 at each iteration and we bottom at zero after 5 iterations.
