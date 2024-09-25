@@ -203,6 +203,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week4/IterativeSolvers.html">Iterative linear solvers</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week5/Week5.html">Week 5</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week5/BasicMultigrid.html">Multigrid</a></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -532,7 +536,7 @@ Using von-Neumann stability analysis it can be shown that this scheme is only st
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1b220dfe79f898b019d09b9f1ce2a9355a1246b096b3dfdb56b61c935359429d.svg" src="../../_images/1b220dfe79f898b019d09b9f1ce2a9355a1246b096b3dfdb56b61c935359429d.svg" />
+<img alt="../../_images/74bd49529a1617c340547abb847f4cefbbf03a96e5a7f2844200f3bb06ee816c.svg" src="../../_images/74bd49529a1617c340547abb847f4cefbbf03a96e5a7f2844200f3bb06ee816c.svg" />
 </div>
 </div>
 <p>As you can see, none of these schemes are stable, high-order accurate, and monotonicity preserving.
@@ -591,7 +595,7 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fbcd77bd4314bcb94b86a8ae55059896e638092efb35951ad9733292e699b909.svg" src="../../_images/fbcd77bd4314bcb94b86a8ae55059896e638092efb35951ad9733292e699b909.svg" />
+<img alt="../../_images/8a2b010c1acfd4d2fde173f05df6278431020572c7474f4035c39dc668e47464.svg" src="../../_images/8a2b010c1acfd4d2fde173f05df6278431020572c7474f4035c39dc668e47464.svg" />
 </div>
 </div>
 <p>Now we plot three of the most common limiter curves on this plot, the equations for these limiters are given in the course notes:</p>
@@ -632,7 +636,7 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/432f1ff0560e1571fe4d18f0a109260cfd26cc4b5b24edea868b9972d61c1c05.svg" src="../../_images/432f1ff0560e1571fe4d18f0a109260cfd26cc4b5b24edea868b9972d61c1c05.svg" />
+<img alt="../../_images/e176969585870222996eac942fda9b6b669014518d171f14439862ad209e8128.svg" src="../../_images/e176969585870222996eac942fda9b6b669014518d171f14439862ad209e8128.svg" />
 </div>
 </div>
 <section id="slope-limiting-demo">
@@ -685,14 +689,14 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2091/4273324961.py:30: RuntimeWarning: invalid value encountered in sqrt
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2099/4273324961.py:30: RuntimeWarning: invalid value encountered in sqrt
   uHemi = np.sqrt(1 - (2 * (x - xMid) / L) ** 2)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Initial condition&#39;)
 </pre></div>
 </div>
-<img alt="../../_images/de6c89815561ae6a454ea8c3014102ce6214fa5852a6b08e18d7c6f11514a77f.svg" src="../../_images/de6c89815561ae6a454ea8c3014102ce6214fa5852a6b08e18d7c6f11514a77f.svg" />
+<img alt="../../_images/620ebbde8d311bf9c5b175d29702e3db726c736e87cda75126555dd805f16256.svg" src="../../_images/620ebbde8d311bf9c5b175d29702e3db726c736e87cda75126555dd805f16256.svg" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -749,13 +753,13 @@ We’d therefore like to limit the amount of anti-diffusion, while still retaini
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2091/3229122800.py:2: RuntimeWarning: divide by zero encountered in divide
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2099/3229122800.py:2: RuntimeWarning: divide by zero encountered in divide
   r = (u - uLeft) / (uRight - u)
-/tmp/ipykernel_2091/3229122800.py:2: RuntimeWarning: invalid value encountered in divide
+/tmp/ipykernel_2099/3229122800.py:2: RuntimeWarning: invalid value encountered in divide
   r = (u - uLeft) / (uRight - u)
 </pre></div>
 </div>
-<img alt="../../_images/a1648eeb770f0cd75bbab2d7f5303a4a9be5c91bcce5f0b71c581b6306aa6fd2.svg" src="../../_images/a1648eeb770f0cd75bbab2d7f5303a4a9be5c91bcce5f0b71c581b6306aa6fd2.svg" />
+<img alt="../../_images/7e8e10ec219b30b96f826f58e13eefcc37dc43f9c5bcc3e46310825d4452d782.svg" src="../../_images/7e8e10ec219b30b96f826f58e13eefcc37dc43f9c5bcc3e46310825d4452d782.svg" />
 </div>
 </div>
 <p>Some observations from these results:</p>
