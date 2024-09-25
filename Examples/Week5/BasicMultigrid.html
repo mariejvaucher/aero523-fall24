@@ -616,6 +616,15 @@ This page also contains figures from Krzysztof Fidkowski’s CFD course notes.</
     <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">uNew</span><span class="p">[</span><span class="n">ii</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">*</span> <span class="n">dx2k</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">omega</span><span class="p">)</span> <span class="o">*</span> <span class="n">uNew</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">uNew</span>
+
+<span class="c1"># Define the Jacobi iteration step</span>
+<span class="k">def</span> <span class="nf">jacobi_iteration_with_relax</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">2.</span><span class="o">/</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">uNew</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">uNew</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">uNew</span><span class="p">)</span>
+        <span class="n">uNew</span> <span class="o">=</span> <span class="n">uNew</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">u</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">omega</span> <span class="o">*</span> <span class="n">uNew</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">omega</span><span class="p">)</span><span class="o">*</span><span class="n">u</span>
+    <span class="k">return</span> <span class="n">u</span>
 </pre></div>
 </div>
 </div>
@@ -677,23 +686,23 @@ Iteration 2390: Res norm = 9.97e-07
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f14841268d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f988863aa50&gt;
 </pre></div>
 </div>
-<img alt="../../_images/27047f1e314bff1376d44fd5d49ec71ba0799e4d5071dfcdc111d0b3ca55fe9c.svg" src="../../_images/27047f1e314bff1376d44fd5d49ec71ba0799e4d5071dfcdc111d0b3ca55fe9c.svg" />
+<img alt="../../_images/bbf828818f96b4f0ddbd8352e3741518f8f4efec9ff7ff6f502fc998be94a785.svg" src="../../_images/bbf828818f96b4f0ddbd8352e3741518f8f4efec9ff7ff6f502fc998be94a785.svg" />
 </div>
 </div>
 <p>To demonstrate how different frequencies of error are reduced at different rates, we’ll run 10 iterations starting from the true solution plus a high frequency error and then starting from the true solution plus a low frequency error.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_init_highfreq</span> <span class="o">=</span> <span class="n">T_sol_good</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T_init_highfreq</span> <span class="o">=</span> <span class="n">T_sol_good</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">15</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
 <span class="n">T_init_lowfreq</span> <span class="o">=</span> <span class="n">T_sol_good</span> <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">x</span> <span class="o">/</span> <span class="n">L</span><span class="p">)</span>
 
 <span class="n">T_sol_lowfreq</span><span class="p">,</span> <span class="n">res_history_lowfreq</span><span class="p">,</span> <span class="n">iter_times_lowfreq</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
-    <span class="n">T_init_lowfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">T_init_lowfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">jacobi_iteration_with_relax</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span>
 <span class="p">)</span>
 <span class="n">T_sol_highfreq</span><span class="p">,</span> <span class="n">res_history_highfreq</span><span class="p">,</span> <span class="n">iter_times_highfreq</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
-    <span class="n">T_init_highfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span>
+    <span class="n">T_init_highfreq</span><span class="p">,</span> <span class="n">q_array</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">jacobi_iteration_with_relax</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-14</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10</span>
 <span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -710,31 +719,33 @@ Iteration 2390: Res norm = 9.97e-07
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 8.65e-03
-Iteration 1: Res norm = 8.62e-03
-Iteration 2: Res norm = 8.59e-03
-Iteration 3: Res norm = 8.56e-03
-Iteration 4: Res norm = 8.53e-03
-Iteration 5: Res norm = 8.50e-03
-Iteration 6: Res norm = 8.47e-03
-Iteration 7: Res norm = 8.44e-03
-Iteration 8: Res norm = 8.41e-03
-Iteration 9: Res norm = 8.38e-03
-Iteration 0: Res norm = 5.47e-01
-Iteration 1: Res norm = 4.63e-01
-Iteration 2: Res norm = 3.90e-01
-Iteration 3: Res norm = 3.27e-01
-Iteration 4: Res norm = 2.75e-01
-Iteration 5: Res norm = 2.30e-01
-Iteration 6: Res norm = 1.93e-01
-Iteration 7: Res norm = 1.61e-01
-Iteration 8: Res norm = 1.34e-01
-Iteration 9: Res norm = 1.12e-01
+Iteration 1: Res norm = 8.37e-03
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f1478472960&gt;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 2: Res norm = 8.08e-03
+Iteration 3: Res norm = 7.79e-03
+Iteration 4: Res norm = 7.50e-03
+Iteration 5: Res norm = 7.22e-03
+Iteration 6: Res norm = 6.93e-03
+Iteration 7: Res norm = 6.64e-03
+Iteration 8: Res norm = 6.35e-03
+Iteration 9: Res norm = 6.07e-03
+Iteration 0: Res norm = 1.86e+00
+Iteration 1: Res norm = 1.54e+00
+Iteration 2: Res norm = 1.27e+00
+Iteration 3: Res norm = 1.05e+00
+Iteration 4: Res norm = 8.72e-01
+Iteration 5: Res norm = 7.21e-01
+Iteration 6: Res norm = 5.97e-01
+Iteration 7: Res norm = 4.94e-01
+Iteration 8: Res norm = 4.08e-01
+Iteration 9: Res norm = 3.38e-01
 </pre></div>
 </div>
-<img alt="../../_images/75503e4f3ed47d21c080827f4740f37db76e79544db6e6094805588309431b08.svg" src="../../_images/75503e4f3ed47d21c080827f4740f37db76e79544db6e6094805588309431b08.svg" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f987c57b890&gt;
+</pre></div>
+</div>
+<img alt="../../_images/a2cc7528903f4919b12b850404e4f9cc5aa8fad2d190637b9bbcb1343d9bcea9.svg" src="../../_images/a2cc7528903f4919b12b850404e4f9cc5aa8fad2d190637b9bbcb1343d9bcea9.svg" />
 </div>
 </div>
 <section id="implementing-a-basic-2-level-multigrid-solver">
@@ -892,7 +903,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/95dfa123b9bd06b699782178f4494da729e4430ed7ea4ed860068e591ebc8d5a.svg" src="../../_images/95dfa123b9bd06b699782178f4494da729e4430ed7ea4ed860068e591ebc8d5a.svg" />
+<img alt="../../_images/e087958327d184e21087ca8dc9eb0bae55b611566bea7a1b9873c04a53f3a557.svg" src="../../_images/e087958327d184e21087ca8dc9eb0bae55b611566bea7a1b9873c04a53f3a557.svg" />
 </div>
 </div>
 <p>This plot represents the solution for successive iterations : initial guess is in blue, first iteration is orange, etc. It happens that after few iterations the solution has converged to zero and iterations are overlayed.</p>
@@ -913,7 +924,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3c2febc93808d14b33e04bdb14a9f9f3b67918f62bb714834d3fa257ead6b551.svg" src="../../_images/3c2febc93808d14b33e04bdb14a9f9f3b67918f62bb714834d3fa257ead6b551.svg" />
+<img alt="../../_images/278f007665e0592b06fa34fb71a734c655b19494b18be34db60977dd90d55202.svg" src="../../_images/278f007665e0592b06fa34fb71a734c655b19494b18be34db60977dd90d55202.svg" />
 </div>
 </div>
 <p>We can notice that the convergence rate is high : error is roughly divided by 10 at each iteration and we bottom at zero after 5 iterations.</p>
