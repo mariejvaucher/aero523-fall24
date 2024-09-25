@@ -756,7 +756,7 @@ Iteration 1975: Res norm = 5.00e-01
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/99d382ead796c175bf03d455220d0cd6bb3e58e00f69b21bfed60168e2556bce.svg" src="../../_images/99d382ead796c175bf03d455220d0cd6bb3e58e00f69b21bfed60168e2556bce.svg" />
+<img alt="../../_images/cf2d8636c7a658be8d511c2cdede68fc902203682e2d737e80c837e7067c8963.svg" src="../../_images/cf2d8636c7a658be8d511c2cdede68fc902203682e2d737e80c837e7067c8963.svg" />
 </div>
 </div>
 <p>Jacobi may take iterations, but updates for all nodes can be computed simultaneously, so each iteration is much faster than a Gauss-Seidel iteration.
@@ -776,7 +776,7 @@ In this case, the Jacobi solver actually takes less time to solve the system tha
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5e338a1ac24bd4e6837c50e581f24aeb684fb3cd85163d1a23fec519adbf3b86.svg" src="../../_images/5e338a1ac24bd4e6837c50e581f24aeb684fb3cd85163d1a23fec519adbf3b86.svg" />
+<img alt="../../_images/e1278f0b8f840bc59c36121703afbaea6dc68a61d203ce6207335593b0a12f8c.svg" src="../../_images/e1278f0b8f840bc59c36121703afbaea6dc68a61d203ce6207335593b0a12f8c.svg" />
 </div>
 </div>
 <p>We can improve performance with under or over relaxation, where we update the nodes with a weighted average of the old and new values:</p>
@@ -895,7 +895,7 @@ With Gauss-Seidel, we can use over-relaxation, where <span class="math notransla
 <span class="k">for</span> <span class="n">omega</span> <span class="ow">in</span> <span class="n">omegas</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
     <span class="n">uGS</span><span class="p">,</span> <span class="n">res_history_GS</span><span class="p">,</span> <span class="n">iterationTimesGS</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
-    <span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
+    <span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration_relaxed</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
 
     <span class="n">resNormHistories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_history_GS</span><span class="p">)</span>
     <span class="n">iterationTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iterationTimesGS</span><span class="p">)</span>
@@ -936,26 +936,38 @@ With Gauss-Seidel, we can use over-relaxation, where <span class="math notransla
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 4999: Res norm = 6.59e-01
 1.0
 Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 2.19e+00
+Iteration 1000: Res norm = 1.31e+00
+Iteration 1500: Res norm = 7.98e-01
+Iteration 1975: Res norm = 5.00e-01
+1.4
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 1.13e+00
+Iteration 855: Res norm = 4.99e-01
+1.6
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 5.10e-01
+Iteration 506: Res norm = 4.98e-01
+1.8
+Iteration 0: Res norm = 5.13e+02
+Iteration 237: Res norm = 4.96e-01
+1.85
+Iteration 0: Res norm = 5.13e+02
+Iteration 180: Res norm = 4.98e-01
+2
+Iteration 0: Res norm = 5.13e+02
+Iteration 500: Res norm = 5.13e+02
+Iteration 1000: Res norm = 5.13e+02
+Iteration 1500: Res norm = 5.13e+02
+Iteration 2000: Res norm = 5.13e+02
+Iteration 2500: Res norm = 5.13e+02
+Iteration 3000: Res norm = 5.13e+02
+Iteration 3500: Res norm = 5.13e+02
+Iteration 4000: Res norm = 5.13e+02
+Iteration 4500: Res norm = 5.13e+02
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">10</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">for</span> <span class="n">omega</span> <span class="ow">in</span> <span class="n">omegas</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="nb">print</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">10</span>     <span class="n">uGS</span><span class="p">,</span> <span class="n">res_history_GS</span><span class="p">,</span> <span class="n">iterationTimesGS</span> <span class="o">=</span> <span class="n">iterativeSolve</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">u</span><span class="p">,</span> <span class="n">qVec</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">gaussSeidelIteration</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="n">resNormHistories</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_history_GS</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">iterationTimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">iterationTimesGS</span><span class="p">)</span>
-
-<span class="nn">Cell In[11], line 41,</span> in <span class="ni">iterativeSolve</span><span class="nt">(u, q, kappa, dx, smootherFunc, tol, omega, maxIter)</span>
-<span class="g g-Whitespace">     </span><span class="mi">39</span>     <span class="k">if</span> <span class="n">resNorm</span> <span class="o">&lt;</span> <span class="n">tol</span> <span class="ow">or</span> <span class="n">resNorm</span> <span class="o">&gt;</span> <span class="mf">1e10</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">resNorm</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">40</span>         <span class="k">break</span>
-<span class="ne">---&gt; </span><span class="mi">41</span>     <span class="n">u</span> <span class="o">=</span> <span class="n">smootherFunc</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="n">omega</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="k">if</span> <span class="n">ii</span> <span class="o">%</span> <span class="n">printFrequency</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">44</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Iteration </span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">: Res norm = </span><span class="si">{</span><span class="n">resNorm</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-<span class="ne">TypeError</span>: gaussSeidelIteration() got an unexpected keyword argument &#39;omega&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 4999: Res norm = 6.40e+02
 </pre></div>
 </div>
 </div>
@@ -993,349 +1005,7 @@ Iteration 0: Res norm = 5.13e+02
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: CMU Bright
-</pre></div>
-</div>
-<img alt="../../_images/5f63e3adeb7dea7fe559044d43991f5d7b5dd46d02e7a7fcf30d137a6c47ccf1.svg" src="../../_images/5f63e3adeb7dea7fe559044d43991f5d7b5dd46d02e7a7fcf30d137a6c47ccf1.svg" />
+<img alt="../../_images/af35573256afc0c9ff93d619e9cca99276f8acb3aae59bfc541a800217b2d857.svg" src="../../_images/af35573256afc0c9ff93d619e9cca99276f8acb3aae59bfc541a800217b2d857.svg" />
 </div>
 </div>
 </section>
