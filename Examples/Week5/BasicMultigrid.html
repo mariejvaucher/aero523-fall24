@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week5/BasicMultigrid';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Week 6" href="../Week6/Week6.html" />
     <link rel="prev" title="Week 5" href="Week5.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -204,6 +205,10 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="Week5.html">Week 5</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Multigrid</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week6/Week6.html">Week 6</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
 </ul>
 </details></li>
 </ul>
@@ -686,10 +691,10 @@ Iteration 2390: Res norm = 9.97e-07
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f53017ea660&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f1d1031f4a0&gt;
 </pre></div>
 </div>
-<img alt="../../_images/a1a2d3d75ee957098b12fc80cb3259b07b2df7eba4c82819bb298e6ad1055ff0.svg" src="../../_images/a1a2d3d75ee957098b12fc80cb3259b07b2df7eba4c82819bb298e6ad1055ff0.svg" />
+<img alt="../../_images/ac7e4119c8550cd4857bf8bcfd12c3abcb9cb0d5d30b499fd22eee8bfabad99e.svg" src="../../_images/ac7e4119c8550cd4857bf8bcfd12c3abcb9cb0d5d30b499fd22eee8bfabad99e.svg" />
 </div>
 </div>
 <p>To demonstrate how different frequencies of error are reduced at different rates, we’ll run 10 iterations starting from the true solution plus a high frequency error and then starting from the true solution plus a low frequency error.</p>
@@ -719,10 +724,10 @@ Iteration 2390: Res norm = 9.97e-07
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 8.65e-03
-Iteration 1: Res norm = 8.37e-03
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 2: Res norm = 8.08e-03
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 1: Res norm = 8.37e-03
+Iteration 2: Res norm = 8.08e-03
 Iteration 3: Res norm = 7.79e-03
 Iteration 4: Res norm = 7.50e-03
 Iteration 5: Res norm = 7.22e-03
@@ -742,10 +747,10 @@ Iteration 8: Res norm = 4.08e-01
 Iteration 9: Res norm = 3.38e-01
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f52d457a990&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f1d100d8d70&gt;
 </pre></div>
 </div>
-<img alt="../../_images/65a4ec4bc5b1421ecc208e52290b4e84c81a837f351cf173f3ed0200ad7bbe10.svg" src="../../_images/65a4ec4bc5b1421ecc208e52290b4e84c81a837f351cf173f3ed0200ad7bbe10.svg" />
+<img alt="../../_images/b9991bfe6297ec3042715e5130ac6a2f2f864a1139e9460065aab3ab957dcb16.svg" src="../../_images/b9991bfe6297ec3042715e5130ac6a2f2f864a1139e9460065aab3ab957dcb16.svg" />
 </div>
 </div>
 <section id="implementing-a-basic-2-level-multigrid-solver">
@@ -903,7 +908,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/52097ba840d8fce5029ecaa6a5b0fa58caa0c23f9728a9a91e3248354ca44e9b.svg" src="../../_images/52097ba840d8fce5029ecaa6a5b0fa58caa0c23f9728a9a91e3248354ca44e9b.svg" />
+<img alt="../../_images/783bc0cbce7c99b83998fbff609c93d39c485af792f41a1d7626e27ac3033781.svg" src="../../_images/783bc0cbce7c99b83998fbff609c93d39c485af792f41a1d7626e27ac3033781.svg" />
 </div>
 </div>
 <p>This plot represents the solution for successive iterations : initial guess is in blue, first iteration is orange, etc. It happens that after few iterations the solution has converged to zero and iterations are overlayed.</p>
@@ -924,7 +929,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4e3333177648b278bb6fde9aab1f56163a50ec08cb14dea1284448cadad99a95.svg" src="../../_images/4e3333177648b278bb6fde9aab1f56163a50ec08cb14dea1284448cadad99a95.svg" />
+<img alt="../../_images/af96d5b8b35d871e655c024a17110adcbd96948f0fd94d2ac41e95c56db49f61.svg" src="../../_images/af96d5b8b35d871e655c024a17110adcbd96948f0fd94d2ac41e95c56db49f61.svg" />
 </div>
 </div>
 <p>We can notice that the convergence rate is high : error is roughly divided by 10 at each iteration and we bottom at zero after 5 iterations.</p>
@@ -969,6 +974,15 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Week 5</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../Week6/Week6.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Week 6</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
