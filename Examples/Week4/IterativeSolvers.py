@@ -3,7 +3,7 @@
 
 # # Iterative linear solvers
 
-# In[10]:
+# In[15]:
 
 
 import time
@@ -30,7 +30,7 @@ matplotlib_inline.backend_inline.set_matplotlib_formats("pdf", "svg")
 #
 # ![The finite-difference grid](../../images/FDDomain.svg)
 
-# In[11]:
+# In[16]:
 
 
 # Define the parameters
@@ -63,7 +63,7 @@ def q(x, L):
 #
 # $$ ||r||_2 = \sqrt{\sum_{i=1}^{N-1} \frac{1}{N+1}r_i^2} $$
 
-# In[12]:
+# In[17]:
 
 
 def computeResidual(u, q, kappa, dx):
@@ -105,7 +105,7 @@ def computeNorm(r):
 
 # Let's compute the residual for an initial guess at the solution, we'll generate a really bad initial guess by just setting all the non-boundary nodes' temperatures to zero:
 
-# In[13]:
+# In[18]:
 
 
 u = np.zeros(Nx + 1)  # Initial guess
@@ -125,7 +125,7 @@ print(f"Residual norm: {np.linalg.norm(r):.2e}")
 # Below is a general algorithm for solving a system of equation with an iterative smoother.
 # In each iteration we check the residual norm at the current state, if it is too high we apply one iteration of a smoother and repeat.
 
-# In[14]:
+# In[19]:
 
 
 def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, maxIter=5000):
@@ -183,7 +183,7 @@ def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, maxIter=5000):
 #
 # $$T_{i,new} = \frac{1}{2}\left(T_{i-1} + T_{i+1} + q(x_i) \frac{dx^2}{\kappa}\right)$$
 
-# In[15]:
+# In[20]:
 
 
 def jacobiIteration(u, q, kappa, dx):
@@ -218,7 +218,7 @@ def jacobiIteration(u, q, kappa, dx):
 # Note how we no longer need to keep track of the old state values, we can just overwrite them with the new values as we go along.
 # Depending on the order that we iterate through the nodes, we can get different convergence properties because different states in the update equation will have been updated, this is called the *ordering* of the Gauss-Seidel iteration.
 
-# In[16]:
+# In[21]:
 
 
 def gaussSeidelIteration(u, q, kappa, dx):
@@ -247,7 +247,7 @@ def gaussSeidelIteration(u, q, kappa, dx):
     return uNew
 
 
-# In[17]:
+# In[22]:
 
 
 # Solve the system using Jacobi
@@ -258,7 +258,7 @@ uJacobi, resNormHistoryJacobi, iterationTimesJacobi = iterativeSolve(u, qVec, ka
 uJacobi, resNormHistoryGS, iterationTimesGS = iterativeSolve(u, qVec, kappa, dx, gaussSeidelIteration, tol=tol)
 
 
-# In[18]:
+# In[23]:
 
 
 fig, ax = plt.subplots()
@@ -275,7 +275,7 @@ niceplots.adjust_spines(ax)
 # Jacobi may take iterations, but updates for all nodes can be computed simultaneously, so each iteration is much faster than a Gauss-Seidel iteration.
 # In this case, the Jacobi solver actually takes less time to solve the system than Gauss-Seidel, despite taking more than twice as many iterations.
 
-# In[19]:
+# In[24]:
 
 
 fig, ax = plt.subplots()
@@ -298,7 +298,7 @@ niceplots.adjust_spines(ax)
 #
 # Below is a new version of the iterative solver that allows us to specify the relaxation factor $\omega$.
 
-# In[20]:
+# In[25]:
 
 
 def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, omega=1.0, maxIter=5000):
@@ -348,7 +348,7 @@ def iterativeSolve(u, q, kappa, dx, smootherFunc, tol=1e-4, omega=1.0, maxIter=5
     return u, resNormHistory, iterationTimes
 
 
-# In[21]:
+# In[26]:
 
 
 def gaussSeidelIteration_relaxed(u, q, kappa, dx, omega=1.0):
@@ -379,7 +379,7 @@ def gaussSeidelIteration_relaxed(u, q, kappa, dx, omega=1.0):
     return uNew
 
 
-# In[47]:
+# In[27]:
 
 
 # Define the Jacobi iteration step
@@ -394,7 +394,7 @@ def jacobi_iteration_with_relax(u, q, kappa, dx, omega=2.0 / 3):
 
 # Now let's compare the number of iterations and time required to solve the problem with Jacobi and Gauss-Seidel, where Gauss-Seidel uses over-relaxation with $\omega=1.5$.
 
-# In[48]:
+# In[28]:
 
 
 uJacobi, resNormHistoryJacobi, iterationTimesJacobi = iterativeSolve(
@@ -407,14 +407,14 @@ omegas = [1.0, 1.4, 1.6, 1.8, 1.85, 2]
 for omega in omegas:
     print(omega)
     uGS, res_history_GS, iterationTimesGS = iterativeSolve(
-        u, qVec, kappa, L / Nx, gaussSeidelIteration, tol=tol, omega=omega
+        u, qVec, kappa, L / Nx, gaussSeidelIteration_relaxed, tol=tol, omega=omega
     )
 
     resNormHistories.append(res_history_GS)
     iterationTimes.append(iterationTimesGS)
 
 
-# In[49]:
+# In[29]:
 
 
 fig, axes = plt.subplots(nrows=1, ncols=2, sharey=True, figsize=(12, 6))

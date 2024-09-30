@@ -5,7 +5,7 @@
 #
 # These examples are based on code originally written by Krzysztof Fidkowski and adapted by Venkat Viswanathan.
 
-# In[ ]:
+# In[1]:
 
 
 import jax
@@ -45,7 +45,7 @@ colors = niceplots.get_colors_list()
 # In this example we'll solve the diffusion equation on a 1D domain with a length of 2.
 # We'll treat the problem as periodic, which means that the left and right boundaries are connected.
 
-# In[8]:
+# In[2]:
 
 
 def getInitialCondition(N, L):
@@ -70,7 +70,7 @@ ax.set_title("Initial condition")
 plt.show()
 
 
-# In[9]:
+# In[3]:
 
 
 def FTCS_solver(u0, nu, dx, dt, T):
@@ -117,7 +117,7 @@ def plotSolution(ax, x, u0, u, tFinal):
     niceplots.label_line_ends(ax)
 
 
-# In[15]:
+# In[4]:
 
 
 dt = computeTimestepFromMu(0.25, dx, nu)
@@ -134,15 +134,15 @@ plotSolution(ax, x, u0, u, t)
 # Now let's try running the same problem with different sizes of timestep.
 # Before we do, it's useful to define something called the heat number:
 # $$\mu = \frac{\nu \Delta t}{\Delta x^2}$$
-#
+
 # Using this definition, our timestepping equation becomes:
 #
 # $$u_j^{n+1} = u_j^{n} + \mu\left(u_{j-1}^{n} - 2u_{j}^{n} + u_{j+1}^{n}\right)$$
-#
+
 # Using stability analysis methods, that you will learn in this section of the course, we can show that this timestepping scheme is only stable if $\mu \leq \frac{1}{2}$.
 # The code below demonstrates this by running the same problem as above with $\mu$ values ranging from 0.25 to 0.75
 
-# In[21]:
+# In[5]:
 
 
 muVals = [0.25, 0.5, 0.51, 0.75]
