@@ -16,17 +16,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -36,10 +38,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -66,6 +69,7 @@
     <link rel="prev" title="Week 3" href="Week3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -81,19 +85,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -101,7 +94,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -109,8 +101,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -126,7 +118,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -156,21 +149,17 @@
     
     
     <img src="../../_static/scramjet.png" class="logo__image only-light" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
-    <script>document.write(`<img src="../../_static/scramjet.png" class="logo__image only-dark" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>`);</script>
+    <img src="../../_static/scramjet.png" class="logo__image only-dark pst-js-only" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -211,6 +200,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week9/IntroProject2.html">Visualizing the node points.</a></li>
+
+
 </ul>
 
     </div>
@@ -414,24 +406,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -652,7 +636,7 @@ T_0 \\ q(x_1)\Delta x^2 / \kappa \\ q(x_2)\Delta x^2 / \kappa \\ \vdots \\ q(x_{
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2e033c1ec6a6aa52be319221eee5d4e7d09eaf6023b35bbb602a35130583b222.svg" src="../../_images/2e033c1ec6a6aa52be319221eee5d4e7d09eaf6023b35bbb602a35130583b222.svg" />
+<img alt="../../_images/e403a9d000fc3679b24d337d051b2a5f0815945c5ca23382a6a3c54b346b9d4e.svg" src="../../_images/e403a9d000fc3679b24d337d051b2a5f0815945c5ca23382a6a3c54b346b9d4e.svg" />
 </div>
 </div>
 <p>Even with only 3 intervals, the solution is already quite close to the exact solution.</p>
@@ -693,11 +677,11 @@ T_0 \\ q(x_1)\Delta x^2 / \kappa \\ q(x_2)\Delta x^2 / \kappa \\ \vdots \\ q(x_{
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
 &lt;&gt;:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
-/tmp/ipykernel_2368/2426008397.py:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
+/tmp/ipykernel_3159/2426008397.py:10: SyntaxWarning: invalid escape sequence &#39;\D&#39;
   ax.set_xlabel(&quot;$\Delta x$&quot;)
 </pre></div>
 </div>
-<img alt="../../_images/daab5748e7c48913039e5c190d7c53b38b53b84a088c1ce80203065e7663fbcf.svg" src="../../_images/daab5748e7c48913039e5c190d7c53b38b53b84a088c1ce80203065e7663fbcf.svg" />
+<img alt="../../_images/1d3ff81f44dd997c21833517ae61c440f439dcb0e86938b7bf970b9ab4a3a781.svg" src="../../_images/1d3ff81f44dd997c21833517ae61c440f439dcb0e86938b7bf970b9ab4a3a781.svg" />
 </div>
 </div>
 </section>
@@ -773,125 +757,123 @@ kappa =  2.2919515e+00, error =  4.0328165e+00
 kappa =  2.2821322e+00, error =  4.0231392e+00
 kappa =  2.2722402e+00, error =  4.0133174e+00
 kappa =  2.2622741e+00, error =  4.0033475e+00
+kappa =  2.2522325e+00, error =  3.9932255e+00
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2522325e+00, error =  3.9932255e+00
-kappa =  2.2421139e+00, error =  3.9829473e+00
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.2421139e+00, error =  3.9829473e+00
 kappa =  2.2319170e+00, error =  3.9725089e+00
 kappa =  2.2216401e+00, error =  3.9619058e+00
 kappa =  2.2112818e+00, error =  3.9511334e+00
 kappa =  2.2008405e+00, error =  3.9401872e+00
 kappa =  2.1903145e+00, error =  3.9290620e+00
 kappa =  2.1797020e+00, error =  3.9177530e+00
+kappa =  2.1690014e+00, error =  3.9062547e+00
+kappa =  2.1582109e+00, error =  3.8945616e+00
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1690014e+00, error =  3.9062547e+00
-kappa =  2.1582109e+00, error =  3.8945616e+00
-kappa =  2.1473285e+00, error =  3.8826680e+00
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.1473285e+00, error =  3.8826680e+00
 kappa =  2.1363523e+00, error =  3.8705679e+00
 kappa =  2.1252803e+00, error =  3.8582550e+00
 kappa =  2.1141105e+00, error =  3.8457227e+00
 kappa =  2.1028407e+00, error =  3.8329644e+00
 kappa =  2.0914686e+00, error =  3.8199728e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0799921e+00, error =  3.8067405e+00
+kappa =  2.0799921e+00, error =  3.8067405e+00
 kappa =  2.0684087e+00, error =  3.7932598e+00
 kappa =  2.0567159e+00, error =  3.7795224e+00
-kappa =  2.0449113e+00, error =  3.7655200e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  2.0449113e+00, error =  3.7655200e+00
 kappa =  2.0329921e+00, error =  3.7512435e+00
 kappa =  2.0209556e+00, error =  3.7366837e+00
 kappa =  2.0087989e+00, error =  3.7218307e+00
 kappa =  1.9965192e+00, error =  3.7066743e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9841133e+00, error =  3.6912035e+00
+kappa =  1.9841133e+00, error =  3.6912035e+00
 kappa =  1.9715780e+00, error =  3.6754072e+00
 kappa =  1.9589100e+00, error =  3.6592733e+00
 kappa =  1.9461058e+00, error =  3.6427894e+00
-kappa =  1.9331619e+00, error =  3.6259421e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.9331619e+00, error =  3.6259421e+00
 kappa =  1.9200743e+00, error =  3.6087175e+00
 kappa =  1.9068393e+00, error =  3.5911010e+00
 kappa =  1.8934528e+00, error =  3.5730770e+00
 kappa =  1.8799104e+00, error =  3.5546291e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8662077e+00, error =  3.5357399e+00
+kappa =  1.8662077e+00, error =  3.5357399e+00
 kappa =  1.8523400e+00, error =  3.5163913e+00
 kappa =  1.8383025e+00, error =  3.4965636e+00
 kappa =  1.8240900e+00, error =  3.4762364e+00
-kappa =  1.8096972e+00, error =  3.4553877e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.8096972e+00, error =  3.4553877e+00
 kappa =  1.7951184e+00, error =  3.4339943e+00
 kappa =  1.7803479e+00, error =  3.4120316e+00
 kappa =  1.7653793e+00, error =  3.3894732e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.7502062e+00, error =  3.3662912e+00
+kappa =  1.7502062e+00, error =  3.3662912e+00
 kappa =  1.7348218e+00, error =  3.3424557e+00
 kappa =  1.7192189e+00, error =  3.3179347e+00
 kappa =  1.7033898e+00, error =  3.2926941e+00
 kappa =  1.6873267e+00, error =  3.2666975e+00
-kappa =  1.6710210e+00, error =  3.2399056e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6710210e+00, error =  3.2399056e+00
 kappa =  1.6544638e+00, error =  3.2122765e+00
 kappa =  1.6376458e+00, error =  3.1837649e+00
 kappa =  1.6205569e+00, error =  3.1543223e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.6031866e+00, error =  3.1238963e+00
+kappa =  1.6031866e+00, error =  3.1238963e+00
 kappa =  1.5855236e+00, error =  3.0924304e+00
 kappa =  1.5675561e+00, error =  3.0598634e+00
 kappa =  1.5492714e+00, error =  3.0261292e+00
 kappa =  1.5306560e+00, error =  2.9911561e+00
-kappa =  1.5116956e+00, error =  2.9548663e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.5116956e+00, error =  2.9548663e+00
 kappa =  1.4923748e+00, error =  2.9171749e+00
 kappa =  1.4726774e+00, error =  2.8779897e+00
 kappa =  1.4525859e+00, error =  2.8372099e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.4320816e+00, error =  2.7947255e+00
+kappa =  1.4320816e+00, error =  2.7947255e+00
 kappa =  1.4111445e+00, error =  2.7504157e+00
 kappa =  1.3897530e+00, error =  2.7041483e+00
 kappa =  1.3678843e+00, error =  2.6557779e+00
 kappa =  1.3455136e+00, error =  2.6051445e+00
-kappa =  1.3226142e+00, error =  2.5520716e+00
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.3226142e+00, error =  2.5520716e+00
 kappa =  1.2991577e+00, error =  2.4963648e+00
 kappa =  1.2751133e+00, error =  2.4378088e+00
 kappa =  1.2504480e+00, error =  2.3761660e+00
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.2251265e+00, error =  2.3111732e+00
+kappa =  1.2251265e+00, error =  2.3111732e+00
 kappa =  1.1991107e+00, error =  2.2425397e+00
 kappa =  1.1723600e+00, error =  2.1699441e+00
 kappa =  1.1448313e+00, error =  2.0930327e+00
 kappa =  1.1164790e+00, error =  2.0114176e+00
-kappa =  1.0872554e+00, error =  1.9246762e+00
-kappa =  1.0571115e+00, error =  1.8323543e+00
-kappa =  1.0259982e+00, error =  1.7339721e+00
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  9.9386811e-01, error =  1.6290382e+00
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  1.0872554e+00, error =  1.9246762e+00
+kappa =  1.0571115e+00, error =  1.8323543e+00
+kappa =  1.0259982e+00, error =  1.7339721e+00
+kappa =  9.9386811e-01, error =  1.6290382e+00
 kappa =  9.6067932e-01, error =  1.5170761e+00
 kappa =  9.2640015e-01, error =  1.3976688e+00
 kappa =  8.9101767e-01, error =  1.2705359e+00
 kappa =  8.5455032e-01, error =  1.1356573e+00
 kappa =  8.1706754e-01, error =  9.9346933e-01
-kappa =  7.7871936e-01, error =  8.4516041e-01
-kappa =  7.3977980e-01, error =  6.9308591e-01
-kappa =  7.0070723e-01, error =  5.4127709e-01
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  6.6221970e-01, error =  3.9588569e-01
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  7.7871936e-01, error =  8.4516041e-01
+kappa =  7.3977980e-01, error =  6.9308591e-01
+kappa =  7.0070723e-01, error =  5.4127709e-01
+kappa =  6.6221970e-01, error =  3.9588569e-01
 kappa =  6.2536744e-01, error =  2.6513423e-01
 kappa =  5.9154961e-01, error =  1.5801468e-01
 kappa =  5.6237199e-01, error =  8.1151897e-02
 kappa =  5.3923615e-01, error =  3.4928627e-02
 kappa =  5.2272732e-01, error =  1.2471334e-02
-kappa =  5.1222973e-01, error =  3.7607226e-03
-kappa =  5.0622644e-01, error =  9.9806100e-04
-kappa =  5.0305999e-01, error =  2.4410046e-04
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  5.0147427e-01, error =  5.7019420e-05
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>kappa =  5.1222973e-01, error =  3.7607226e-03
+kappa =  5.0622644e-01, error =  9.9806100e-04
+kappa =  5.0305999e-01, error =  2.4410046e-04
+kappa =  5.0147427e-01, error =  5.7019420e-05
 kappa =  5.0070301e-01, error =  1.3005740e-05
 kappa =  5.0033353e-01, error =  2.9317722e-06
 kappa =  5.0015785e-01, error =  6.5713316e-07
@@ -908,7 +890,7 @@ Converged after 106 iterations
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a6fa462c5b3632cd65d325bac1f6da01b7b9090457a21fc7f48cd5a8c300fc0d.svg" src="../../_images/a6fa462c5b3632cd65d325bac1f6da01b7b9090457a21fc7f48cd5a8c300fc0d.svg" />
+<img alt="../../_images/4bbcd90025ea03ffa5c93f81f19a9d269e9a3370e7ebee17ac640da77a99e0ab.svg" src="../../_images/4bbcd90025ea03ffa5c93f81f19a9d269e9a3370e7ebee17ac640da77a99e0ab.svg" />
 </div>
 </div>
 </section>
@@ -969,7 +951,8 @@ Converged after 106 iterations
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1028,8 +1011,8 @@ By Alasdair Christison Gray
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

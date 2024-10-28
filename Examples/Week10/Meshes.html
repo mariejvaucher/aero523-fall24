@@ -16,17 +16,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -36,10 +38,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -62,6 +65,7 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -77,19 +81,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -97,7 +90,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -105,8 +97,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -124,7 +116,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -154,21 +147,17 @@
     
     
     <img src="../../_static/scramjet.png" class="logo__image only-light" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
-    <script>document.write(`<img src="../../_static/scramjet.png" class="logo__image only-dark" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>`);</script>
+    <img src="../../_static/scramjet.png" class="logo__image only-dark pst-js-only" alt="AEROSP 523 Computational Fluid Dynamics: Code Examples - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -209,6 +198,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../Week9/IntroProject2.html">Visualizing the node points.</a></li>
+
+
 </ul>
 
     </div>
@@ -412,24 +404,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -529,7 +513,7 @@ Just be sure to turn off the line connecting the points.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/17afc88847c41cbcd02d00b0f0e420b88cec6b212981f65739e8e700f6fa4e02.svg" src="../../_images/17afc88847c41cbcd02d00b0f0e420b88cec6b212981f65739e8e700f6fa4e02.svg" />
+<img alt="../../_images/3ef35e5b6894e78219a2303a74b8921957e35318841803be8961f84d0ae0ec71.svg" src="../../_images/3ef35e5b6894e78219a2303a74b8921957e35318841803be8961f84d0ae0ec71.svg" />
 </div>
 </div>
 </section>
@@ -582,7 +566,7 @@ Each row in the file contains the indices of the three nodes that form a triangl
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/37a38e8fc30d8d4c1d90ed58f1cf76b04719c56e58dd7ff43addaffc8e372b2b.svg" src="../../_images/37a38e8fc30d8d4c1d90ed58f1cf76b04719c56e58dd7ff43addaffc8e372b2b.svg" />
+<img alt="../../_images/823ec27d64ef99924101851910ad0b8bf4cc59e740e5d57a5cd9283b86fa5604.svg" src="../../_images/823ec27d64ef99924101851910ad0b8bf4cc59e740e5d57a5cd9283b86fa5604.svg" />
 </div>
 </div>
 <p>Fortunately, matplotlib has a function that automates this process: <code class="docutils literal notranslate"><span class="pre">triplot</span></code>.</p>
@@ -597,7 +581,7 @@ Each row in the file contains the indices of the three nodes that form a triangl
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/11ae191c4798bef9f31ad953fb8dcc96e9528a540f359917947d0d2ee7da4402.svg" src="../../_images/11ae191c4798bef9f31ad953fb8dcc96e9528a540f359917947d0d2ee7da4402.svg" />
+<img alt="../../_images/dd65688e10108bb9284155b9b2c5a9296e2e8b1cfda0c4a614760f3120602cd4.svg" src="../../_images/dd65688e10108bb9284155b9b2c5a9296e2e8b1cfda0c4a614760f3120602cd4.svg" />
 </div>
 </div>
 <section id="computing-cell-quantities">
@@ -640,7 +624,7 @@ Matplotlib has another function called <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c8ab658c7b0aa05c9468eb21f16a05a0c88e9bf3e050d5b1cfa93ee61ec8ad2f.svg" src="../../_images/c8ab658c7b0aa05c9468eb21f16a05a0c88e9bf3e050d5b1cfa93ee61ec8ad2f.svg" />
+<img alt="../../_images/20e6fd4dbd31ba5fc6e26761902d7e9b082011f8a8f7a8353dd7f5fe7d29f6d3.svg" src="../../_images/20e6fd4dbd31ba5fc6e26761902d7e9b082011f8a8f7a8353dd7f5fe7d29f6d3.svg" />
 </div>
 </div>
 <p>We can then call other plotting methods to plot other things on top of the mesh, such as the cell edges.</p>
@@ -652,7 +636,7 @@ Matplotlib has another function called <code class="docutils literal notranslate
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7947417ffa947478748f7de869da41632b13f53c0a5ec5092ff4ebe4a9aac47c.svg" src="../../_images/7947417ffa947478748f7de869da41632b13f53c0a5ec5092ff4ebe4a9aac47c.svg" />
+<img alt="../../_images/50312d9bf04e5d7e284dbcb12c9ea317b4edfe25f833d5c705834906650b4532.svg" src="../../_images/50312d9bf04e5d7e284dbcb12c9ea317b4edfe25f833d5c705834906650b4532.svg" />
 </div>
 </div>
 </section>
@@ -718,7 +702,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1d0d4c3cfa923294ec24b7ff94f5c2b59b8975c77ad03ec2b9e68e0850bb78c4.svg" src="../../_images/1d0d4c3cfa923294ec24b7ff94f5c2b59b8975c77ad03ec2b9e68e0850bb78c4.svg" />
+<img alt="../../_images/5fac70ea4056067ad86d84afd1756c833efb7babc1af6eb0efb8f4cef31aa43d.svg" src="../../_images/5fac70ea4056067ad86d84afd1756c833efb7babc1af6eb0efb8f4cef31aa43d.svg" />
 </div>
 </div>
 </section>
@@ -752,7 +736,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c234a7dbb8b9368d03cc48720f6af49c936a8c067a860eac1e5e106db127a2d0.svg" src="../../_images/c234a7dbb8b9368d03cc48720f6af49c936a8c067a860eac1e5e106db127a2d0.svg" />
+<img alt="../../_images/4f088c76c3ffd5aa2253d86e0b66bb7501c3527549d75213c8c7c9086511c83c.svg" src="../../_images/4f088c76c3ffd5aa2253d86e0b66bb7501c3527549d75213c8c7c9086511c83c.svg" />
 </div>
 </div>
 <p>To compute fluxes, we need data about the edges in the mesh.</p>
@@ -816,7 +800,7 @@ The first neighbouring cell index corresponds to the neighbour on the edge of th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0a52c3e08480b3bc5993bff63444a20e4f4b50f679061f1e5facffc885ae315a.svg" src="../../_images/0a52c3e08480b3bc5993bff63444a20e4f4b50f679061f1e5facffc885ae315a.svg" />
+<img alt="../../_images/22550a7f4f0c317ef02764586a3cec6507f53a7f4647f52225235e1b2f0e27c4.svg" src="../../_images/22550a7f4f0c317ef02764586a3cec6507f53a7f4647f52225235e1b2f0e27c4.svg" />
 </div>
 </div>
 <section id="freestream-preservation-test">
@@ -982,7 +966,8 @@ Final Residuals:
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1049,8 +1034,8 @@ By Alasdair Christison Gray
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>
