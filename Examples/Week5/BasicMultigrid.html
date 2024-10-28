@@ -200,9 +200,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../Week9/IntroProject2.html">Visualizing the node points.</a></li>
-
-
 </ul>
 
     </div>
@@ -675,10 +672,10 @@ Iteration 2390: Res norm = 9.97e-07
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f6e855848c0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ffb6c2608c0&gt;
 </pre></div>
 </div>
-<img alt="../../_images/1917fb24e67064f6c5c6aae109893e5902a2c1e9279422ea9c4f9f7e03e51a8f.svg" src="../../_images/1917fb24e67064f6c5c6aae109893e5902a2c1e9279422ea9c4f9f7e03e51a8f.svg" />
+<img alt="../../_images/1b085f8f70c47d8c4825b2e57280be932e10dcba4b9c26162982bf3abf0c707e.svg" src="../../_images/1b085f8f70c47d8c4825b2e57280be932e10dcba4b9c26162982bf3abf0c707e.svg" />
 </div>
 </div>
 <p>To demonstrate how different frequencies of error are reduced at different rates, we’ll run 10 iterations starting from the true solution plus a high frequency error and then starting from the true solution plus a low frequency error.</p>
@@ -709,13 +706,13 @@ Iteration 2390: Res norm = 9.97e-07
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 0: Res norm = 8.65e-03
 Iteration 1: Res norm = 8.37e-03
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 2: Res norm = 8.08e-03
+Iteration 2: Res norm = 8.08e-03
 Iteration 3: Res norm = 7.79e-03
 Iteration 4: Res norm = 7.50e-03
 Iteration 5: Res norm = 7.22e-03
-Iteration 6: Res norm = 6.93e-03
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iteration 6: Res norm = 6.93e-03
 Iteration 7: Res norm = 6.64e-03
 Iteration 8: Res norm = 6.35e-03
 Iteration 9: Res norm = 6.07e-03
@@ -731,10 +728,10 @@ Iteration 8: Res norm = 4.08e-01
 Iteration 9: Res norm = 3.38e-01
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f6e82ab7380&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ffb50623860&gt;
 </pre></div>
 </div>
-<img alt="../../_images/5e502d1e2867127e69ba61a6070c331a110f62298e93bb3113a66acf86910153.svg" src="../../_images/5e502d1e2867127e69ba61a6070c331a110f62298e93bb3113a66acf86910153.svg" />
+<img alt="../../_images/743a4377d3f98f85970ab2e7bf9b4504512ae908ab402baaa2d3fa0b0c40e4f2.svg" src="../../_images/743a4377d3f98f85970ab2e7bf9b4504512ae908ab402baaa2d3fa0b0c40e4f2.svg" />
 </div>
 </div>
 <section id="implementing-a-basic-2-level-multigrid-solver">
@@ -892,7 +889,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0852c8ee4571093dcfa0509db9d1bf7fc6c92807bec61e0166e975382f3d2bf6.svg" src="../../_images/0852c8ee4571093dcfa0509db9d1bf7fc6c92807bec61e0166e975382f3d2bf6.svg" />
+<img alt="../../_images/b0f2f194dc2fd10926c097646dbff47d17f8646ea72056ac043b5ce5680b5ce6.svg" src="../../_images/b0f2f194dc2fd10926c097646dbff47d17f8646ea72056ac043b5ce5680b5ce6.svg" />
 </div>
 </div>
 <p>This plot represents the solution for successive iterations : initial guess is in blue, first iteration is orange, etc. It happens that after few iterations the solution has converged to zero and iterations are overlayed.</p>
@@ -913,7 +910,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d48a13873f202c9adf64acc2202d0eeac6b3d993bd854867781b79f54d44a668.svg" src="../../_images/d48a13873f202c9adf64acc2202d0eeac6b3d993bd854867781b79f54d44a668.svg" />
+<img alt="../../_images/4e306a22ada58b2c2bfabef7113eea4dd13807b292d9431708c5123c5dfd5303.svg" src="../../_images/4e306a22ada58b2c2bfabef7113eea4dd13807b292d9431708c5123c5dfd5303.svg" />
 </div>
 </div>
 <p>We can notice that the convergence rate is high : error is roughly divided by 10 at each iteration and we bottom at zero after 5 iterations.</p>
