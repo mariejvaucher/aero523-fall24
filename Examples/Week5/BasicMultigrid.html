@@ -200,6 +200,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../Week6/InitialValueProblems.html">Initial Value Problems</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week9/Week9.html">Week 9</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week9/IntroProject2.html">Analyzing the mesh</a></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -672,10 +676,10 @@ Iteration 2390: Res norm = 9.97e-07
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9dc8598950&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f20987ffc80&gt;
 </pre></div>
 </div>
-<img alt="../../_images/c2f915c51e9bf19a594899329a29c2729b5893806e4e9bdaa8db05c330c0b2d7.svg" src="../../_images/c2f915c51e9bf19a594899329a29c2729b5893806e4e9bdaa8db05c330c0b2d7.svg" />
+<img alt="../../_images/955691cd593afe6ca0e542edb69961f1f4125c475d4f71982b9fcb5846bfea38.svg" src="../../_images/955691cd593afe6ca0e542edb69961f1f4125c475d4f71982b9fcb5846bfea38.svg" />
 </div>
 </div>
 <p>To demonstrate how different frequencies of error are reduced at different rates, we’ll run 10 iterations starting from the true solution plus a high frequency error and then starting from the true solution plus a low frequency error.</p>
@@ -728,10 +732,10 @@ Iteration 8: Res norm = 4.08e-01
 Iteration 9: Res norm = 3.38e-01
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9dc2e3afc0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f207f500a10&gt;
 </pre></div>
 </div>
-<img alt="../../_images/40efed22f613d532eefedb702d453be059768794bd618be7e1565941734358a8.svg" src="../../_images/40efed22f613d532eefedb702d453be059768794bd618be7e1565941734358a8.svg" />
+<img alt="../../_images/89e4382d4b03d25938ac73f45ba5d5c87890ea09ca3b5ef29f6ad9f8124819bd.svg" src="../../_images/89e4382d4b03d25938ac73f45ba5d5c87890ea09ca3b5ef29f6ad9f8124819bd.svg" />
 </div>
 </div>
 <section id="implementing-a-basic-2-level-multigrid-solver">
@@ -889,7 +893,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ec6ab3d7b238df1e19007f593bc23a7b1eb761733fa3d7f53c81aaae29c46a1b.svg" src="../../_images/ec6ab3d7b238df1e19007f593bc23a7b1eb761733fa3d7f53c81aaae29c46a1b.svg" />
+<img alt="../../_images/6b5f2adcd8c2c976fd30ee7b8f403dc093397a567e005d538f54042c00d38b77.svg" src="../../_images/6b5f2adcd8c2c976fd30ee7b8f403dc093397a567e005d538f54042c00d38b77.svg" />
 </div>
 </div>
 <p>This plot represents the solution for successive iterations : initial guess is in blue, first iteration is orange, etc. It happens that after few iterations the solution has converged to zero and iterations are overlayed.</p>
@@ -910,7 +914,7 @@ In more complex codes, it may not be possible generate such an ideal coarse grid
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/32af7d9a158915f7e66339a5e20f3364e06662c1e24383b71857d3ff98526149.svg" src="../../_images/32af7d9a158915f7e66339a5e20f3364e06662c1e24383b71857d3ff98526149.svg" />
+<img alt="../../_images/cc2852e8d9a6a2eb1a90887636113402787665aa8f112e484d053333065238c8.svg" src="../../_images/cc2852e8d9a6a2eb1a90887636113402787665aa8f112e484d053333065238c8.svg" />
 </div>
 </div>
 <p>We can notice that the convergence rate is high : error is roughly divided by 10 at each iteration and we bottom at zero after 5 iterations.</p>
