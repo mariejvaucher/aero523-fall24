@@ -9,3 +9,5 @@ jax[cpu]
 sympy
 ghp-import
 flax
+omegaconf
+hydra
