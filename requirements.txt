@@ -10,4 +10,4 @@ sympy
 ghp-import
 flax
 omegaconf
-hydra
+hydra-core
