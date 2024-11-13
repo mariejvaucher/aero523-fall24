@@ -18,42 +18,44 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import os
-import time
-import numpy as np
-import jax
-import jax.numpy as jnp
-from jax import grad, jit, vmap, lax
-from jax import random
-import functools
-import flax.linen as nn
-from flax.training import train_state
-import optax
-
-jax.config.update("jax_enable_x64", True)
-
-from omegaconf import DictConfig, OmegaConf
-import hydra
-from hydra import initialize, compose
-
-from IPython.display import clear_output, display
-import matplotlib.pyplot as plt
-import niceplots
-
-plt.style.use(niceplots.get_style())
-colors = niceplots.get_colors()
-plt.rcParams['font.family'] = 'DejaVu Sans'
+# Load dataset
+path = cfg.data.folder
+path = os.path.expanduser(path)
+flnm = cfg.data.filename
+path = os.path.join(path, flnm)
+train_ds, val_ds = get_dataset(path=path,
+                                n_train=cfg.data.n_train,
+                                n_val=cfg.data.n_val,
+                                key=random.key(1),
+                                )
 ------------------
 
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[1], line 15[0m
-[1;32m     11[0m [38;5;28;01mimport[39;00m [38;5;21;01moptax[39;00m
-[1;32m     13[0m jax[38;5;241m.[39mconfig[38;5;241m.[39mupdate([38;5;124m"[39m[38;5;124mjax_enable_x64[39m[38;5;124m"[39m, [38;5;28;01mTrue[39;00m)
-[0;32m---> 15[0m [38;5;28;01mfrom[39;00m [38;5;21;01momegaconf[39;00m [38;5;28;01mimport[39;00m DictConfig, OmegaConf
-[1;32m     16[0m [38;5;28;01mimport[39;00m [38;5;21;01mhydra[39;00m
-[1;32m     17[0m [38;5;28;01mfrom[39;00m [38;5;21;01mhydra[39;00m [38;5;28;01mimport[39;00m initialize, compose
+[0;31mValueError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[14], line 6[0m
+[1;32m      4[0m flnm [38;5;241m=[39m cfg[38;5;241m.[39mdata[38;5;241m.[39mfilename
+[1;32m      5[0m path [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mjoin(path, flnm)
+[0;32m----> 6[0m train_ds, val_ds [38;5;241m=[39m [43mget_dataset[49m[43m([49m[43mpath[49m[38;5;241;43m=[39;49m[43mpath[49m[43m,[49m
+[1;32m      7[0m [43m                                [49m[43mn_train[49m[38;5;241;43m=[39;49m[43mcfg[49m[38;5;241;43m.[39;49m[43mdata[49m[38;5;241;43m.[39;49m[43mn_train[49m[43m,[49m
+[1;32m      8[0m [43m                                [49m[43mn_val[49m[38;5;241;43m=[39;49m[43mcfg[49m[38;5;241;43m.[39;49m[43mdata[49m[38;5;241;43m.[39;49m[43mn_val[49m[43m,[49m
+[1;32m      9[0m [43m                                [49m[43mkey[49m[38;5;241;43m=[39;49m[43mrandom[49m[38;5;241;43m.[39;49m[43mkey[49m[43m([49m[38;5;241;43m1[39;49m[43m)[49m[43m,[49m
+[1;32m     10[0m [43m                                [49m[43m)[49m
 
-[0;31mModuleNotFoundError[0m: No module named 'omegaconf'
+Cell [0;32mIn[7], line 2[0m, in [0;36mget_dataset[0;34m(path, n_train, n_val, key)[0m
+[1;32m      1[0m [38;5;28;01mdef[39;00m [38;5;21mget_dataset[39m(path, n_train, n_val, key):
+[0;32m----> 2[0m     _dataset [38;5;241m=[39m jnp[38;5;241m.[39mfloat64([43mnp[49m[38;5;241;43m.[39;49m[43mload[49m[43m([49m[43mpath[49m[43m)[49m)
+[1;32m      4[0m     [38;5;66;03m# Shuffle the whole dataset[39;00m
+[1;32m      5[0m     perm [38;5;241m=[39m random[38;5;241m.[39mpermutation(key, _dataset[38;5;241m.[39mshape[[38;5;241m0[39m])
+
+File [0;32m/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py:494[0m, in [0;36mload[0;34m(file, mmap_mode, allow_pickle, fix_imports, encoding, max_header_size)[0m
+[1;32m    491[0m [38;5;28;01melse[39;00m:
+[1;32m    492[0m     [38;5;66;03m# Try a pickle[39;00m
+[1;32m    493[0m     [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m allow_pickle:
+[0;32m--> 494[0m         [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124m"[39m[38;5;124mCannot load file containing pickled data [39m[38;5;124m"[39m
+[1;32m    495[0m                          [38;5;124m"[39m[38;5;124mwhen allow_pickle=False[39m[38;5;124m"[39m)
+[1;32m    496[0m     [38;5;28;01mtry[39;00m:
+[1;32m    497[0m         [38;5;28;01mreturn[39;00m pickle[38;5;241m.[39mload(fid, [38;5;241m*[39m[38;5;241m*[39mpickle_kwargs)
+
+[0;31mValueError[0m: Cannot load file containing pickled data when allow_pickle=False
 
