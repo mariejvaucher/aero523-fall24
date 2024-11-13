@@ -30,7 +30,12 @@ chapters:
   - file: Examples/Week6/InitialValueProblems.ipynb
 - file: Examples/Week9/Week9
   sections:
-  - file:  Examples/Week9/IntroProject2.ipynb
+  - file: Examples/Week9/IntroProject2.ipynb
+
+- file: Examples/Week10/Week10
+  sections:
+  - file: Examples/Week10/flux_limiter_jax.ipynb
+
   # - file: Examples/Week6/FasterPython.ipynb
 # - file: Examples/Week7/Week7
 # - file: Examples/Week8/Week8
