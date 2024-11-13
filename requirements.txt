@@ -8,3 +8,4 @@ jaxlib
 jax[cpu]
 sympy
 ghp-import
+flax
