@@ -135,6 +135,7 @@ def compute_velocity(psi, U):
     return u, v
 
 
+L = 1.0
 dx = L / N
 Uwall = 1.0
 u, v = compute_velocity(P, Uwall)
