@@ -1,0 +1,68 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/asyncio/base_events.py", line 687, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.12.7/x64/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+@jax.jit
+def compute_velocity(psi,U):
+    u = (psi[:, 2:] - psi[:, :-2]) / (2 * dx)  # u = dpsi/dy
+    v = -(psi[2:, :] - psi[:-2, :]) / (2 * dx)  # v = -dpsi/dx
+    # Pad velocity components
+    u = jnp.pad(u, ((0, 0), (1, 1)), mode="constant")  # Pad in x-direction
+    v = jnp.pad(v, ((1, 1), (0, 0)), mode="constant")  # Pad in y-direction
+
+    # Apply boundary conditions for u and v
+    # Top wall (lid): u = Uwall, v = 0
+    u = u.at[:, -1].set(U)  # Set u to Uwall on the top boundary
+    v = v.at[-1, :].set(0)     # Set v to 0 on the top boundary
+
+    # Other walls (no-slip): u = 0, v = 0
+    u = u.at[0, :].set(0)      # Bottom boundary
+    u = u.at[:, 0].set(0)      # Left boundary
+    u = u.at[-1, :].set(0)     # Right boundary
+    v = v.at[0, :].set(0)      # Bottom boundary
+    v = v.at[:, 0].set(0)      # Left boundary
+    v = v.at[:, -1].set(0)     # Right boundary
+    return u, v
+
+dx = L/N
+Uwall = 1.0
+u, v = compute_velocity(P, Uwall)
+
+# Create a quiver plot
+plt.figure(figsize=(8, 6))
+plt.quiver(X, Y, u, v, scale=20, color="blue", pivot="middle", alpha=0.7)
+plt.title("Velocity Field (Quiver Plot)")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.axis("scaled")
+plt.show()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[5], line 23[0m
+[1;32m     20[0m     v [38;5;241m=[39m v[38;5;241m.[39mat[:, [38;5;241m-[39m[38;5;241m1[39m][38;5;241m.[39mset([38;5;241m0[39m)     [38;5;66;03m# Right boundary[39;00m
+[1;32m     21[0m     [38;5;28;01mreturn[39;00m u, v
+[0;32m---> 23[0m dx [38;5;241m=[39m [43mL[49m[38;5;241m/[39mN
+[1;32m     24[0m Uwall [38;5;241m=[39m [38;5;241m1.0[39m
+[1;32m     25[0m u, v [38;5;241m=[39m compute_velocity(P, Uwall)
+
+[0;31mNameError[0m: name 'L' is not defined
+

@@ -65,6 +65,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Examples/Week10/flux_limiter_jax';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Week 11" href="../Week11/Week11.html" />
     <link rel="prev" title="Week 10" href="Week10.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -208,6 +209,10 @@
 
 
 
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Week11/Week11.html">Week 11</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Week11/Chapter7.html">Lid-Driven Cavity Problem: Vorticity-Streamfunction Approach</a></li>
 </ul>
 </details></li>
 </ul>
@@ -513,8 +518,8 @@
 <section id="linear-advection">
 <h2>Linear advection<a class="headerlink" href="#linear-advection" title="Link to this heading">#</a></h2>
 <p>Consider the numerical solution of the one-dimensional linear advection governed by the hyperbolic conservation law:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-92583750-6964-4d3b-9432-704ff5d067ae">
-<span class="eqno">(1)<a class="headerlink" href="#equation-92583750-6964-4d3b-9432-704ff5d067ae" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ffcf3806-fc64-49f7-a9f5-9bbfe9ee163c">
+<span class="eqno">(1)<a class="headerlink" href="#equation-ffcf3806-fc64-49f7-a9f5-9bbfe9ee163c" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \frac{\partial u}{\partial t} + \frac{\partial (au)}{\partial x} = 0,
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(u = u(x,t)\)</span> denotes the state and <span class="math notranslate nohighlight">\(a\)</span> is the advection velocity. Without loss of generality, we assume that the velocity is positive (<span class="math notranslate nohighlight">\(a&gt;0\)</span>). In numerical discretization of the above equation based on the finite volume method (FVM), we denote <span class="math notranslate nohighlight">\(\Delta t\)</span> as the time step and <span class="math notranslate nohighlight">\(\Delta x\)</span> as the cell size. Due to the stability requirement, the CFL number, <span class="math notranslate nohighlight">\(\nu = a\Delta t/\Delta x\)</span>, is limited to the range of <span class="math notranslate nohighlight">\((0,1]\)</span>.</p>
@@ -522,21 +527,21 @@
 <section id="flux-limiter">
 <h2>Flux limiter<a class="headerlink" href="#flux-limiter" title="Link to this heading">#</a></h2>
 <p>We review two numerical schemes for solving the linear advection equation, namely the first-order upwind scheme and the Lax-Wendroff scheme.</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a684338a-5072-45d0-a152-ecae169d0c87">
-<span class="eqno">(2)<a class="headerlink" href="#equation-a684338a-5072-45d0-a152-ecae169d0c87" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-0be22402-654b-475c-ac64-b4546a9dfcb9">
+<span class="eqno">(2)<a class="headerlink" href="#equation-0be22402-654b-475c-ac64-b4546a9dfcb9" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \begin{aligned}
         F_{i+\frac{1}{2}}^{FOU} &amp;= au_i, \\
         F_{i+\frac{1}{2}}^{LW} &amp;= au_i + \frac{a}{2}(1-\nu)(u_{i+1}-u_i).
     \end{aligned}
 \end{equation}\]</div>
 <p>Then we introduce a flux limiter <span class="math notranslate nohighlight">\(\phi_{i+\frac{1}{2}}\)</span>, which combines these two fluxes and gives the modified flux as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0d89e051-c88c-4d2d-a360-827659f62ef0">
-<span class="eqno">(3)<a class="headerlink" href="#equation-0d89e051-c88c-4d2d-a360-827659f62ef0" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-c9beb101-2e79-47d5-addb-93b018e7f41c">
+<span class="eqno">(3)<a class="headerlink" href="#equation-c9beb101-2e79-47d5-addb-93b018e7f41c" title="Permalink to this equation">#</a></span>\[\begin{equation}
     F = (1-\phi_{i+\frac{1}{2}})F_{i+\frac{1}{2}}^{FOU} + \phi_{i+\frac{1}{2}}F_{i+\frac{1}{2}}^{LW} = au_i + \frac{a}{2}(1-\nu)\phi_{i+\frac{1}{2}}(u_{i+1}-u_i).
 \end{equation}\]</div>
 <p>In fact, the flux limiter <span class="math notranslate nohighlight">\(\phi(r)\)</span> can be interpreted as a function to limit the anti-diffusive flux in the Lax-Wendroff scheme according to the smooth measure <span class="math notranslate nohighlight">\(r\)</span>, which is the ratio of adjacent differences</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e2635019-40b3-4a3b-bb42-9e93d9896562">
-<span class="eqno">(4)<a class="headerlink" href="#equation-e2635019-40b3-4a3b-bb42-9e93d9896562" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-5a74809d-fbff-4ee0-82d0-53d757b23baa">
+<span class="eqno">(4)<a class="headerlink" href="#equation-5a74809d-fbff-4ee0-82d0-53d757b23baa" title="Permalink to this equation">#</a></span>\[\begin{equation}
     r_{i+\frac{1}{2}} = \frac{u_{i} - u_{i-1}}{u_{i+1} - u_{i}}.
 \end{equation}\]</div>
 <p>If <span class="math notranslate nohighlight">\(r\)</span> is approximately equal to 1, which indicates local smoothness, we recover second-order accurate Lax-Wendroff scheme, if not, we need to limit the second-order correction term correspondingly.</p>
@@ -625,18 +630,18 @@
 <section id="enforce-hard-second-order-tvd-constraint">
 <h2>Enforce hard second-order TVD constraint<a class="headerlink" href="#enforce-hard-second-order-tvd-constraint" title="Link to this heading">#</a></h2>
 <p>To enforce the second-order TVD constraint, we represent the flux limiter as point-wise convex linear combination of minmod and superbee, i.e.,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4b976b4b-57de-49ac-a483-3025822bcd70">
-<span class="eqno">(5)<a class="headerlink" href="#equation-4b976b4b-57de-49ac-a483-3025822bcd70" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-04905190-7062-4840-8264-ec8d6c8eabf3">
+<span class="eqno">(5)<a class="headerlink" href="#equation-04905190-7062-4840-8264-ec8d6c8eabf3" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \phi_{\theta}(r) = (1 - \lambda_{\theta}(r))\phi_{\text{minmod}}(r) + \lambda_{\theta}(r)\phi_{\text{superbee}}(r),
 \end{equation}\]</div>
 <p>where</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d56acb14-781d-41bd-a1dd-92963dae8893">
-<span class="eqno">(6)<a class="headerlink" href="#equation-d56acb14-781d-41bd-a1dd-92963dae8893" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-97fc45b1-e80f-4e02-bed2-17aa281087ae">
+<span class="eqno">(6)<a class="headerlink" href="#equation-97fc45b1-e80f-4e02-bed2-17aa281087ae" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \lambda_{\theta}(r) = \texttt{sigmoid}(f_{\theta}(r)),
 \end{equation}\]</div>
 <p>where <span class="math notranslate nohighlight">\(f_{\theta}(r)\)</span> is parametrized by an MLP with <span class="math notranslate nohighlight">\(\theta\)</span> being the corresponding parameters. Note that the linear combination needs to be convex so that <span class="math notranslate nohighlight">\(\phi(r)\)</span> can locate at the second-order TVD region, which means that</p>
-<div class="amsmath math notranslate nohighlight" id="equation-df2172e6-b594-4abb-9d5a-a7a6137de2cc">
-<span class="eqno">(7)<a class="headerlink" href="#equation-df2172e6-b594-4abb-9d5a-a7a6137de2cc" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f832faae-411c-4410-b7c7-907b230b1ab1">
+<span class="eqno">(7)<a class="headerlink" href="#equation-f832faae-411c-4410-b7c7-907b230b1ab1" title="Permalink to this equation">#</a></span>\[\begin{equation}
     \lambda_{\theta}(r) \in [0,1], \quad \forall r.
 \end{equation}\]</div>
 <p>To achieve this, we apply the <span class="math notranslate nohighlight">\(\texttt{sigmoid}\)</span> activation function on the output of the MLP to get <span class="math notranslate nohighlight">\(\lambda_{\theta}(r)\)</span>.</p>
@@ -704,7 +709,7 @@
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:19: SyntaxWarning: invalid escape sequence &#39;\p&#39;
 &lt;&gt;:19: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-/tmp/ipykernel_2178/2866969802.py:19: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+/tmp/ipykernel_2176/2866969802.py:19: SyntaxWarning: invalid escape sequence &#39;\p&#39;
   ax.set_ylabel(&#39;$\phi(r)$&#39;)
 </pre></div>
 </div>
@@ -714,8 +719,8 @@
 <section id="dataset">
 <h2>Dataset<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h2>
 <p>The training datasets are generated using the code from PDEBench based on JAX. We generated 10000 trajectories with the periodic boundary condition. In our dataset, the initial condition is the superposition of two sinusoidal waves</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2e1571d3-d117-4065-9f51-ce8b163f8d87">
-<span class="eqno">(8)<a class="headerlink" href="#equation-2e1571d3-d117-4065-9f51-ce8b163f8d87" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
+<div class="amsmath math notranslate nohighlight" id="equation-f36f9244-2f63-410e-b31c-31c29153b21c">
+<span class="eqno">(8)<a class="headerlink" href="#equation-f36f9244-2f63-410e-b31c-31c29153b21c" title="Permalink to this equation">#</a></span>\[\begin{eqnarray}
     u_0(x) = \sum_{i=1}^{2}A_i\sin(k_i x + \varphi_i),
 \end{eqnarray}\]</div>
 <p>where <span class="math notranslate nohighlight">\(k_i = 2\pi n_i/L_x\)</span> are wave numbers whose <span class="math notranslate nohighlight">\(n_i\)</span> are integer numbers selected in <span class="math notranslate nohighlight">\([1, k_{\max}=8]\)</span>, <span class="math notranslate nohighlight">\(L_x\)</span> is the calculation domain size, <span class="math notranslate nohighlight">\(A_i\)</span> is a random float number uniformly chosen in <span class="math notranslate nohighlight">\([0,1]\)</span>, and <span class="math notranslate nohighlight">\(\varphi_i\)</span> is the randomly chosen phase in <span class="math notranslate nohighlight">\((0, 2\pi)\)</span>.
@@ -799,7 +804,7 @@ We randomly operate the absolute value function with random signature and the wi
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:2: SyntaxWarning: invalid escape sequence &#39;\p&#39;
 &lt;&gt;:2: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-/tmp/ipykernel_2178/2489518408.py:2: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+/tmp/ipykernel_2176/2489518408.py:2: SyntaxWarning: invalid escape sequence &#39;\p&#39;
   &quot;&quot;&quot; Solve the linear advection equation
 </pre></div>
 </div>
@@ -1381,6 +1386,15 @@ MSE of Neural flux limiter: 0.011023073754425206
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Week 10</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="../Week11/Week11.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Week 11</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
